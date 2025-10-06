@@ -1745,7 +1745,7 @@ export function CompanyFormationPage() {
             and running in as little as {currentCountryData.processingTime}.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="https://clientdashboard.houseofcompanies.co.in/" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link to="https://clientdashboard3.houseofcompanies.co.in/" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
               Access Portal
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>

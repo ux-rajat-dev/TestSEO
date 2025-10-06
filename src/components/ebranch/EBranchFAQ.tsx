@@ -92,7 +92,7 @@ export function EBranchFAQ() {
             Ready to see eBranch in action?
           </h3>
           <button 
-            onClick={() => window.open('https://clientdashboard2.houseofcompanies.co.in/', '_blank')}
+            onClick={() => window.open('https://clientdashboard3.houseofcompanies.co.in/', '_blank')}
             className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium"
           >
             <CalendarIcon className="h-5 w-5 mr-2" />

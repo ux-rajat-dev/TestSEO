@@ -94,9 +94,9 @@ export function App() {
         <Route path="/payment-cancelled" element={<PaymentCancelled />} />
         <Route path="/payment-test" element={<PaymentTest />} />
         {/* Redirect any portal signup routes to the external client dashboard */}
-        <Route path="/portal/*" element={<ExternalRedirect to="https://clientdashboard2.houseofcompanies.co.in/" />} />
+        <Route path="/portal/*" element={<ExternalRedirect to="https://clientdashboard3.houseofcompanies.co.in/" />} />
         {/* Optional: direct signup path redirect */}
-        <Route path="/signup" element={<ExternalRedirect to="https://clientdashboard2.houseofcompanies.co.in/" />} />
+        <Route path="/signup" element={<ExternalRedirect to="https://clientdashboard3.houseofcompanies.co.in/" />} />
         
       </Routes>
       

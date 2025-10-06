@@ -393,7 +393,7 @@ export function Header() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
             <a 
-              href="https://clientdashboard2.houseofcompanies.co.in/" 
+              href="https://clientdashboard3.houseofcompanies.co.in/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md shadow-[#EA3A70]/20"

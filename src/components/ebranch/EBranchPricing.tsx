@@ -71,7 +71,7 @@ export function EBranchPricing() {
                 All solutions included, price locked for 5 years
               </p>
               <button 
-                onClick={() => window.open('https://clientdashboard2.houseofcompanies.co.in/', '_blank')}
+                onClick={() => window.open('https://clientdashboard3.houseofcompanies.co.in/', '_blank')}
                 className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors font-medium shadow-md shadow-[#EA3A70]/20 flex items-center justify-center text-sm sm:text-base"
               >
                 Get Started

@@ -63,7 +63,7 @@ export function CallToAction() {
             </div>
           </div>
           <button 
-            onClick={() => window.open('https://clientdashboard2.houseofcompanies.co.in/', '_blank')}
+            onClick={() => window.open('https://clientdashboard3.houseofcompanies.co.in/', '_blank')}
             className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center font-medium text-lg mx-auto"
           >
             Begin Your eBranch Journey

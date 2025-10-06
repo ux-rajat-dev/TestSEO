@@ -1,6 +1,5 @@
 /// <reference types="vite/client" />
 import { useState } from 'react';
-import { supabase } from '../../utils/supabase';
 import { motion } from 'framer-motion';
 import './PricingPlans.css';
 
@@ -113,23 +112,26 @@ export function PricingPlans() {
     setIsSubmitting(true);
     
     try {
-      const { data, error } = await supabase
-        .from('quote_requests')
-        .insert([
-          {
-            name: formData.name,
-            company: formData.company,
-            email: formData.email,
-            selected_plan: selectedPlanForQuote,
-            cart_items: JSON.stringify(cart),
-            total_amount: total,
-            created_at: new Date().toISOString()
-          }
-        ]);
+      // Save data to Google Sheets using Google Apps Script
+      // Using GET request to avoid CORS issues
+      const params = new URLSearchParams({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        selected_plan: selectedPlanForQuote,
+        cart_items: JSON.stringify(cart),
+        total_amount: total.toString(),
+        timestamp: new Date().toISOString()
+      });
+      
+      const response = await fetch(`https://script.google.com/macros/s/AKfycbwj_LEIFWwjHq5DrdqsFKShrW-7BhPeWUaxSt1I7Qfz861QlSl3Zy1SSjiufLVkhvnysQ/exec?${params.toString()}`, {
+        method: "GET",
+        mode: 'no-cors'
+      });
 
-      if (error) throw error;
-
-      console.log('Quote submitted successfully:', data);
+      // Since we're using no-cors mode, we can't read the response
+      // But the request should succeed if it reaches the server
+      console.log('Quote submitted to Google Sheets (no-cors mode)');
       setShowSuccessPopup(true);
       setShowQuoteForm(false);
       

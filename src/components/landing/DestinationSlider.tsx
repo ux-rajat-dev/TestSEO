@@ -430,7 +430,7 @@ function CountryInfoPopup({ destination, onClose }: CountryInfoPopupProps) {
           </div>
           <div className="flex space-x-4 pt-4 border-t border-[#2D2755]">
             <button 
-              onClick={() => window.open('https://clientdashboard2.houseofcompanies.co.in/', '_blank')}
+              onClick={() => window.open('https://clientdashboard3.houseofcompanies.co.in/', '_blank')}
               className="flex-1 bg-[#EA3A70] text-white py-3 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center"
             >
               <BuildingIcon className="h-4 w-4 mr-2" />
