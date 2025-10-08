@@ -1,54 +1,48 @@
 import { useEffect, useState, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MenuIcon, XIcon, ChevronDownIcon, SearchIcon, CheckIcon } from 'lucide-react';
-import { countries } from '../../constants/countries';
+// All 27 EU Countries used in company formation page
+const countries = {
+  netherlands: { name: 'Netherlands', flag: '🇳🇱' },
+  germany: { name: 'Germany', flag: '🇩🇪' },
+  france: { name: 'France', flag: '🇫🇷' },
+  spain: { name: 'Spain', flag: '🇪🇸' },
+  italy: { name: 'Italy', flag: '🇮🇹' },
+  belgium: { name: 'Belgium', flag: '🇧🇪' },
+  ireland: { name: 'Ireland', flag: '🇮🇪' },
+  austria: { name: 'Austria', flag: '🇦🇹' },
+  bulgaria: { name: 'Bulgaria', flag: '🇧🇬' },
+  croatia: { name: 'Croatia', flag: '🇭🇷' },
+  cyprus: { name: 'Cyprus', flag: '🇨🇾' },
+  czech: { name: 'Czech Republic', flag: '🇨🇿' },
+  denmark: { name: 'Denmark', flag: '🇩🇰' },
+  estonia: { name: 'Estonia', flag: '🇪🇪' },
+  finland: { name: 'Finland', flag: '🇫🇮' },
+  greece: { name: 'Greece', flag: '🇬🇷' },
+  hungary: { name: 'Hungary', flag: '🇭🇺' },
+  latvia: { name: 'Latvia', flag: '🇱🇻' },
+  lithuania: { name: 'Lithuania', flag: '🇱🇹' },
+  luxembourg: { name: 'Luxembourg', flag: '🇱🇺' },
+  malta: { name: 'Malta', flag: '🇲🇹' },
+  poland: { name: 'Poland', flag: '🇵🇱' },
+  portugal: { name: 'Portugal', flag: '🇵🇹' },
+  romania: { name: 'Romania', flag: '🇷🇴' },
+  slovakia: { name: 'Slovakia', flag: '🇸🇰' },
+  slovenia: { name: 'Slovenia', flag: '🇸🇮' },
+  sweden: { name: 'Sweden', flag: '🇸🇪' }
+};
 import logo from '../../hoclogo.png';
 import { createPortal } from 'react-dom';
 import { useClickOutside } from '../../hooks/useClickOutside';
 
 
-// Popular countries to display in the selector
-const popularCountries = ['nl', 'de', 'fr', 'es', 'ie', 'it', 'be', 'at', 'dk', 'fi', 'se'];
-// Get country flag emoji
-const getCountryFlag = (countryCode: string) => {
-  const flagEmojis: { [key: string]: string } = {
-    at: '🇦🇹',
-    be: '🇧🇪',
-    bg: '🇧🇬',
-    hr: '🇭🇷',
-    cy: '🇨🇾',
-    cz: '🇨🇿',
-    dk: '🇩🇰',
-    ee: '🇪🇪',
-    fi: '🇫🇮',
-    fr: '🇫🇷',
-    de: '🇩🇪',
-    gr: '🇬🇷',
-    hu: '🇭🇺',
-    ie: '🇮🇪',
-    it: '🇮🇹',
-    lv: '🇱🇻',
-    lt: '🇱🇹',
-    lu: '🇱🇺',
-    mt: '🇲🇹',
-    nl: '🇳🇱',
-    pl: '🇵🇱',
-    pt: '🇵🇹',
-    ro: '🇷🇴',
-    sk: '🇸🇰',
-    si: '🇸🇮',
-    es: '🇪🇸',
-    se: '🇸🇪'
-  };
-  return flagEmojis[countryCode] || '🇪🇺';
-};
 
 
-// Service dropdown items
-const serviceItems = [{
+// Service dropdown items - will be updated dynamically
+const getServiceItems = (selectedCountry: string) => [{
   name: 'Company Formation',
-  description: 'Register your business in the Netherlands',
-  href: '/services/company-formation'
+  description: `Register your business in ${countries[selectedCountry as keyof typeof countries]?.name || 'the Netherlands'}`,
+  href: `/services/${selectedCountry}/company-formation`
 }, {
   name: 'Company Essentials',
   description: 'Essential services for EU business setup',
@@ -113,11 +107,12 @@ type NavigationItem = {
   }>;
 };
 
-const navigationItems: NavigationItem[] = [
+// Navigation items will be created dynamically in the component
+const getNavigationItems = (selectedCountry: string): NavigationItem[] => [
   {
     name: 'Solutions',
     type: 'dropdown',
-    items: serviceItems,
+    items: getServiceItems(selectedCountry),
   },
   {
     name: 'eBranch',
@@ -155,11 +150,15 @@ const navigationItems: NavigationItem[] = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState('nl');
-  const [showCountrySelector, setShowCountrySelector] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [countrySearchQuery, setCountrySearchQuery] = useState('');
 
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Get dynamic navigation items based on selected country
+  const navigationItems = getNavigationItems(selectedCountry);
   
   // Refs for different dropdown elements
   const desktopNavRef = useRef<HTMLDivElement>(null);
@@ -178,7 +177,7 @@ export function Header() {
 
   // Close country selector when clicking outside
   useClickOutside(countrySelectorRef, () => {
-    setShowCountrySelector(false);
+    setIsCountryDropdownOpen(false);
   });
 
   // Close desktop dropdowns when clicking outside
@@ -190,8 +189,8 @@ export function Header() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        if (showCountrySelector) {
-          setShowCountrySelector(false);
+        if (isCountryDropdownOpen) {
+          setIsCountryDropdownOpen(false);
         } else if (isMenuOpen) {
           setIsMenuOpen(false);
           setOpenDropdown(null);
@@ -203,14 +202,23 @@ export function Header() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [showCountrySelector, isMenuOpen, openDropdown]);
+  }, [isCountryDropdownOpen, isMenuOpen, openDropdown]);
 
   // Handle country change
   const handleCountryChange = (country: string) => {
     setSelectedCountry(country);
-    setShowCountrySelector(false);
+    setIsCountryDropdownOpen(false);
     // Save country preference to localStorage
     localStorage.setItem('preferredCountry', country);
+    
+    // Navigate to country-specific routes based on current path
+    const currentPath = location.pathname;
+    
+    // Check if we're on a company formation page and redirect to the new country
+    if (currentPath.includes('/services/') && currentPath.includes('/company-formation')) {
+      const newPath = `/services/${country}/company-formation`;
+      navigate(newPath);
+    }
   };
 
   // Load selected country from localStorage on initial load
@@ -222,8 +230,8 @@ export function Header() {
   }, []);
 
   // Filter countries based on search query
-  const filteredCountries = Object.keys(countries).filter(code => 
-    countries[code as keyof typeof countries].toLowerCase().includes(countrySearchQuery.toLowerCase())
+  const filteredCountries = Object.entries(countries).filter(([key, country]) => 
+    country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
   );
 
   // Tutorial categories removed - no longer needed for mega menu
@@ -390,6 +398,56 @@ export function Header() {
 
 
           </nav>
+          {/* Country Selector */}
+          <div className="relative" ref={countrySelectorRef}>
+            <button
+              onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-white hover:bg-[#1B1537] transition-colors"
+            >
+              <span className="text-lg">{countries[selectedCountry as keyof typeof countries]?.flag || '🇳🇱'}</span>
+              <span className="hidden sm:inline">{countries[selectedCountry as keyof typeof countries]?.name || 'Netherlands'}</span>
+              <ChevronDownIcon className="h-4 w-4" />
+            </button>
+            
+            {isCountryDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-64 bg-[#1B1537] border border-[#2D2755] rounded-lg shadow-lg z-50">
+                <div className="p-3">
+                  <div className="relative mb-3">
+                    <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search countries..."
+                      value={countrySearchQuery}
+                      onChange={(e) => setCountrySearchQuery(e.target.value)}
+                      className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:outline-none focus:border-[#EA3A70]"
+                    />
+                  </div>
+                  <div className="max-h-48 overflow-y-auto space-y-1">
+                    {Object.entries(countries)
+                      .filter(([key, country]) => 
+                        country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
+                      )
+                      .map(([key, country]) => (
+                        <button
+                          key={key}
+                          onClick={() => handleCountryChange(key)}
+                          className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                            selectedCountry === key
+                              ? 'bg-[#EA3A70] text-white'
+                              : 'text-gray-300 hover:bg-[#2D2755] hover:text-white'
+                          }`}
+                        >
+                          <span className="text-lg">{country.flag}</span>
+                          <span>{country.name}</span>
+                          {selectedCountry === key && <CheckIcon className="h-4 w-4 ml-auto" />}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
             <a 
@@ -401,6 +459,7 @@ export function Header() {
               Login
             </a>
           </div>
+          
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:bg-[#1B1537] focus:outline-none" aria-expanded={isMenuOpen}>
@@ -425,7 +484,7 @@ export function Header() {
                 <ChevronDownIcon className={`h-4 w-4 transition-transform ${openDropdown === 'mobile-services' ? 'rotate-180' : ''}`} />
               </button>
               {openDropdown === 'mobile-services' && <div className="pl-4 space-y-1 border-l border-[#2D2755] ml-3">
-                  {serviceItems.map(item => <Link key={item.name} to={item.href} className="block px-3 py-2 rounded-lg text-sm text-white hover:bg-[#2D2755]/30" onClick={() => {
+                  {getServiceItems(selectedCountry).map((item: any) => <Link key={item.name} to={item.href} className="block px-3 py-2 rounded-lg text-sm text-white hover:bg-[#2D2755]/30" onClick={() => {
                     setIsMenuOpen(false);
                     setOpenDropdown(null);
                   }}>
@@ -497,14 +556,14 @@ export function Header() {
           </div>
         </div>}
       {/* Country Selector Modal */}
-      {showCountrySelector && createPortal(
+      {isCountryDropdownOpen && createPortal(
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4" style={{ isolation: 'isolate' }}>
           <div className="bg-[#1B1537] rounded-xl border border-[#2D2755] w-full max-w-md max-h-[90vh] flex flex-col shadow-2xl relative" ref={countrySelectorRef}>
             {/* Header */}
             <div className="p-6 border-b border-[#2D2755] flex justify-between items-center flex-shrink-0">
               <h3 className="text-xl font-bold text-white">Select Country</h3>
               <button 
-                onClick={() => setShowCountrySelector(false)} 
+                onClick={() => setIsCountryDropdownOpen(false)} 
                 className="p-2 rounded-full hover:bg-[#2D2755]/50 transition-colors"
               >
                 <XIcon className="h-5 w-5 text-white" />
@@ -537,25 +596,25 @@ export function Header() {
                     Popular Countries
                   </h4>
                   <div className="grid grid-cols-1 gap-2">
-                    {popularCountries.map(countryCode => (
+                    {Object.entries(countries).map(([key, country]) => (
                       <button 
-                        key={countryCode} 
-                        onClick={() => handleCountryChange(countryCode)} 
+                        key={key} 
+                        onClick={() => handleCountryChange(key)} 
                         className={`flex items-center justify-between p-3 rounded-md transition-colors ${
-                          selectedCountry === countryCode 
+                          selectedCountry === key 
                             ? 'bg-[#EA3A70]/20 border border-[#EA3A70]/30' 
                             : 'hover:bg-[#2D2755]/50 border border-transparent'
                         }`}
                       >
                         <div className="flex items-center">
                           <span className="text-xl mr-3" aria-hidden="true">
-                            {getCountryFlag(countryCode)}
+                            {country.flag}
                           </span>
                           <span className="text-white text-sm">
-                            {countries[countryCode as keyof typeof countries]}
+                            {country.name}
                           </span>
                         </div>
-                        {selectedCountry === countryCode && <CheckIcon className="h-4 w-4 text-[#EA3A70]" />}
+                        {selectedCountry === key && <CheckIcon className="h-4 w-4 text-[#EA3A70]" />}
                       </button>
                     ))}
                   </div>
@@ -567,27 +626,31 @@ export function Header() {
                     {countrySearchQuery ? 'Search Results' : 'All Countries'}
                   </h4>
                   <div className="grid grid-cols-1 gap-2">
-                    {filteredCountries.map(countryCode => (
-                      <button 
-                        key={countryCode} 
-                        onClick={() => handleCountryChange(countryCode)} 
-                        className={`flex items-center justify-between p-3 rounded-md transition-colors ${
-                          selectedCountry === countryCode 
-                            ? 'bg-[#EA3A70]/20 border border-[#EA3A70]/30' 
-                            : 'hover:bg-[#2D2755]/50 border border-transparent'
-                        }`}
-                      >
-                        <div className="flex items-center">
-                          <span className="text-xl mr-3" aria-hidden="true">
-                            {getCountryFlag(countryCode)}
-                          </span>
-                          <span className="text-white text-sm">
-                            {countries[countryCode as keyof typeof countries]}
-                          </span>
-                        </div>
-                        {selectedCountry === countryCode && <CheckIcon className="h-4 w-4 text-[#EA3A70]" />}
-                      </button>
-                    ))}
+                    {Object.entries(countries)
+                      .filter(([key, country]) => 
+                        country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
+                      )
+                      .map(([key, country]) => (
+                        <button 
+                          key={key} 
+                          onClick={() => handleCountryChange(key)} 
+                          className={`flex items-center justify-between p-3 rounded-md transition-colors ${
+                            selectedCountry === key 
+                              ? 'bg-[#EA3A70]/20 border border-[#EA3A70]/30' 
+                              : 'hover:bg-[#2D2755]/50 border border-transparent'
+                          }`}
+                        >
+                          <div className="flex items-center">
+                            <span className="text-xl mr-3" aria-hidden="true">
+                              {country.flag}
+                            </span>
+                            <span className="text-white text-sm">
+                              {country.name}
+                            </span>
+                          </div>
+                          {selectedCountry === key && <CheckIcon className="h-4 w-4 text-[#EA3A70]" />}
+                        </button>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -600,7 +663,7 @@ export function Header() {
                   Your selection will be remembered across the site
                 </p>
                 <button 
-                  onClick={() => setShowCountrySelector(false)} 
+                  onClick={() => setIsCountryDropdownOpen(false)} 
                   className="px-4 py-2 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-sm font-medium"
                 >
                   Confirm Selection

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { ServiceTemplate } from './pages/ServiceTemplate'
-import { EBranch } from './pages/EBranch'
+import { EBranchPortal } from './pages/EBranchPortal'
 import { Tools } from './pages/Tools'
 import { Pricing } from './pages/Pricing'
 import { NewTutorial } from './pages/NewTutorial'
@@ -48,6 +48,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services/company-formation" element={<CompanyFormationPage />} />
+        <Route path="/services/:country/company-formation" element={<CompanyFormationPage />} />
         <Route path="/services/mailbox" element={<MailboxPage />} />
         <Route path="/services/accounting" element={<AccountingPage />} />
         <Route path="/services/tax-filing" element={<TaxFilingPage />} />
@@ -59,9 +60,9 @@ export function App() {
         <Route path="/market-entry" element={<EUServicesPage />} />
         <Route path="/services/:serviceId" element={<ServiceTemplate />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/ebranch" element={<EBranch />} />
+        <Route path="/ebranch" element={<EBranchPortal />} />
         <Route path ="/survey" element={<SurveyForm onClose={() => window.history.back()} />} />
-        <Route path="/ebranch/branch-registration-requirements" element={<BranchRegistrationRequirements />} />
+        <Route path="//services/branch-registration/requirements" element={<BranchRegistrationRequirements />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/tutorials/:tutorialId" element={<NewTutorial />} />

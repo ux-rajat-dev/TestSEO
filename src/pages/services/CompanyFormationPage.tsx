@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { CountrySelector } from '../../components/services/CountrySelector';
 import { ArrowRightIcon, BuildingIcon, CheckIcon, ChevronDownIcon, ClockIcon, CoinsIcon, FileTextIcon, GlobeIcon, InfoIcon, LayoutGridIcon, LightbulbIcon, MapPinIcon, ScaleIcon, ShieldIcon, TimerIcon, TrendingUpIcon, CheckCircleIcon, XCircleIcon, HelpCircleIcon, LayoutDashboardIcon, MonitorIcon, CloudIcon, ShieldCheckIcon, RocketIcon, ZapIcon, BarChartIcon, StarIcon, BriefcaseIcon, UploadIcon, DownloadIcon, MessageCircleIcon, ChevronUpIcon, UsersIcon, PlusIcon, CalendarIcon, AlertCircleIcon, BellIcon, UserIcon } from 'lucide-react';
@@ -45,127 +45,1980 @@ const COUNTRY_DATA = {
     name: 'Germany',
     flag: '🇩🇪',
     color: '#003E6B',
-    processingTime: '7-14 business days',
-    complexity: 'Medium',
-    capitalRequirement: '€25,000',
-    registrationFee: '€595',
+    processingTime: '10-20 business days (can be 2-3 weeks with complete documents)',
+    complexity: 'Moderate',
+    capitalRequirement: '€1 (UG/mini-GmbH), €25,000 (standard GmbH), €50,000 (AG)',
+    registrationFee: '€500-€2,000 (variable, plus notary and legal support if required)',
     mainEntityType: 'GmbH (Private Limited Company)',
-    secondaryEntityType: 'Branch Office',
-    benefits: ["Access to Europe's largest economy", 'Strong legal framework', 'Excellent infrastructure', 'Skilled workforce availability'],
+    secondaryEntityType: 'UG (Entrepreneurial Company), AG (Public Company), Branch Office',
+    benefits: [
+      '100% foreign ownership permitted',
+      'Strong legal protection and transparent processes',
+      'Access to EU single market and advanced infrastructure',
+      'Innovation and R&D incentives available',
+      'Extensive network of tax treaties',
+      'Skilled workforce, strategic location'
+    ],
     statistics: {
-      easeOfBusiness: '#8 in EU',
-      corporateTax: '30%',
+      easeOfBusiness: '#5 in EU (varies by source)',
+      corporateTax: '15% (plus 5.5% solidarity surcharge); trade tax 7-17%',
       foreignCompanies: '20,000+',
-      processingDays: '10'
+      processingDays: '14'
     },
     entityStructures: [{
       name: 'GmbH (Private Limited Company)',
-      description: 'Limited liability company with shares',
-      capitalRequirement: '€25,000 (12,500 paid up)',
-      timeline: '7-14 days',
+      description: 'Most popular limited liability company for German and foreign founders',
+      capitalRequirement: '€25,000 (at least €12,500 paid at incorporation)',
+      timeline: '10-20 days',
       liability: 'Limited to share capital',
-      suitableFor: 'Medium to large businesses'
+      suitableFor: 'Most businesses, startups, tech, services'
     }, {
-      name: 'UG (Mini GmbH)',
-      description: 'Entrepreneurial company with limited liability',
-      capitalRequirement: '€1',
-      timeline: '5-10 days',
+      name: 'UG (Unternehmergesellschaft/Mini-GmbH)',
+      description: 'Limited liability, minimum capital, designed for startups',
+      capitalRequirement: '€1 or more',
+      timeline: '10-20 days',
       liability: 'Limited to share capital',
-      suitableFor: 'Startups with limited capital'
+      suitableFor: 'Startups and founders with low initial funding'
+    }, {
+      name: 'AG (Aktiengesellschaft/Public Company)',
+      description: 'Public limited company, suitable for larger businesses seeking capital markets',
+      capitalRequirement: '€50,000',
+      timeline: '20-30 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
     }, {
       name: 'Branch Office',
-      description: 'Extension of foreign company',
-      capitalRequirement: 'None',
-      timeline: '4-8 days',
+      description: 'Extension of a foreign company, no separate legal identity',
+      capitalRequirement: 'None specifically',
+      timeline: '10-20 days',
       liability: 'Parent company fully liable',
-      suitableFor: 'Testing the market before full entry'
+      suitableFor: 'Testing German market'
     }],
-    requirements: ['Valid passport/ID for all directors', 'Proof of address for directors', 'Articles of association', 'Bank confirmation of capital deposit', 'Parent company documents (for branch)'],
-    registrationSteps: ['Digital onboarding and KYC verification', 'Document submission', 'Notarization of articles', 'Bank account opening and capital deposit', 'Commercial register entry', 'Tax registration']
+    requirements: [
+      'Valid passport/ID for directors and shareholders',
+      'Proof of address for directors',
+      'Drafted Articles of Association (in German)',
+      'Confirmation of share capital deposit',
+      'Registered office address in Germany',
+      'Parent company documents (for branch)',
+      'Notarized documents (onsite or remote for some setups)'
+    ],
+    registrationSteps: [
+      'Select business structure and reserve name',
+      'Prepare Articles of Association (in German)',
+      'Notarize documents before a German notary',
+      'Open a German bank account and deposit share capital',
+      'Obtain capital confirmation from bank',
+      'Register in Commercial Register (Handelsregister)',
+      'Register at Trade Office (Gewerbeamt)',
+      'Register for tax (tax number, VAT registration)',
+      'Register with social security if hiring employees',
+      'Receive company certificate and extracts'
+    ]
   },
   france: {
     name: 'France',
     flag: '🇫🇷',
-    color: '#002654',
-    processingTime: '5-10 business days',
-    complexity: 'Medium',
-    capitalRequirement: '€1',
-    registrationFee: '€495',
-    mainEntityType: 'SAS (Simplified Joint-Stock Company)',
-    secondaryEntityType: 'Branch Office',
-    benefits: ['Strategic location in Western Europe', 'Large consumer market', 'R&D incentives', 'Strong IP protection'],
+    color: '#1B3A68',
+    processingTime: '1-4 weeks (standard: 2 weeks for SARL/SAS)',
+    complexity: 'Moderate',
+    capitalRequirement: '€1 (SARL/SAS), €37,000 (SA, with 1/5th at registration)',
+    registrationFee: '€65-€250 (Trade Register), legal support/services extra (typically €800-€1,000+)',
+    mainEntityType: 'SARL (Private Limited Company), SAS (Simplified Joint Stock Company), SA (Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Representative Office',
+    benefits: [
+      'Incorporation possible within 2 weeks',
+      'Minimum capital requirement as low as €1 (SARL/SAS)',
+      '100% foreign ownership permitted',
+      'Extensive tax treaties and incentives (R&D, startups)',
+      'No residency requirement for directors/shareholders',
+      'Large skilled labor pool and strategic EU location'
+    ],
     statistics: {
-      easeOfBusiness: '#10 in EU',
-      corporateTax: '28%',
-      foreignCompanies: '12,000+',
-      processingDays: '7'
+      easeOfBusiness: 'Top 10 in EU (varies by source)',
+      corporateTax: '25%',
+      foreignCompanies: '13,000+',
+      processingDays: '12'
     },
     entityStructures: [{
-      name: 'SAS (Simplified Joint-Stock Company)',
-      description: 'Flexible limited liability company',
-      capitalRequirement: '€1',
-      timeline: '5-10 days',
-      liability: 'Limited to contributions',
-      suitableFor: 'Most business activities'
+      name: 'SARL (Société à Responsabilité Limitée/Private Limited Company)',
+      description: 'Most common SME structure, suitable for entrepreneurs and small businesses',
+      capitalRequirement: '€1 (as per shareholders\' decision)',
+      timeline: '2 weeks',
+      liability: 'Limited to contribution',
+      suitableFor: 'SMEs, family businesses, professionals'
     }, {
-      name: 'SARL (Limited Liability Company)',
-      description: 'Traditional limited liability company',
-      capitalRequirement: '€1',
-      timeline: '5-10 days',
-      liability: 'Limited to contributions',
-      suitableFor: 'Small to medium businesses'
+      name: 'SAS (Société par Actions Simplifiée/Simplified Joint Stock Company)',
+      description: 'Flexible structure for larger businesses, often for holding companies and startups',
+      capitalRequirement: '€1 (can vary by activity)',
+      timeline: '2-3 weeks',
+      liability: 'Limited to contribution',
+      suitableFor: 'Startups, tech, holding companies'
+    }, {
+      name: 'SA (Société Anonyme/Public Limited Company)',
+      description: 'Intended for large businesses planning to raise capital or go public',
+      capitalRequirement: '€37,000 (minimum, 1/5th at registration)',
+      timeline: '3-4 weeks',
+      liability: 'Limited to contribution',
+      suitableFor: 'Large companies'
     }, {
       name: 'Branch Office',
-      description: 'Extension of foreign company',
-      capitalRequirement: 'None',
-      timeline: '3-7 days',
+      description: 'Extension of a foreign parent company',
+      capitalRequirement: 'None specific',
+      timeline: '1-2 weeks',
       liability: 'Parent company fully liable',
-      suitableFor: 'Testing the market before full entry'
+      suitableFor: 'Market testing, initial local presence'
+    }, {
+      name: 'Representative Office',
+      description: 'For marketing and research, cannot trade/commercial activity',
+      capitalRequirement: 'None',
+      timeline: '1 week',
+      liability: 'Parent company fully liable',
+      suitableFor: 'Marketing and research activities'
     }],
-    requirements: ['Valid passport/ID for all directors', 'Proof of address for directors', 'Articles of association', 'Registered office address', 'Parent company documents (for branch)'],
-    registrationSteps: ['Digital onboarding and KYC verification', 'Document submission', 'Publication in legal gazette', 'Registration with Trade Register (RCS)', 'Tax and social security registration']
+    requirements: [
+      'Passports or ID proof for all directors/shareholders',
+      'Proof of address, utility bill (recent, for all directors/shareholders)',
+      'Articles of Association (Statuts), notarized',
+      'Proof of capital deposit (bank attestation)',
+      'Detailed business plan',
+      'Company name reservation (INPI search)',
+      'Office lease/registered address',
+      'Board resolution (if applicable)',
+      'UBO (Ultimate Beneficial Owner) declaration'
+    ],
+    registrationSteps: [
+      'Choose business structure and reserve name (INPI)',
+      'Draft and notarize Articles of Association (Statuts)',
+      'Open business bank account and deposit share capital',
+      'Obtain bank certificate for capital deposit',
+      'Register at Centre de Formalités des Entreprises (CFE)',
+      'Publish mandatory legal notice in a Journal d\'Annonces Légales',
+      'Submit documents to Trade Register (Registre du Commerce et des Sociétés – RCS)',
+      'Receive registration numbers (SIRET, SIRENE, NAF code)',
+      'Set up tax, social security, and VAT registrations as needed'
+    ]
   },
   spain: {
     name: 'Spain',
     flag: '🇪🇸',
-    color: '#AA151B',
-    processingTime: '10-15 business days',
-    complexity: 'Medium',
-    capitalRequirement: '€3,000',
-    registrationFee: '€545',
-    mainEntityType: 'SL (Limited Liability Company)',
-    secondaryEntityType: 'Branch Office',
-    benefits: ['Gateway to Spanish-speaking markets', 'Strategic location between Europe and Africa', 'Favorable holding company regime', 'Strong tourism and service sectors'],
+    color: '#C60B1E',
+    processingTime: '1-3 weeks (typical)',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum €3,000 (SL - Sociedad Limitada), €60,000 (SA - Sociedad Anónima)',
+    registrationFee: 'Approx. €100-€300, plus legal and notary fees (varies)',
+    mainEntityType: 'SL (Limited Liability Company), SA (Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Autónomo)',
+    benefits: [
+      'Low minimum capital for SL (€3,000)',
+      '100% foreign ownership allowed',
+      'Efficient electronic registration system (Registro Mercantil Central)',
+      'Access to EU single market and strong infrastructure',
+      'Various regional grants and R&D incentives',
+      'No residency requirement for shareholders/directors'
+    ],
     statistics: {
-      easeOfBusiness: '#14 in EU',
-      corporateTax: '25%',
-      foreignCompanies: '10,000+',
-      processingDays: '12'
+      easeOfBusiness: '#14 in EU (World Bank)',
+      corporateTax: '25% (standard), reduced rates for SMEs (15%) on initial profits',
+      foreignCompanies: '17,000+',
+      processingDays: '11'
     },
     entityStructures: [{
-      name: 'SL (Limited Liability Company)',
-      description: 'Standard limited liability company',
-      capitalRequirement: '€3,000',
-      timeline: '10-15 days',
+      name: 'SL (Sociedad Limitada - Limited Liability Company)',
+      description: 'Most popular for small to medium businesses',
+      capitalRequirement: 'Minimum €3,000, fully paid at incorporation',
+      timeline: '1-3 weeks',
       liability: 'Limited to share capital',
-      suitableFor: 'Small to medium businesses'
+      suitableFor: 'SMEs, startups, family businesses'
     }, {
-      name: 'SA (Public Limited Company)',
-      description: 'Public limited company with shares',
-      capitalRequirement: '€60,000',
-      timeline: '15-20 days',
+      name: 'SA (Sociedad Anónima - Public Limited Company)',
+      description: 'For larger businesses seeking capital and stock market presence',
+      capitalRequirement: 'Minimum €60,000 (25% paid up-front)',
+      timeline: '3-4 weeks',
       liability: 'Limited to share capital',
-      suitableFor: 'Larger businesses and public offerings'
+      suitableFor: 'Large enterprises'
     }, {
       name: 'Branch Office',
-      description: 'Extension of foreign company',
+      description: 'Extension of foreign companies, no separate legal entity',
       capitalRequirement: 'None',
-      timeline: '7-12 days',
+      timeline: '1-2 weeks',
       liability: 'Parent company fully liable',
-      suitableFor: 'Testing the market before full entry'
+      suitableFor: 'Market testing and presence prior to full setup'
+    }, {
+      name: 'Sole Proprietorship (Autónomo)',
+      description: 'Individual entrepreneur, no legal entity',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
     }],
-    requirements: ['Valid passport/ID for all directors', 'Proof of address for directors', 'Articles of association', 'Bank certificate of capital deposit', 'Parent company documents (for branch)'],
-    registrationSteps: ['Digital onboarding and KYC verification', 'Document submission', 'Notarization of articles', 'Bank account opening and capital deposit', 'Registration with Commercial Registry', 'Tax registration and obtaining CIF']
+    requirements: [
+      'Valid passport or ID for all partners/directors/shareholders',
+      'Proof of address (recent utility bills)',
+      'Articles of Association (Estatutos Sociales), notarized',
+      'Proof of capital deposit in Spanish bank',
+      'Certificate of uniqueness for company name from Central Mercantile Registry (Registro Mercantil)',
+      'Registered office address in Spain',
+      'UBO (Ultimate Beneficial Owner) disclosure'
+    ],
+    registrationSteps: [
+      'Name reservation at Mercantile Registry Central (Registro Mercantil Central)',
+      'Draft and notarize Articles of Association',
+      'Open bank account and deposit share capital',
+      'Obtain bank certificate confirming capital deposit',
+      'Apply for tax ID (NIF provisional) at Agencia Tributaria',
+      'Register with Commercial Registry (Registro Mercantil Provincial)',
+      'Register for social security (if hiring employees)',
+      'Obtain definitive NIF tax identification number',
+      'Publish formation announcement in Official Gazette (BORME) if required'
+    ]
+  },
+  italy: {
+    name: 'Italy',
+    flag: '🇮🇹',
+    color: '#008C45',
+    processingTime: '1-3 weeks (standard incorporation)',
+    complexity: 'Moderate',
+    capitalRequirement: '€1 (SRL - Private Limited Company), €50,000 (SPA - Public Limited Company)',
+    registrationFee: 'Approx. €200-€600 plus notary and legal fees (varies)',
+    mainEntityType: 'SRL (Società a Responsabilità Limitata), SPA (Società per Azioni)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Impresa Individuale)',
+    benefits: [
+      'Low minimum share capital for SRL (€1)',
+      '100% foreign ownership permitted',
+      'Centralized company registration via Registro delle Imprese (Chamber of Commerce)',
+      'Wide EU market access and skilled workforce',
+      'Tax incentives for innovative startups and SMEs'
+    ],
+    statistics: {
+      easeOfBusiness: '#58 worldwide (World Bank, varies by source)',
+      corporateTax: '24% (IRES) plus regional production tax IRAP (~3.9%)',
+      foreignCompanies: '12,000+',
+      processingDays: '11'
+    },
+    entityStructures: [{
+      name: 'SRL (Società a Responsabilità Limitata - Private Limited Company)',
+      description: 'Most common company type, limited liability, flexible for SMEs',
+      capitalRequirement: 'Minimum €1 (often €10,000 suggested)',
+      timeline: '1-3 weeks',
+      liability: 'Limited to capital contribution',
+      suitableFor: 'Small to medium enterprises, startups'
+    }, {
+      name: 'SPA (Società per Azioni - Public Limited Company)',
+      description: 'Suitable for larger entities, can issue shares publicly',
+      capitalRequirement: 'Minimum €50,000',
+      timeline: '2-4 weeks',
+      liability: 'Limited to capital contribution',
+      suitableFor: 'Larger businesses and capital markets'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign company without separate legal entity status',
+      capitalRequirement: 'None',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Impresa Individuale)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport for all shareholders and directors',
+      'Proof of registered address in Italy',
+      'Articles of Association (Statuto)',
+      'Deposit of share capital in Italian bank account',
+      'Registered office in Italy mandatory',
+      'UBO declaration (≥25% ownership/voting rights)'
+    ],
+    registrationSteps: [
+      'Choose company name and verify availability with the Registro delle Imprese',
+      'Draft Articles of Association and have signed before a notary',
+      'Open bank account and deposit share capital',
+      'Obtain bank certificate of deposit',
+      'Submit incorporation documents to Registro delle Imprese (Chamber of Commerce)',
+      'Register for tax and VAT with Agenzia delle Entrate',
+      'Register for social security and insurance if employing staff',
+      'Receive company registration certificate (Certificato di Iscrizione) and VAT number'
+    ]
+  },
+  belgium: {
+    name: 'Belgium',
+    flag: '🇧🇪',
+    color: '#FEEF14',
+    processingTime: '1-2 weeks (standard)',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum €18,550 (Private Limited Company - BV/SRL), €61,500 (Public Limited Company - NV/SA)',
+    registrationFee: '€87-€207 plus notary and official fees',
+    mainEntityType: 'BV (Besloten Vennootschap/Private Limited Company), NV (Naamloze Vennootschap/Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Eenmanszaak)',
+    benefits: [
+      'Low capital threshold for BV (from €18,550, flexible post-2019 reform)',
+      '100% foreign ownership allowed',
+      'Access to EU Single Market and Benelux region',
+      'Efficient e-portal for business registration (Guichet d\'Entreprise/KBO)',
+      'Tax incentives for R&D and startups',
+      'Multilingual legal and business environment'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 20 in EU',
+      corporateTax: '25% standard rate',
+      foreignCompanies: '10,000+',
+      processingDays: '7'
+    },
+    entityStructures: [{
+      name: 'BV (Besloten Vennootschap/Private Limited Company)',
+      description: 'Most common company type since reform, flexible and limited liability',
+      capitalRequirement: 'Minimum €18,550 (flexible), commonly fully paid at setup',
+      timeline: '1-2 weeks',
+      liability: 'Limited to capital contribution',
+      suitableFor: 'SMEs, startups, family businesses'
+    }, {
+      name: 'NV (Naamloze Vennootschap/Public Limited Company)',
+      description: 'Suitable for large companies, can issue shares publicly',
+      capitalRequirement: 'Minimum €61,500',
+      timeline: '2-3 weeks',
+      liability: 'Limited to capital contribution',
+      suitableFor: 'Large enterprises and listed companies'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign company with no separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '1 week',
+      liability: 'Parent company liable',
+      suitableFor: 'Market testing and local presence'
+    }, {
+      name: 'Sole Proprietorship (Eenmanszaak)',
+      description: 'Individual entrepreneur, unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport/ID for directors/shareholders',
+      'Proof of address (recent utility bill)',
+      'Articles of Association (statutes), notarial deed if BV or NV',
+      'Proof of deposit of share capital in a Belgian bank account',
+      'Registered office address in Belgium',
+      'UBO register compliance (≥25% ownership/voting rights)'
+    ],
+    registrationSteps: [
+      'Choose company name and check availability via Belgian Crossroads Bank for Enterprises (Kruispuntbank van Ondernemingen - KBO)',
+      'Draft and notarize Articles of Association',
+      'Open Belgian bank account and deposit share capital',
+      'Obtain bank certificate of capital deposit',
+      'Register with Crossroads Bank for Enterprises (KBO)',
+      'Register with local Business One-Stop Shop (Guichet d\'Entreprise)',
+      'Obtain company number (equivalent to VAT number)',
+      'Register for VAT if applicable',
+      'Register with social security if hiring employees'
+    ]
+  },
+  ireland: {
+    name: 'Ireland',
+    flag: '🇮🇪',
+    color: '#169B62',
+    processingTime: '3-5 business days (standard)',
+    complexity: 'Low to Moderate',
+    capitalRequirement: '€1 (standard private limited company)',
+    registrationFee: 'Approx. €50-€100 online',
+    mainEntityType: 'Private Company Limited by Shares (LTD)',
+    secondaryEntityType: 'Public Limited Company (PLC), Branch Office, Sole Trader',
+    benefits: [
+      'Simple and fast online company registration',
+      'Minimal capital requirement (€1)',
+      'Attractive corporate tax rate at 12.5%',
+      'No residency requirement for directors or shareholders',
+      'Robust legal system aligned with common law',
+      'Access to EU single market and English-speaking environment'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 10 in EU (World Bank)',
+      corporateTax: '12.5% (standard), 25% for non-trading income',
+      foreignCompanies: '25,000+',
+      processingDays: '4'
+    },
+    entityStructures: [{
+      name: 'Private Company Limited by Shares (LTD)',
+      description: 'Most common type for SMEs and startups, limited liability',
+      capitalRequirement: 'Minimum €1',
+      timeline: '3-5 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Most business types'
+    }, {
+      name: 'Public Limited Company (PLC)',
+      description: 'Suitable for larger companies or those seeking to trade publicly',
+      capitalRequirement: 'Minimum €25,000 (with 25% paid upfront)',
+      timeline: '1-2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Listed and large companies'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign company, no separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '1 week',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence testing'
+    }, {
+      name: 'Sole Trader',
+      description: 'Individual entrepreneur, unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1 day',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID for directors and shareholders',
+      'Registered office address in Ireland',
+      'Company constitution (Memorandum and Articles of Association)',
+      'Director and secretary appointments (at least one director)',
+      'Details of shareholders and share capital',
+      'Bank account for deposit (if capital is required)'
+    ],
+    registrationSteps: [
+      'Choose and reserve company name through the Companies Registration Office (CRO)',
+      'Prepare company constitution documents',
+      'Submit incorporation forms and documents online with CRO',
+      'Register for tax and VAT with Irish Revenue Commissioners',
+      'Open a corporate bank account (optional for small capital)',
+      'Register for PAYE/PRSI if hiring employees',
+      'Receive Certificate of Incorporation'
+    ]
+  },
+  austria: {
+    name: 'Austria',
+    flag: '🇦🇹',
+    color: '#ED2939',
+    processingTime: '1-3 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: '€35,000 (GmbH), €70,000 (AG)',
+    registrationFee: 'Approx. €150-€400 plus notary and legal fees',
+    mainEntityType: 'GmbH (Private Limited Company), AG (Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Einzelunternehmen)',
+    benefits: [
+      'Well-regulated legal environment',
+      'GmbH with moderate capital and limited liability',
+      'Access to European single market and Central European region',
+      '100% foreign ownership permissible',
+      'Favorable tax treaties and R&D incentives'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 20 in EU',
+      corporateTax: '25%',
+      foreignCompanies: '12,000+',
+      processingDays: '11'
+    },
+    entityStructures: [{
+      name: 'GmbH (Private Limited Company)',
+      description: 'Most common and flexible company form with limited liability',
+      capitalRequirement: 'Minimum €35,000 (at least €17,500 paid upon registration)',
+      timeline: '1-3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, typical business activities'
+    }, {
+      name: 'AG (Public Limited Company)',
+      description: 'Suitable for larger companies and stock market participants',
+      capitalRequirement: 'Minimum €70,000, with 25% minimum paid at registration',
+      timeline: '2-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company without independent legal identity',
+      capitalRequirement: 'None',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market testing, local presence'
+    }, {
+      name: 'Sole Proprietorship (Einzelunternehmen)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID/passport for all shareholders/directors',
+      'Proof of registered office in Austria',
+      'Draft and notarize Articles of Association (Gesellschaftsvertrag)',
+      'Bank account deposit confirmation for share capital',
+      'Register with Austrian Commercial Register (Firmenbuch)',
+      'UBO declaration (≥25% ownership)'
+    ],
+    registrationSteps: [
+      'Choose company name and verify availability',
+      'Draft Articles of Association and notarize with Austrian notary',
+      'Open bank account and deposit share capital',
+      'Obtain bank certificate confirming share capital deposit',
+      'Register company with Firmenbuch (Commercial Register)',
+      'Register for tax at Tax Office (Finanzamt)',
+      'Register social security if employing staff',
+      'Obtain official incorporation documents and company ID'
+    ]
+  },
+  bulgaria: {
+    name: 'Bulgaria',
+    flag: '🇧🇬',
+    color: '#00966E',
+    processingTime: '5-10 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum BGN 2 (€1 approximately) for LLC (OOD), BGN 50,000 for Joint Stock Company (AD)',
+    registrationFee: 'Approx. BGN 110-BGN 120 (~€55-€60)',
+    mainEntityType: 'OOD (Limited Liability Company), AD (Joint Stock Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship',
+    benefits: [
+      'Lowest corporate tax rate in the EU (10%)',
+      'Minimal capital requirements for LLC (OOD)',
+      '100% foreign ownership permitted',
+      'Strategic location with access to EU and Balkan markets',
+      'EU member with access to EU legal infrastructure',
+      'Fast electronic company registration system'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 50 globally (World Bank)',
+      corporateTax: '10% flat',
+      foreignCompanies: '5,000+',
+      processingDays: '8'
+    },
+    entityStructures: [{
+      name: 'OOD (Limited Liability Company)',
+      description: 'Most typical business entity offering limited liability',
+      capitalRequirement: 'Minimum BGN 2 (~€1)',
+      timeline: '5-10 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, typical business ventures'
+    }, {
+      name: 'AD (Joint Stock Company)',
+      description: 'Suitable for larger enterprises needing to raise capital publicly or privately',
+      capitalRequirement: 'Minimum BGN 50,000 (~€25,500)',
+      timeline: '10+ days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large companies'
+    }, {
+      name: 'Branch Office',
+      description: 'Branch of foreign company, no separate legal entity',
+      capitalRequirement: 'None',
+      timeline: '7-10 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence'
+    }, {
+      name: 'Sole Proprietorship',
+      description: 'Individual entrepreneur, unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID/passport for all shareholders and directors',
+      'Registered office in Bulgaria',
+      'Articles of Association/Founding act in Bulgarian',
+      'Bank account and proof of share capital deposit (for OOD and AD)',
+      'Registration with Bulgarian Commercial Register',
+      'UBO declaration (≥25% ownership)'
+    ],
+    registrationSteps: [
+      'Verify and reserve company name with the Bulgarian Commercial Register',
+      'Prepare Articles of Association (in Bulgarian)',
+      'Deposit share capital in Bulgarian bank',
+      'Submit application and documents to Commercial Register and Registry Agency',
+      'Obtain company registration certificate and BULSTAT number',
+      'Register for VAT if threshold exceeded',
+      'Register with National Revenue Agency for taxes and social security',
+      'Receive company ID and start operations'
+    ]
+  },
+  croatia: {
+    name: 'Croatia',
+    flag: '🇭🇷',
+    color: '#FF0000',
+    processingTime: '7-14 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'HRK 10,000 (€1,300 approx.) for d.o.o. (Limited Liability Company), HRK 200,000 (€26,500 approx.) for d.d. (Joint Stock Company)',
+    registrationFee: 'Approximately HRK 400-1,200 (€50-160) depending on company type',
+    mainEntityType: 'd.o.o. (Društvo s Ograničenom Odgovornošću - Limited Liability Company), d.d. (Dioničko Društvo - Joint Stock Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Obrt)',
+    benefits: [
+      'Streamlined online business registration through centralized court and tax office services',
+      'Moderate capital requirements, lower for d.o.o.',
+      'Full foreign ownership allowed',
+      'Access to EU market and increasing FDI incentives',
+      'Efficient electronic system for company registration',
+      'Growing startup ecosystem with government support programs'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 40 globally',
+      corporateTax: '18% (standard)',
+      foreignCompanies: '4,000+',
+      processingDays: '11'
+    },
+    entityStructures: [{
+      name: 'd.o.o. (Limited Liability Company)',
+      description: 'Most common structure, limited liability, suitable for SMEs',
+      capitalRequirement: 'Minimum HRK 10,000 (~€1,300)',
+      timeline: '7-14 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, small to medium enterprises'
+    }, {
+      name: 'd.d. (Joint Stock Company)',
+      description: 'For larger companies, able to raise capital through shares publicly or privately',
+      capitalRequirement: 'Minimum HRK 200,000 (~€26,500)',
+      timeline: '14-21 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company extension without separate legal status',
+      capitalRequirement: 'None',
+      timeline: '7+ days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market entry, testing'
+    }, {
+      name: 'Sole Proprietorship (Obrt)',
+      description: 'Individual entrepreneur with personal liability',
+      capitalRequirement: 'None',
+      timeline: '3-7 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID for shareholders and directors',
+      'Registered office in Croatia',
+      'Articles of Association (Društveni ugovor) for d.o.o.',
+      'Proof of share capital deposit in Croatian bank account',
+      'Registration with Croatian Court Registry (Sudski registar)',
+      'Tax identification number (OIB) for company and directors',
+      'Registration with tax authorities and social security'
+    ],
+    registrationSteps: [
+      'Check and reserve company name with the Court Registry',
+      'Draft Articles of Association and have them notarized',
+      'Open a bank account and deposit share capital',
+      'Submit application to Court Registry online or in person',
+      'Obtain company registration certificate and OIB number',
+      'Register for VAT if applicable',
+      'Register for tax administration and social security obligations',
+      'Start business operations'
+    ]
+  },
+  cyprus: {
+    name: 'Cyprus',
+    flag: '🇨🇾',
+    color: '#007A3D',
+    processingTime: '3-7 business days',
+    complexity: 'Low to Moderate',
+    capitalRequirement: 'Minimum €1,000 (Private Limited Company); €25,629 (Public Limited Company)',
+    registrationFee: 'Approx. €105-€150',
+    mainEntityType: 'Private Limited Company (LTD), Public Limited Company (PLC)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship',
+    benefits: [
+      'Low corporate tax rate at 12.5%',
+      'Simple and quick company registration process',
+      '100% foreign ownership allowed',
+      'English widely used in business and legal affairs',
+      'Access to EU single market and strong network of double tax treaties',
+      'No residency requirements for shareholders or directors'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 40 globally',
+      corporateTax: '12.5% (lowest in the EU)',
+      foreignCompanies: '10,000+',
+      processingDays: '5'
+    },
+    entityStructures: [{
+      name: 'Private Limited Company (LTD)',
+      description: 'Most common form for businesses in Cyprus; limited liability',
+      capitalRequirement: 'Minimum €1,000 divided into shares of €1 each',
+      timeline: '3-7 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, general business'
+    }, {
+      name: 'Public Limited Company (PLC)',
+      description: 'Suitable for larger businesses and those seeking public funding',
+      capitalRequirement: 'Minimum €25,629',
+      timeline: '7-14 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent with no separate legal personality',
+      capitalRequirement: 'None',
+      timeline: '3-5 days',
+      liability: 'Parent company fully liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship',
+      description: 'Individual owner with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID for all shareholders and directors',
+      'Registered office address in Cyprus',
+      'Memorandum and Articles of Association (in English or Greek)',
+      'Bank account with capital deposited',
+      'Tax Identification Number (TIN) registration',
+      'UBO register compliance for owners with ≥25% shares'
+    ],
+    registrationSteps: [
+      'Company name reservation with the Cyprus Registrar of Companies',
+      'Prepare and submit Memorandum & Articles of Association',
+      'Open bank account and deposit share capital',
+      'Submit incorporation documents to Registrar of Companies',
+      'Obtain Certificate of Incorporation and company registration number',
+      'Register for tax and VAT with the Cyprus Tax Department',
+      'Register with Social Insurance Services if employing staff',
+      'Commence business operations'
+    ]
+  },
+  czech: {
+    name: 'Czech Republic',
+    flag: '🇨🇿',
+    color: '#D7141A',
+    processingTime: '7-14 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'CZK 1 (€40 approx.) for s.r.o. (Limited Liability Company), CZK 2,000,000 (€80,000 approx.) for a.s. (Joint Stock Company)',
+    registrationFee: 'Approx. CZK 6,000-7,000 (~€240-280)',
+    mainEntityType: 's.r.o. (Společnost s ručením omezeným - Limited Liability Company), a.s. (Akciová společnost - Joint Stock Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Živnostenský podnikatel)',
+    benefits: [
+      'Low minimum capital requirement for s.r.o.',
+      '100% foreign ownership allowed',
+      'Access to EU markets and central European economy',
+      'Efficient electronic registration system',
+      'Strong legal protections and EU aligned framework'
+    ],
+    statistics: {
+      easeOfBusiness: 'High ranking in EU',
+      corporateTax: '19%',
+      foreignCompanies: '7,000+',
+      processingDays: '11'
+    },
+    entityStructures: [{
+      name: 's.r.o. (Limited Liability Company)',
+      description: 'Most popular type for small and medium enterprises',
+      capitalRequirement: 'Minimum CZK 1 (~€40)',
+      timeline: '7-14 days',
+      liability: 'Limited to contributed capital',
+      suitableFor: 'SMEs, startups, professionals'
+    }, {
+      name: 'a.s. (Joint Stock Company)',
+      description: 'Suitable for large companies intending to raise capital',
+      capitalRequirement: 'Minimum CZK 2,000,000 (~€80,000)',
+      timeline: '14-21 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large businesses'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company\'s branch without separate legal entity status',
+      capitalRequirement: 'None required',
+      timeline: '7-10 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market testing and presence'
+    }, {
+      name: 'Sole Proprietorship (Živnostenský podnikatel)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or ID for shareholders and directors',
+      'Registered office address in Czech Republic',
+      'Articles of Association (Společenská smlouva) for s.r.o.',
+      'Deposit of share capital into Czech bank account',
+      'Registration with Czech Commercial Register (Obchodní rejstřík)',
+      'Registration with tax and social security authorities',
+      'UBO register compliance for persons with ≥25% ownership'
+    ],
+    registrationSteps: [
+      'Reserve company name with the Czech Commercial Register',
+      'Prepare Articles of Association notarized',
+      'Open bank account and pay share capital',
+      'Submit registration application to Commercial Register online or via court',
+      'Register for tax (tax number) and VAT with financial office',
+      'Register with social security and health insurance authorities',
+      'Obtain company identification numbers and certificates',
+      'Commence business activity'
+    ]
+  },
+  denmark: {
+    name: 'Denmark',
+    flag: '🇩🇰',
+    color: '#C60C30',
+    processingTime: '1-3 business days',
+    complexity: 'Low',
+    capitalRequirement: 'DKK 40,000 (€5,400 approx.) for ApS (Private Limited), DKK 500,000 (€67,000 approx.) for A/S (Public Limited Company)',
+    registrationFee: 'Approx. DKK 670-2,900 (€90-390)',
+    mainEntityType: 'ApS (Anpartsselskab - Private Limited Company), A/S (Aktieselskab - Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Enkeltmandsvirksomhed)',
+    benefits: [
+      'Fast and simple online registration process',
+      'Low capital requirements for ApS',
+      '100% foreign ownership allowed',
+      'Transparent and efficient legal system',
+      'Access to Nordic and EU markets',
+      'Robust digital infrastructure'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 5 in EU',
+      corporateTax: '22%',
+      foreignCompanies: '15,000+',
+      processingDays: '2'
+    },
+    entityStructures: [{
+      name: 'ApS (Private Limited Company)',
+      description: 'Most common company type, limited liability',
+      capitalRequirement: 'Minimum DKK 40,000 (~€5,400)',
+      timeline: '1-3 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, general business'
+    }, {
+      name: 'A/S (Public Limited Company)',
+      description: 'Suitable for large companies or those wanting to list shares',
+      capitalRequirement: 'Minimum DKK 500,000 (~€67,000)',
+      timeline: '2-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company branch without separate legal status',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Enkeltmandsvirksomhed)',
+      description: 'Individual with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-2 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID for shareholders and directors',
+      'Registered office in Denmark',
+      'Articles of Association (vedtægter)',
+      'Deposit of share capital in Danish bank account',
+      'Registration with Danish Business Authority (Erhvervsstyrelsen)',
+      'UBO register compliance'
+    ],
+    registrationSteps: [
+      'Name verification and reservation via Danish Business Authority',
+      'Prepare and file Articles of Association and Incorporation documents online',
+      'Open Danish bank account and deposit capital',
+      'Submit registration application electronically to Erhvervsstyrelsen',
+      'Receive Certificate of Incorporation and company registration number',
+      'Register for tax and VAT with SKAT (Danish tax authority)',
+      'Register for labor market and social security if hiring'
+    ]
+  },
+  estonia: {
+    name: 'Estonia',
+    flag: '🇪🇪',
+    color: '#0072CE',
+    processingTime: '1-3 business days',
+    complexity: 'Low',
+    capitalRequirement: 'Minimum €2,500 for OÜ (Private Limited Company); Public Limited Company (AS) requires more capital',
+    registrationFee: 'Approx. €190 online, higher for paper submissions',
+    mainEntityType: 'OÜ (Osaühing - Private Limited Company), AS (Aktsiaselts - Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (FIE - Füüsilisest Isikust Ettevõtja)',
+    benefits: [
+      'Fast, fully online company formation via e-Business Register',
+      'Low capital requirements for OÜ (€2,500, can be deferred)',
+      '100% foreign ownership allowed',
+      'Access to EU market with attractive startup incentives',
+      'Transparent, digitally advanced business environment'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 10 in EU, renowned for digital governance',
+      corporateTax: '20% on distributed profits; retained earnings untaxed',
+      foreignCompanies: '15,000+',
+      processingDays: '2'
+    },
+    entityStructures: [{
+      name: 'OÜ (Private Limited Company)',
+      description: 'Most common company type, flexible and limited liability',
+      capitalRequirement: 'Minimum €2,500 (can be deferred with certain conditions)',
+      timeline: '1-3 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, contractors'
+    }, {
+      name: 'AS (Public Limited Company)',
+      description: 'Larger companies able to raise capital on stock markets',
+      capitalRequirement: 'Minimum €25,000',
+      timeline: '3-5 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign company, no separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (FIE)',
+      description: 'Individual entrepreneur, unlimited personal liability',
+      capitalRequirement: 'None',
+      timeline: '1 day',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport for all shareholders and management',
+      'Registered Estonian address (mandatory)',
+      'Articles of Association (can be standard template)',
+      'Digital signature or e-Residency for online registration',
+      'Share capital deposit (unless deferred by law)',
+      'Registration with Estonian Business Register'
+    ],
+    registrationSteps: [
+      'Choose and reserve company name via Estonian Business Register',
+      'Prepare and submit Articles of Association electronically',
+      'Register company online using ID card, Mobile-ID, or e-Residency card',
+      'Deposit share capital in Estonian bank (if applicable)',
+      'Obtain registration code and certificate online',
+      'Register for VAT and taxes as needed',
+      'Register social security if employing workers'
+    ]
+  },
+  finland: {
+    name: 'Finland',
+    flag: '🇫🇮',
+    color: '#003580',
+    processingTime: '1-4 weeks depending on company type and document readiness',
+    complexity: 'Low to Moderate',
+    capitalRequirement: 'Minimum €1 for private limited company (Oy); €80,000 for public limited company (Oyj)',
+    registrationFee: 'Approx. €275 for online registration (private company)',
+    mainEntityType: 'Oy (Osakeyhtiö - Private Limited Company), Oyj (Julkinen Osakeyhtiö - Public Limited Company)',
+    secondaryEntityType: 'Branch Office (Sivuliike), Representative Office (Edustusto), Sole Proprietorship (Toiminimi)',
+    benefits: [
+      'Fast and transparent company registration using online services',
+      'No minimum share capital for private limited companies since 2019 (minimum €1)',
+      '100% foreign ownership allowed',
+      'High legal and regulatory transparency',
+      'Access to Nordic and European markets',
+      'Strong governmental digital infrastructure'
+    ],
+    statistics: {
+      easeOfBusiness: 'Top 10 in EU',
+      corporateTax: '20%',
+      foreignCompanies: '12,000+',
+      processingDays: '28'
+    },
+    entityStructures: [{
+      name: 'Oy (Private Limited Company)',
+      description: 'Most common business entity with limited liability',
+      capitalRequirement: 'Minimum €1, no longer mandatory €2,500 paid-up',
+      timeline: '3-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, freelancers'
+    }, {
+      name: 'Oyj (Public Limited Company)',
+      description: 'Suitable for larger enterprises and companies listing on stock exchanges',
+      capitalRequirement: 'Minimum €80,000',
+      timeline: '5-6 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large businesses'
+    }, {
+      name: 'Branch Office (Sivuliike)',
+      description: 'Foreign company branch without separate legal entity',
+      capitalRequirement: 'None',
+      timeline: '4-5 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Representative Office (Edustusto)',
+      description: 'For non-selling activities like marketing and liaison',
+      capitalRequirement: 'None',
+      timeline: '3-4 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Marketing and liaison activities'
+    }, {
+      name: 'Sole Proprietorship (Toiminimi)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or ID for all directors and shareholders',
+      'Registered Finnish business address',
+      'Articles of Association in Finnish or Swedish',
+      'Appointment of at least one resident director (EEA resident) unless special permission granted',
+      'Company name reservation with Finnish Patent and Registration Office (PRH)',
+      'Share capital deposit handled by Finnish bank (if applicable)'
+    ],
+    registrationSteps: [
+      'Choose correct business entity',
+      'Reserve company name online with PRH',
+      'Draft Articles of Association and other incorporation documents',
+      'Submit registration electronically via PRH system with digital identification',
+      'Depositing share capital if required',
+      'Obtain Business ID and registration certificate',
+      'Register for VAT, tax, and employments as applicable',
+      'Maintain compliance with Finnish corporate regulations'
+    ]
+  },
+  greece: {
+    name: 'Greece',
+    flag: '🇬🇷',
+    color: '#0D5EAF',
+    processingTime: '7-15 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum €4,500 for IKE (Private Company), €25,000 for AE (Public Limited Company)',
+    registrationFee: 'Approx. €200-€500 depending on company type and legal fees',
+    mainEntityType: 'IKE (Ιδιωτική Κεφαλαιουχική Εταιρεία - Private Company LLC equivalent), AE (Ανώνυμη Εταιρεία - Public Limited Company)',
+    secondaryEntityType: 'LTD (Εταιρεία Περιορισμένης Ευθύνης- EPE), Sole Proprietorship (Ατομική Επιχείρηση)',
+    benefits: [
+      'Flexible company formations including IKE with low capital',
+      '100% foreign ownership allowed',
+      'Access to EU single market and strategic Mediterranean location',
+      'Electronic registration available via General Commercial Registry (GEMI)',
+      'EU legal protections and transparent corporate governance'
+    ],
+    statistics: {
+      easeOfBusiness: 'EU top 30',
+      corporateTax: '22%',
+      foreignCompanies: '8,000+',
+      processingDays: '11'
+    },
+    entityStructures: [{
+      name: 'IKE (Private Company)',
+      description: 'Flexible limited liability company for startups and SMEs',
+      capitalRequirement: 'Minimum €4,500, often lower or flexible with amendments',
+      timeline: '7-15 days',
+      liability: 'Limited to injected capital',
+      suitableFor: 'Small to medium enterprises, startups'
+    }, {
+      name: 'AE (Public Limited Company)',
+      description: 'Larger company, suited for stock issuance and public investments',
+      capitalRequirement: 'Minimum €25,000',
+      timeline: '14-21 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large companies'
+    }, {
+      name: 'LTD/EPE (Limited Liability Company)',
+      description: 'Traditional limited liability company structure',
+      capitalRequirement: '€4,500 minimum',
+      timeline: '7-14 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Traditional business structures'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company branch without independent legal entity',
+      capitalRequirement: 'None',
+      timeline: '7-10 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship',
+      description: 'Individual entrepreneur with personal liability',
+      capitalRequirement: 'None',
+      timeline: '3-5 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID of shareholders/directors',
+      'Registered Greek business address',
+      'Articles of Association (Καταστατικό Εταιρείας)',
+      'Share capital deposit confirmation (if applicable)',
+      'Company registration with General Commercial Registry (GEMI)',
+      'Compliance with tax and social security registrations',
+      'Ultimate Beneficial Owners registration (UBO)'
+    ],
+    registrationSteps: [
+      'Company name reservation using GEMI',
+      'Draft Articles of Association, notarization may be required',
+      'Open bank account and deposit share capital when necessary',
+      'Submit registration application and documents to GEMI',
+      'Obtain company registration certificate and tax identification number',
+      'Register for VAT if turnover exceeds thresholds',
+      'Register employees with social security institutions (EFKA)',
+      'Begin operations'
+    ]
+  },
+  hungary: {
+    name: 'Hungary',
+    flag: '🇭🇺',
+    color: '#CD2A3E',
+    processingTime: '3-7 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'HUF 3,000,000 (€8,000 approx.) for Kft (Limited Liability Company); HUF 5,000,000 (€13,000 approx.) for Rt (Public Limited Company)',
+    registrationFee: 'Approx. HUF 50,000-60,000 (€135-160)',
+    mainEntityType: 'Kft (Korlátolt Felelősségű Társaság - Limited Liability Company), Rt (Részvénytársaság - Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Egyéni Vállalkozó)',
+    benefits: [
+      'Lowest corporate tax rate in the EU at 9%',
+      'Fast company registration system via electronic registration',
+      '100% foreign ownership permitted without restrictions',
+      'Strategic central European location with developed infrastructure',
+      'Access to EU single market and favorable business environment'
+    ],
+    statistics: {
+      easeOfBusiness: 'EU top 40',
+      corporateTax: '9% (lowest in EU)',
+      foreignCompanies: '7,000+',
+      processingDays: '5'
+    },
+    entityStructures: [{
+      name: 'Kft (Limited Liability Company)',
+      description: 'Most popular form for SMEs and startups',
+      capitalRequirement: 'Minimum HUF 3 million (~€8,000)',
+      timeline: '3-7 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, small businesses'
+    }, {
+      name: 'Rt (Public Limited Company)',
+      description: 'Suitable for large entities and stock market participants',
+      capitalRequirement: 'Minimum HUF 5 million (~€13,000)',
+      timeline: '7-14 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company branch without separate legal personality',
+      capitalRequirement: 'None',
+      timeline: '3-5 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Egyéni Vállalkozó)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '2-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid passport or national ID',
+      'Registered Hungarian address',
+      'Articles of Association (Alapító Okirat)',
+      'Bank account with share capital deposit proof',
+      'Registration with Hungarian Court of Registration (Cégbíróság)',
+      'Tax and social security authority registrations',
+      'UBO information registration (owners with ≥25% ownership)'
+    ],
+    registrationSteps: [
+      'Company name reservation and verification',
+      'Drafting and notarization of Articles of Association',
+      'Deposit share capital into Hungarian bank account',
+      'Submit registration documents electronically to Court of Registration',
+      'Obtain company registration number and tax ID',
+      'Register for VAT and social security',
+      'Start commercial operations'
+    ]
+  },
+  latvia: {
+    name: 'Latvia',
+    flag: '🇱🇻',
+    color: '#B80000',
+    processingTime: '3-7 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum €2,800 for SIA (Limited Liability Company), €35,000 for AS (Joint Stock Company)',
+    registrationFee: 'Approx. €100-150',
+    mainEntityType: 'SIA (Sabiedrība ar Ierobežotu Atbildību - Limited Liability Company), AS (Akciju sabiedrība - Joint Stock Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Individuālais komersants)',
+    benefits: [
+      'Straightforward online registration process via Latvian Company Register',
+      'Moderate capital requirements for SIA',
+      '100% foreign ownership allowed without restrictions',
+      'Access to EU and Baltic markets',
+      'Transparent legal framework aligned with EU standards'
+    ],
+    statistics: {
+      easeOfBusiness: 'EU top 30',
+      corporateTax: '20% on distributed profits',
+      foreignCompanies: '5,000+',
+      processingDays: '5'
+    },
+    entityStructures: [{
+      name: 'SIA (Limited Liability Company)',
+      description: 'Most commonly used entity for SMEs and startups',
+      capitalRequirement: 'Minimum €2,800',
+      timeline: '3-7 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, entrepreneurs'
+    }, {
+      name: 'AS (Joint Stock Company)',
+      description: 'For larger companies, especially those intending to raise capital publicly',
+      capitalRequirement: 'Minimum €35,000',
+      timeline: '7-14 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company branch without separate legal personality',
+      capitalRequirement: 'None',
+      timeline: '3-5 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Individuālais komersants)',
+      description: 'Individual with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport for directors and shareholders',
+      'Registered Latvian address (mandatory)',
+      'Articles of Association (statutes)',
+      'Proof of capital deposit in bank (for SIA and AS)',
+      'Registration with Latvian Register of Enterprises (UR)',
+      'Tax and social security registrations',
+      'UBO registration for beneficial owners with ≥25% ownership'
+    ],
+    registrationSteps: [
+      'Reserve company name through Latvian Company Register portal',
+      'Submit Articles of Association and founding documents',
+      'Open bank account and deposit share capital',
+      'File registration application electronically or at the Register of Enterprises',
+      'Processed registration certificate and VAT number if applicable',
+      'Register with State Revenue Service for tax purposes',
+      'Register employees with State Social Insurance Agency if hiring'
+    ]
+  },
+  lithuania: {
+    name: 'Lithuania',
+    flag: '🇱🇹',
+    color: '#FDB913',
+    processingTime: '3-5 business days',
+    complexity: 'Moderate',
+    capitalRequirement: 'Minimum €2,500 for UAB (Private Limited Company); €40,000 for AB (Public Limited Company)',
+    registrationFee: 'Approx. €57-€115',
+    mainEntityType: 'UAB (Uždaroji Akcinė Bendrovė - Private Limited Company), AB (Akcinė Bendrovė - Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Individuali Įmonė)',
+    benefits: [
+      'Fast and reliable company registration via Lithuanian Centre of Registers',
+      'Moderate capital requirements for UAB',
+      '100% foreign ownership permitted',
+      'Strategic location in Baltic region with EU market access',
+      'Transparent legal and regulatory environment'
+    ],
+    statistics: {
+      easeOfBusiness: 'High ranking in EU',
+      corporateTax: '15%',
+      foreignCompanies: '6,000+',
+      processingDays: '4'
+    },
+    entityStructures: [{
+      name: 'UAB (Private Limited Company)',
+      description: 'Most popular form for small and medium businesses',
+      capitalRequirement: 'Minimum €2,500',
+      timeline: '3-5 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, professionals'
+    }, {
+      name: 'AB (Public Limited Company)',
+      description: 'Suitable for larger companies and stock issuance',
+      capitalRequirement: 'Minimum €40,000',
+      timeline: '5-7 days',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company extension with no separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '3-5 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Individuali Įmonė)',
+      description: 'Individual entrepreneur with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-3 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport of directors and shareholders',
+      'Registered office address in Lithuania',
+      'Articles of Association (Steigimo Aktas)',
+      'Proof of share capital deposit',
+      'Registration at Lithuanian Centre of Registers',
+      'Tax and social security registrations',
+      'UBO registration for beneficial owners holding ≥25%'
+    ],
+    registrationSteps: [
+      'Company name reservation and approval',
+      'Draft and notarize Articles of Association',
+      'Deposit share capital in Lithuanian bank',
+      'Submit registration application to Centre of Registers electronically or in person',
+      'Receive registration certificate and company code',
+      'Register for VAT if applicable',
+      'Register employees with State Social Insurance Fund Board if hiring'
+    ]
+  },
+  luxembourg: {
+    name: 'Luxembourg',
+    flag: '🇱🇺',
+    color: '#E0001E',
+    processingTime: '2-4 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: '€12,000 minimum for SARL (Private Limited Company); €31,000 minimum for SA (Public Limited Company)',
+    registrationFee: 'Approx. €400-€1,000 depending on company type and notary fees',
+    mainEntityType: 'SARL (Société à Responsabilité Limitée – Private Limited Company), SA (Société Anonyme – Public Limited Company)',
+    secondaryEntityType: 'Branch Office, Sole Proprietorship (Entrepreneur individuel)',
+    benefits: [
+      'Luxembourg offers a multilingual business environment (French, German, English)',
+      'Attractive tax regime with extensive double tax treaties network',
+      '100% foreign ownership allowed',
+      'Access to EU market and strong financial sector presence',
+      'Modern and flexible company laws'
+    ],
+    statistics: {
+      easeOfBusiness: 'Among the top EU countries',
+      corporateTax: 'Approximately 24.94% including municipal business tax',
+      foreignCompanies: '20,000+',
+      processingDays: '21'
+    },
+    entityStructures: [{
+      name: 'SARL (Private Limited Company)',
+      description: 'Suitable for SMEs and startups with limited liability',
+      capitalRequirement: 'Minimum €12,000',
+      timeline: '2-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, family businesses, startups'
+    }, {
+      name: 'SA (Public Limited Company)',
+      description: 'Suitable for larger companies, especially those seeking capital market funding',
+      capitalRequirement: 'Minimum €31,000',
+      timeline: '3-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, public companies'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company with no separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '2-3 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Entrepreneur individuel)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport for shareholders and directors',
+      'Registered Luxembourg business address (mandatory)',
+      'Drafting and notarization of Articles of Association',
+      'Bank capital deposit certificate (for SARL and SA)',
+      'Registration with Luxembourg Business Register (RCS)',
+      'Tax and social security registration',
+      'UBO registration as per EU transparency directive requirements'
+    ],
+    registrationSteps: [
+      'Check and reserve company name with RCS',
+      'Prepare and notarize Articles of Association',
+      'Open bank account and deposit share capital',
+      'Submit registration request to Luxembourg Business Register',
+      'Receive Certificate of Incorporation and registration number',
+      'Register for VAT and corporate taxes at the Luxembourg Tax Authorities',
+      'Register employees with social security institutions if applicable',
+      'Commence business operations'
+    ]
+  },
+  malta: {
+    name: 'Malta',
+    flag: '🇲🇹',
+    color: '#005BBB',
+    processingTime: '1-2 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: '€1,165 minimum for Ltd (Private Limited Company); approx. €46,600 minimum for PLC (Public Limited Company)',
+    registrationFee: 'Approx. €245-€1,750 depending on company type and share capital',
+    mainEntityType: 'Ltd (Private Limited Company), PLC (Public Limited Company)',
+    secondaryEntityType: 'Partnership, Branch Office, Sole Proprietorship (Sole Trader)',
+    benefits: [
+      'Malta offers a fully EU-compliant legal and tax framework',
+      'Strong network of double tax treaties (70+ countries)',
+      '100% foreign ownership allowed',
+      'Strategic location for EU and Mediterranean markets',
+      'Government incentives for R&D, IP and innovation',
+      'Business-friendly digital registration and support services'
+    ],
+    statistics: {
+      easeOfBusiness: 'Streamlined registration process favored by investors',
+      corporateTax: 'Standard 35% with effective reductions to ~5% through refundable tax credits',
+      foreignCompanies: 'Thousands registered benefiting from favorable tax regime',
+      processingDays: '10'
+    },
+    entityStructures: [{
+      name: 'Ltd (Private Limited Company)',
+      description: 'Suitable for SMEs and startups with limited liability',
+      capitalRequirement: 'Minimum €1,165 (20% paid up)',
+      timeline: '1-2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, family businesses, startups'
+    }, {
+      name: 'PLC (Public Limited Company)',
+      description: 'Suitable for larger companies requiring capital market access',
+      capitalRequirement: 'Minimum approx. €46,600 (25% paid up)',
+      timeline: '~2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, public companies'
+    }, {
+      name: 'Partnership',
+      description: 'General or limited partnerships',
+      capitalRequirement: 'No minimum capital requirement',
+      timeline: 'Timeline varies',
+      liability: 'Varies by partnership type',
+      suitableFor: 'Small businesses and joint ventures'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company without separate legal identity',
+      capitalRequirement: 'None',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }, {
+      name: 'Sole Proprietorship (Sole Trader)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'None',
+      timeline: 'Approx. 1 week',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport of shareholders, directors, and company secretary',
+      'Registered business address in Malta (mandatory)',
+      'Drafting and notarization of Memorandum and Articles of Association',
+      'Bank capital deposit certificate (for Ltd and PLC)',
+      'Registration with Malta Business Registry (MBR)',
+      'Tax identification number, VAT registration, and social security registration',
+      'UBO disclosure as per EU transparency requirements'
+    ],
+    registrationSteps: [
+      'Check and reserve company name with Malta Business Registry (MBR)',
+      'Prepare and notarize Memorandum and Articles of Association',
+      'Open bank account and deposit share capital',
+      'Submit registration application to MBR',
+      'Receive Certificate of Incorporation and registration number',
+      'Register for VAT and corporate taxes at Maltese Tax Authorities',
+      'Register employees with social security institutions (Jobs Plus) if applicable',
+      'Commence business operations'
+    ]
+  },
+  poland: {
+    name: 'Poland',
+    flag: '🇵🇱',
+    color: '#DC143C',
+    processingTime: '1-3 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: 'PLN 5,000 (~€1,100) minimum for Limited Liability Company (Sp. z o.o); PLN 100,000 (~€22,000) minimum for Joint-Stock Company (S.A)',
+    registrationFee: 'Approx. PLN 600-1,200 depending on company type and registration method',
+    mainEntityType: 'Sp. z o.o (Limited Liability Company), S.A. (Joint-Stock Company)',
+    secondaryEntityType: 'Limited Partnership, Registered Partnership, Sole Proprietorship, Branch Office',
+    benefits: [
+      'Strategic location in Central Europe with access to EU and Eastern markets',
+      'Competitive corporate tax rates with reduced rates for small companies',
+      'Highly skilled and cost-effective workforce',
+      'Robust legal framework aligned with EU regulations',
+      'Government incentives and special economic zones'
+    ],
+    statistics: {
+      easeOfBusiness: 'Growing reputation for efficient registration and business environment',
+      corporateTax: '19% standard; 9% reduced rate for small taxpayers and start-ups',
+      foreignCompanies: 'Large and growing number, with simplified regulations for EU and non-EU investors',
+      processingDays: '14'
+    },
+    entityStructures: [{
+      name: 'Limited Liability Company (Sp. z o.o)',
+      description: 'Most common form for SMEs and startups',
+      capitalRequirement: 'Minimum capital PLN 5,000',
+      timeline: '1-3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, family businesses'
+    }, {
+      name: 'Joint-Stock Company (S.A.)',
+      description: 'Suitable for larger enterprises and capital market access',
+      capitalRequirement: 'Minimum capital PLN 100,000',
+      timeline: 'Around 3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, public companies'
+    }, {
+      name: 'Limited Partnership (Spółka komandytowa)',
+      description: 'Hybrid partnership with general and limited partners',
+      capitalRequirement: 'No minimum capital, personal liability varies',
+      timeline: '1-2 weeks',
+      liability: 'Varies by partner type',
+      suitableFor: 'Flexible and family businesses'
+    }, {
+      name: 'Registered Partnership (Spółka jawna)',
+      description: 'Traditional partnership without legal personality',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Small businesses and professionals'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market testing'
+    }, {
+      name: 'Sole Proprietorship',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1 week',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }],
+    requirements: [
+      'Valid ID or passport for shareholders and directors',
+      'Registered physical office address in Poland (mandatory)',
+      'Drafting and notarization or electronic submission of Articles of Association (for Sp. z o.o and S.A.)',
+      'Bank account and deposit of minimum share capital',
+      'Registration with National Court Register (KRS)',
+      'Tax identification number (NIP), VAT registration where applicable',
+      'Social security registration for employees',
+      'UBO registration as per EU transparency directives'
+    ],
+    registrationSteps: [
+      'Choose and reserve company name with KRS',
+      'Draft and notarize Articles of Association or submit electronically (S24 portal)',
+      'Deposit minimum share capital in bank account',
+      'Submit registration application to KRS (via S24 portal for faster online registration)',
+      'Obtain Certificate of Incorporation and KRS number',
+      'Register for VAT and corporate taxes with Polish Tax Authorities',
+      'Register employees with Social Insurance Institution (ZUS) if applicable',
+      'Start business operations'
+    ]
+  },
+  portugal: {
+    name: 'Portugal',
+    flag: '🇵🇹',
+    color: '#FF0000',
+    processingTime: 'Approx. 2 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: '€1 minimum for Lda (Private Limited Company); €50,000 minimum for S.A. (Public Limited Company)',
+    registrationFee: 'Approx. €350-€1,000 depending on company type and share capital',
+    mainEntityType: 'Lda (Private Limited Company), S.A. (Public Limited Company)',
+    secondaryEntityType: 'Sole Proprietorship, General Partnership, Limited Partnership, Branch Office',
+    benefits: [
+      'Access to the EU market and Portuguese-speaking countries',
+      'Competitive corporate tax rates with additional regional tax incentives',
+      'Flexible and agile legal framework with digital registration options',
+      'Government support for startups and innovation, including Portugal 2030 program',
+      'Multilingual workforce and high quality of life',
+      'Strategic location with access to Europe, Africa, and Americas'
+    ],
+    statistics: {
+      easeOfBusiness: 'Streamlined digital company registration (Empresa na Hora) system',
+      corporateTax: '21% standard rate; reduced rates for SMEs and regional incentives',
+      foreignCompanies: 'Many registered owing to EU membership and business incentives',
+      processingDays: '10'
+    },
+    entityStructures: [{
+      name: 'Lda (Private Limited Company)',
+      description: 'Suitable for SMEs and small businesses',
+      capitalRequirement: 'Minimum share capital €1',
+      timeline: 'Approx. 2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, professionals'
+    }, {
+      name: 'S.A. (Public Limited Company)',
+      description: 'Suitable for larger companies and public offerings',
+      capitalRequirement: 'Minimum share capital €50,000',
+      timeline: '3-4 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, listed companies'
+    }, {
+      name: 'Sole Proprietorship (Empresário em Nome Individual)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: 'Approx. 1 week',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }, {
+      name: 'General Partnership (Sociedade em Nome Coletivo)',
+      description: 'Unlimited liability partners',
+      capitalRequirement: 'No minimum capital',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Small partnerships'
+    }, {
+      name: 'Limited Partnership (Sociedade em Comandita)',
+      description: 'Limited liability for some partners',
+      capitalRequirement: 'Capital required if structured with share capital',
+      timeline: '1-2 weeks',
+      liability: 'Varies by partner type',
+      suitableFor: 'Flexible business structures'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }],
+    requirements: [
+      'Valid identification documents for shareholders and directors',
+      'Registered business address in Portugal (mandatory)',
+      'Drafting and notarization of Articles of Association',
+      'Bank deposit receipt for share capital',
+      'Registration with Portuguese Commercial Registry',
+      'Tax and social security registrations',
+      'UBO registration as per EU transparency laws'
+    ],
+    registrationSteps: [
+      'Reserve company name at Portuguese Trade Registry',
+      'Draft and notarize Articles of Association',
+      'Open business bank account and deposit required capital',
+      'Submit incorporation documents to Commercial Registry',
+      'Receive Certificate of Incorporation and registration number',
+      'Register for VAT and corporate taxes with Portuguese Tax Authority',
+      'Register employees for social security if applicable',
+      'Commence business operations'
+    ]
+  },
+  romania: {
+    name: 'Romania',
+    flag: '🇷🇴',
+    color: '#ED2939',
+    processingTime: '1-3 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: 'RON 1 (~€0.20) minimum for SRL (Limited Liability Company); RON 90,000 (~€18,000) minimum for SA (Joint-Stock Company)',
+    registrationFee: 'Approx. RON 600-1,200 depending on company type and complexity',
+    mainEntityType: 'SRL (Societate cu Răspundere Limitată – Limited Liability Company), SA (Societate pe Acțiuni – Joint-Stock Company)',
+    secondaryEntityType: 'Limited Partnership (SCS), General Partnership (SNC), Sole Proprietorship (PFA), Branch Office',
+    benefits: [
+      'Strategic location bridging Eastern and Western Europe',
+      'Competitive corporate tax system with incentives for small businesses',
+      'Access to EU single market with Schengen membership since 2024',
+      'Skilled labor force with relatively low operational costs',
+      'Government incentives supporting technology and innovation sectors'
+    ],
+    statistics: {
+      easeOfBusiness: 'Growing business hub with improving registration efficiency',
+      corporateTax: 'Standard 16%; micro-enterprise tax 1%-3% depending on payroll',
+      foreignCompanies: 'Large number, benefiting from EU access and low taxes',
+      processingDays: '14'
+    },
+    entityStructures: [{
+      name: 'SRL (Limited Liability Company)',
+      description: 'Most popular business form in Romania',
+      capitalRequirement: 'Minimum capital: RON 1',
+      timeline: '1-2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, small to medium businesses'
+    }, {
+      name: 'SA (Joint-Stock Company)',
+      description: 'Suitable for larger businesses requiring share capital financing',
+      capitalRequirement: 'Minimum capital: RON 90,000',
+      timeline: '2-3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, listed companies'
+    }, {
+      name: 'Limited Partnership (SCS)',
+      description: 'Partners with limited and unlimited liability',
+      capitalRequirement: 'No minimum capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Varies by partner type',
+      suitableFor: 'Family businesses and investment ventures'
+    }, {
+      name: 'General Partnership (SNC)',
+      description: 'Partners with unlimited liability',
+      capitalRequirement: 'No minimum capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Professional partnerships and small businesses'
+    }, {
+      name: 'Sole Proprietorship (PFA)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1 week',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company extension without legal independence',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }],
+    requirements: [
+      'Valid ID or passport for shareholders and directors',
+      'Registered physical business address in Romania (mandatory)',
+      'Articles of Association drafting and notarization',
+      'Bank deposit receipt for share capital (SRL and SA)',
+      'Registration with National Trade Register Office (ONRC)',
+      'Tax identification number (CUI) and VAT registration where applicable',
+      'Social security registration for employees',
+      'UBO registration per EU transparency rules'
+    ],
+    registrationSteps: [
+      'Reserve and register company name with Trade Register',
+      'Prepare and notarize Articles of Association',
+      'Open bank account and deposit minimum share capital',
+      'File registration documents with Trade Register Office (ONRC)',
+      'Obtain Certificate of Incorporation and unique registration code (CUI)',
+      'Register for VAT and corporate taxes with Romanian tax authorities (ANAF)',
+      'Register employees with Social Security (Casa de Asigurări Sociale) if applicable',
+      'Commence business activities'
+    ]
+  },
+  slovakia: {
+    name: 'Slovakia',
+    flag: '🇸🇰',
+    color: '#0072CE',
+    processingTime: 'Approximately 1 week',
+    complexity: 'Moderate',
+    capitalRequirement: '€5,000 minimum for Private Limited Liability Company (s.r.o.); minimum €25,000 for Public Limited Company (a.s.)',
+    registrationFee: 'Approx. €150 plus legal and notary fees',
+    mainEntityType: 's.r.o. (Private Limited Liability Company), a.s. (Public Limited Company)',
+    secondaryEntityType: 'General Partnership, Limited Partnership, Sole Proprietorship, Branch Office',
+    benefits: [
+      'Strategic Central European location with EU and Schengen access',
+      'Competitive corporate tax rates with a tiered system',
+      'Highly skilled multilingual workforce at competitive costs',
+      'Active government support for innovation, R&D, and investment incentives',
+      'Robust infrastructure and logistics network'
+    ],
+    statistics: {
+      easeOfBusiness: 'Efficient registration process with electronic options',
+      corporateTax: '21% standard; 10% reduced rate for incomes under €100,000 (in 2025)',
+      foreignCompanies: 'Many foreign investors attracted by central location and EU membership',
+      processingDays: '7'
+    },
+    entityStructures: [{
+      name: 's.r.o. (Private Limited Liability Company)',
+      description: 'Most common form for SMEs and startups',
+      capitalRequirement: 'Minimum capital €5,000 with at least €750 per shareholder paid up',
+      timeline: 'Approx. 1 week',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, small and medium businesses'
+    }, {
+      name: 'a.s. (Public Limited Company)',
+      description: 'Suitable for larger enterprises and public offerings',
+      capitalRequirement: 'Minimum capital €25,000',
+      timeline: '2-3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large companies, stock market participants'
+    }, {
+      name: 'General Partnership (verejná obchodná spoločnosť)',
+      description: 'Partners have unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Professional partnerships and small businesses'
+    }, {
+      name: 'Limited Partnership (komanditná spoločnosť)',
+      description: 'Combination of general (unlimited liability) and limited partners',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Varies by partner type',
+      suitableFor: 'Family businesses and venture partnerships'
+    }, {
+      name: 'Sole Proprietorship (živnosť)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }, {
+      name: 'Branch Office',
+      description: 'Foreign company extension without separate legal personality',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }],
+    requirements: [
+      'Valid ID or passport copies for shareholders and directors',
+      'Registered business address in Slovakia (mandatory)',
+      'Notarized Memorandum of Association and Articles of Association for s.r.o. or Deed for a.s.',
+      'Bank confirmation of share capital deposit',
+      'Registration with the Commercial Register',
+      'Tax identification and VAT registration as needed',
+      'Social and health insurance registration for employees',
+      'UBO registration complying with EU transparency requirements'
+    ],
+    registrationSteps: [
+      'Check and reserve company name at Commercial Register',
+      'Draft and notarize founding documents (Articles/Deed)',
+      'Open bank account and deposit minimum share capital',
+      'Submit registration documents to Commercial Register',
+      'Obtain Business Identification Number',
+      'Register for VAT and corporate taxes with Slovak Tax Authorities',
+      'Register employees with Social Insurance Agency',
+      'Begin business operations'
+    ]
+  },
+  slovenia: {
+    name: 'Slovenia',
+    flag: '🇸🇮',
+    color: '#0056A4',
+    processingTime: '3-7 days (digital registration), up to 1 week via traditional process',
+    complexity: 'Moderate',
+    capitalRequirement: '€7,500 minimum for d.o.o. (Private Limited Liability Company); €25,000 minimum for d.d. (Public Limited Company)',
+    registrationFee: 'Approx. €200-€400 depending on company type and service method',
+    mainEntityType: 'd.o.o. (Družba z omejeno odgovornostjo – Limited Liability Company), d.d. (Delniška družba – Public Limited Company)',
+    secondaryEntityType: 'Sole Proprietorship (s.p.), General Partnership, Limited Partnership, Branch Office',
+    benefits: [
+      'Access to EU Single Market and Eurozone',
+      'Competitive corporate tax rates with government incentives for R&D and startups',
+      'Highly skilled and multilingual workforce',
+      'Strong legal framework aligned with EU law',
+      'Modern digital registration system for efficient incorporation'
+    ],
+    statistics: {
+      easeOfBusiness: 'Fast electronic registration available via e-VEM portal',
+      corporateTax: 'Standard 22% (temporarily increased from 19% during 2024-2028)',
+      foreignCompanies: 'Many registered with 100% foreign ownership allowed',
+      processingDays: '5'
+    },
+    entityStructures: [{
+      name: 'd.o.o. (Private Limited Company)',
+      description: 'Most common entity for SMEs and startups',
+      capitalRequirement: 'Minimum capital €7,500 (25% to be paid upfront)',
+      timeline: '3-7 days electronically',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, family businesses, startups'
+    }, {
+      name: 'd.d. (Public Limited Company)',
+      description: 'Suitable for larger businesses and stock market ventures',
+      capitalRequirement: 'Minimum capital €25,000',
+      timeline: '2-3 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'Large enterprises, publicly listed companies'
+    }, {
+      name: 'Sole Proprietorship (s.p.)',
+      description: 'Individual business with unlimited liability',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-2 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Individual entrepreneurs'
+    }, {
+      name: 'General Partnership',
+      description: 'Unlimited liability partners',
+      capitalRequirement: 'No minimum capital',
+      timeline: '1-2 weeks',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Professional partnerships'
+    }, {
+      name: 'Limited Partnership',
+      description: 'Mix of general and limited liability partners',
+      capitalRequirement: 'No minimum capital',
+      timeline: '1-2 weeks',
+      liability: 'Varies by partner type',
+      suitableFor: 'Flexible business structures'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of foreign parent company',
+      capitalRequirement: 'No capital requirement',
+      timeline: 'Approx. 7-10 days',
+      liability: 'Parent company liable',
+      suitableFor: 'Market presence and testing'
+    }],
+    requirements: [
+      'Valid ID/passports for shareholders and directors',
+      'Registered office address in Slovenia mandatory',
+      'Articles of Association drafting and notarization',
+      'Bank capital deposit confirmation (for d.o.o. and d.d.)',
+      'Registration with Slovenian Business Register at AJPES or via e-VEM portal',
+      'Tax and social security registration',
+      'UBO registration per EU transparency rules'
+    ],
+    registrationSteps: [
+      'Obtain Slovenian tax identification number for shareholders and directors',
+      'Reserve company name via Slovenian Business Register',
+      'Draft and notarize founding documents',
+      'Open bank account and deposit share capital (for d.o.o. and d.d.)',
+      'Submit registration to Business Register electronically or at SPOT centers',
+      'Receive Certificate of Incorporation and registration number',
+      'Register for VAT and corporate taxes',
+      'Register employees with social security if applicable',
+      'Commence business operations'
+    ]
+  },
+  sweden: {
+    name: 'Sweden',
+    flag: '🇸🇪',
+    color: '#006AA7',
+    processingTime: '1-2 weeks',
+    complexity: 'Moderate',
+    capitalRequirement: 'SEK 25,000 (~€2,400) for Aktiebolag (AB, Limited Liability Company)',
+    registrationFee: 'Approx. SEK 2,200 (~€210)',
+    mainEntityType: 'Aktiebolag (AB), Handelsbolag (Partnership), Enskild Firma (Sole Proprietorship)',
+    secondaryEntityType: 'Branch Office',
+    benefits: [
+      'Strategic geographic location in Scandinavia with access to EU and Nordic markets',
+      'Competitive corporate tax rate with extensive tax treaties',
+      'Strong innovation ecosystem and startup-friendly environment',
+      'Highly skilled multilingual workforce',
+      'Advanced digital infrastructure and government support for digitalization'
+    ],
+    statistics: {
+      easeOfBusiness: 'Highly digitalized registration process',
+      corporateTax: '20.6% (2025)',
+      foreignCompanies: 'Many international firms locally incorporated',
+      processingDays: '7'
+    },
+    entityStructures: [{
+      name: 'Aktiebolag (AB - Limited Liability Company)',
+      description: 'Most common business entity for startups and SMEs',
+      capitalRequirement: 'Minimum SEK 25,000 share capital',
+      timeline: '1-2 weeks',
+      liability: 'Limited to share capital',
+      suitableFor: 'SMEs, startups, joint ventures'
+    }, {
+      name: 'Enskild Firma (Sole Proprietorship)',
+      description: 'Individual business, unlimited liability',
+      capitalRequirement: 'No minimum capital',
+      timeline: '1-2 days',
+      liability: 'Unlimited personal liability',
+      suitableFor: 'Sole entrepreneurs and freelancers'
+    }, {
+      name: 'Handelsbolag (Partnership)',
+      description: 'Partnership with shared liability among partners',
+      capitalRequirement: 'No minimum capital',
+      timeline: '1-2 weeks',
+      liability: 'Shared liability among partners',
+      suitableFor: 'Small to medium business collaborations'
+    }, {
+      name: 'Branch Office',
+      description: 'Extension of a foreign parent company',
+      capitalRequirement: 'No capital requirement',
+      timeline: '1-3 weeks',
+      liability: 'Parent company liable',
+      suitableFor: 'Market entry and testing'
+    }],
+    requirements: [
+      'Valid ID or passport for shareholders and directors',
+      'Business address in Sweden (physical address required)',
+      'Draft Articles of Association (notarization optional)',
+      'Share capital deposit receipt from a Swedish bank (for AB)',
+      'Registration with Swedish Companies Registration Office (Bolagsverket)',
+      'Tax registration and VAT registration with Swedish Tax Agency (Skatteverket)',
+      'Social security registration for employees',
+      'UBO (Ultimate Beneficial Owner) disclosure as per EU regulations'
+    ],
+    registrationSteps: [
+      'Reserve your company name via Bolagsverket',
+      'Prepare and submit Articles of Association and registration forms',
+      'Deposit share capital in a Swedish bank account (for AB)',
+      'Submit registration documents to Bolagsverket',
+      'Obtain registration confirmation and corporate registration number',
+      'Register for VAT and corporate taxes',
+      'Register employees with social security agencies if applicable',
+      'Start business operations'
+    ]
   }
 };
 // Default country data
@@ -282,16 +2135,46 @@ const countryFaqs = {
     answer: 'The UBO (Ultimate Beneficial Owner) register requires all Dutch companies to register individuals who ultimately own or control the company (25% or more ownership/voting rights). This information must be registered with the Chamber of Commerce.'
   }],
   germany: [{
-    question: 'What is the difference between a GmbH and a UG in Germany?',
-    answer: 'A GmbH (Gesellschaft mit beschränkter Haftung) requires a minimum capital of €25,000, while a UG (Unternehmergesellschaft) can be formed with just €1. UGs must accumulate 25% of annual profits until they reach the €25,000 threshold.'
+    question: 'What are the different business structures available in Germany?',
+    answer: 'Germany offers several business structures: GmbH (most popular, requires €25,000 capital), UG or "mini-GmbH" (can start with €1), AG (public company, requires €50,000), and Branch Offices for foreign companies. Each has different capital requirements and legal obligations.'
   }, {
-    question: 'Is a German residence permit required to form a company?',
-    answer: 'Non-EU citizens do not need a residence permit to form a company in Germany, but may need one to act as a managing director. We can provide local nominee directors as a solution while you arrange your residence status.'
+    question: 'What is the complete registration process for a German company?',
+    answer: 'The process includes: selecting business structure and reserving name, preparing Articles of Association in German, notarizing documents before a German notary, opening a German bank account and depositing share capital, obtaining capital confirmation from bank, registering in Commercial Register (Handelsregister), registering at Trade Office (Gewerbeamt), registering for tax (tax number, VAT registration), registering with social security if hiring employees, and receiving company certificate and extracts.'
   }, {
-    question: 'How does the German trade tax system work?',
-    answer: 'In addition to corporate income tax, German companies are subject to trade tax (Gewerbesteuer), which varies by municipality (typically between 14-17%). This makes the effective corporate tax rate approximately 30-33%.'
+    question: 'What is the difference between Legal Entity and Branch Office in Germany?',
+    answer: 'GmbH/UG/AG are separate legal entities with liability protections; branch offices are part of foreign parent companies with full liability for the parent. Legal entities offer better liability protection but have more formal requirements.'
+  }, {
+    question: 'How does the German tax system work for companies?',
+    answer: 'Corporate tax rate is 15% plus 5.5% solidarity surcharge. Municipal trade tax ranges from 7-17%. VAT rate is 19% standard (7% for some goods). Many double tax treaties and R&D tax incentives are available.'
+  }, {
+    question: 'What is the UBO register in Germany?',
+    answer: 'All German companies must disclose their Ultimate Beneficial Owners (UBOs)—those with at least 25% shares or voting rights—to the Transparency Register.'
+  }, {
+    question: 'Do I need to be physically present in Germany to form a company?',
+    answer: 'Physical presence is not always required for company formation, but bank account setup may necessitate it. Foreign nationals can own 100% of a German company, and we can provide local nominee directors as a solution while you arrange your residence status.'
+  }, {
+    question: 'What are the ongoing compliance requirements for German companies?',
+    answer: 'German companies must maintain a registered address, comply with corporate and reporting laws, file annual financial statements, pay corporate income tax and trade tax (Gewerbesteuer), and meet employment regulations if hiring. The effective corporate tax rate is approximately 30-33%.'
+  }, {
+    question: 'How long does the German company formation process take?',
+    answer: 'The complete process typically takes 10-20 business days (can be 2-3 weeks with complete documents), but delays may occur due to documentation, translation, or banking procedures. Registration fees vary from €500-€2,000 depending on company form and region.'
   }],
   france: [{
+    question: 'What are the minimum capital requirements for French companies?',
+    answer: 'SARL/SAS: €1; SA: €37,000 (deposit 1/5th on registration); higher if regulated activity. The minimum capital can be as low as €1 for most business structures.'
+  }, {
+    question: 'Is foreign ownership allowed in French companies?',
+    answer: '100% foreign ownership allowed for SARL, SAS, SA. No local residency required for directors/shareholders. Foreign nationals can fully own and manage French companies.'
+  }, {
+    question: 'What is the typical timeline for French company formation?',
+    answer: '1-4 weeks typical; SARL/SAS often completed in 2 weeks. The process can be faster with complete documentation and proper preparation.'
+  }, {
+    question: 'How does the French tax system work for companies?',
+    answer: 'Corporate tax 25%. VAT 20% (reduced rates apply). Dividends: 25% withholding. Various tax incentives for R&D, startups, priority sectors.'
+  }, {
+    question: 'What is the UBO register requirement in France?',
+    answer: 'All French entities must declare their UBO (persons with ≥25% share/voting rights), filed with authorities for transparency.'
+  }, {
     question: 'What is the difference between SAS and SARL in France?',
     answer: 'An SAS (Société par Actions Simplifiée) offers more flexibility in governance and is suitable for companies seeking external investment. A SARL (Société à Responsabilité Limitée) has a more rigid structure but simpler governance, making it suitable for smaller businesses.'
   }, {
@@ -302,14 +2185,579 @@ const countryFaqs = {
     answer: 'French employers must pay substantial social security contributions (approximately 40-45% of gross salary). These cover health insurance, pension, unemployment, and other social benefits for employees.'
   }],
   spain: [{
+    question: 'What are the minimum capital requirements for different Spanish entities?',
+    answer: 'SL requires €3,000 minimum; SA requires €60,000, with 25% paid on incorporation. The SL is the most popular choice for small to medium businesses due to its lower capital requirement.'
+  }, {
+    question: 'Is foreign ownership allowed in Spanish companies?',
+    answer: '100% foreign ownership allowed. No residency requirement for directors or shareholders. Foreign nationals can fully own and manage Spanish companies without any local participation requirements.'
+  }, {
+    question: 'What is the typical registration timeline for Spanish companies?',
+    answer: 'SL can be registered within 1-3 weeks, SA may take slightly longer (3-4 weeks). The process is efficient thanks to Spain\'s electronic registration system (Registro Mercantil Central).'
+  }, {
+    question: 'How does the Spanish tax system work for companies?',
+    answer: 'Corporate tax is 25%, but SMEs enjoy reduced rates on first €300,000 profits. Standard VAT rate is 21%. Spain offers various regional grants and R&D incentives for qualifying businesses.'
+  }, {
+    question: 'What is the UBO register requirement in Spain?',
+    answer: 'Companies must register Ultimate Beneficial Owners with over 25% ownership or voting rights in the Mercantile Registry for transparency. This is mandatory for all Spanish companies.'
+  }, {
     question: 'What is the difference between SL and SA in Spain?',
     answer: 'An SL (Sociedad Limitada) requires €3,000 minimum capital and is suitable for small to medium businesses. An SA (Sociedad Anónima) requires €60,000 minimum capital and is designed for larger businesses or those planning to go public.'
   }, {
-    question: 'What is the process for obtaining a CIF in Spain?',
-    answer: 'The CIF (Código de Identificación Fiscal) is the tax identification number for Spanish companies. It is initially provisional when you form your company and becomes permanent once all formation steps are completed. We handle the entire application process.'
+    question: 'What is the process for obtaining a NIF in Spain?',
+    answer: 'The NIF (Número de Identificación Fiscal) is the tax identification number for Spanish companies. It starts as provisional when you form your company and becomes permanent once all formation steps are completed. We handle the entire application process.'
   }, {
     question: 'Are there regional differences in company formation in Spain?',
     answer: 'Yes, Spain has 17 autonomous communities with varying regional regulations. These can affect aspects like regional taxes, grants, and specific business permits. Our service includes guidance on regional specificities based on your chosen location.'
+  }],
+  italy: [{
+    question: 'What are the minimum capital requirements for SRL and SPA in Italy?',
+    answer: 'SRL can start with €1; SPA requires minimum €50,000 with 25% paid upfront. The SRL is the most popular choice for small to medium businesses due to its lower capital requirement.'
+  }, {
+    question: 'Is foreign ownership allowed in Italian companies?',
+    answer: 'No restriction on foreign ownership; directors need not be Italian residents. 100% foreign ownership permitted for all company types including SRL and SPA.'
+  }, {
+    question: 'What is the typical processing time for Italian company formation?',
+    answer: 'Incorporation takes approximately 1 to 3 weeks depending on documents and type. SRL typically takes 1-3 weeks, while SPA may take 2-4 weeks due to higher capital requirements.'
+  }, {
+    question: 'How does the Italian tax system work for companies?',
+    answer: 'Corporate tax rate of 24% (IRES), local IRAP tax additional (~3.9%), VAT standard rate 22%. Italy offers tax incentives for innovative startups and SMEs.'
+  }, {
+    question: 'What is the UBO register requirement in Italy?',
+    answer: 'Companies must register Ultimate Beneficial Owners in compliance with Italian transparency laws. UBO declaration required for those with ≥25% ownership/voting rights.'
+  }, {
+    question: 'What is the difference between SRL and SPA in Italy?',
+    answer: 'SRL (Società a Responsabilità Limitata) is for small to medium businesses with minimum €1 capital. SPA (Società per Azioni) is for larger entities that can issue shares publicly, requiring minimum €50,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Italy?',
+    answer: 'Every Italian company must have a physical registered address in Italy. We offer virtual office services with prestigious Italian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Italian social security system affect employers?',
+    answer: 'Italian employers must register for social security and insurance if employing staff. The system includes health insurance, pension, and other social benefits for employees.'
+  }],
+  belgium: [{
+    question: 'What are the capital requirements for Belgian companies?',
+    answer: 'BV must have minimum capital of €18,550 with justified start-up capital; NV must have €61,500. The 2019 reform made BV formation more flexible with lower capital thresholds.'
+  }, {
+    question: 'Is foreign ownership allowed in Belgian companies?',
+    answer: 'No restrictions on nationality of shareholders or directors; directors can be non-residents. 100% foreign ownership allowed for all company types including BV and NV.'
+  }, {
+    question: 'What is the typical registration timeline for Belgian companies?',
+    answer: 'Business registration can be completed within 5-10 business days typically. BV formation takes 1-2 weeks, while NV may take 2-3 weeks due to higher capital requirements.'
+  }, {
+    question: 'How does the Belgian tax system work for companies?',
+    answer: 'Corporate tax standard rate is 25%, with some preferential rates for SMEs and R&D incentives. VAT rate is 21%. Belgium offers various tax incentives for R&D and startups.'
+  }, {
+    question: 'What is the UBO register requirement in Belgium?',
+    answer: 'Ultimate Beneficial Owners owning 25%+ must be recorded in UBO Register, accessible to Belgian authorities for transparency. This is mandatory for all Belgian companies.'
+  }, {
+    question: 'What is the difference between BV and NV in Belgium?',
+    answer: 'BV (Besloten Vennootschap) is for small to medium businesses with minimum €18,550 capital. NV (Naamloze Vennootschap) is for larger entities that can issue shares publicly, requiring minimum €61,500 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Belgium?',
+    answer: 'Every Belgian company must have a physical registered address in Belgium. We offer virtual office services with prestigious Belgian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Belgian social security system affect employers?',
+    answer: 'Belgian employers must register for social security if hiring employees. The system includes health insurance, pension, and other social benefits for employees.'
+  }],
+  ireland: [{
+    question: 'What is the minimum capital requirement for Irish companies?',
+    answer: 'Usually €1 for LTD; €25,000 for PLC (with 25% paid up). The LTD is the most popular choice for small to medium businesses due to its minimal capital requirement.'
+  }, {
+    question: 'Can foreigners fully own an Irish company?',
+    answer: 'Yes, 100% foreign ownership is allowed with no local director requirement. No residency requirement for directors or shareholders.'
+  }, {
+    question: 'How fast is the Irish company registration process?',
+    answer: 'Typically 3-5 business days online with complete documents. The process is simple and fast through the online Companies Registration Office (CRO) system.'
+  }, {
+    question: 'What are the corporate tax rates in Ireland?',
+    answer: '12.5% standard rate for trading income, 25% for non-trading income. Ireland offers one of the most attractive corporate tax rates in the EU.'
+  }, {
+    question: 'What is required for Irish company compliance?',
+    answer: 'Annual returns to CRO, financial statements, and tax filings. Companies must maintain proper records and file annual returns with the Companies Registration Office.'
+  }, {
+    question: 'What is the difference between LTD and PLC in Ireland?',
+    answer: 'LTD (Private Company Limited by Shares) is for most business types with minimum €1 capital. PLC (Public Limited Company) is for larger companies seeking to trade publicly, requiring minimum €25,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Ireland?',
+    answer: 'Every Irish company must have a physical registered address in Ireland. We offer virtual office services with prestigious Irish addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Irish employment system work for companies?',
+    answer: 'Irish companies must register for PAYE/PRSI if hiring employees. The system includes social insurance contributions and employment law compliance.'
+  }],
+  austria: [{
+    question: 'What is the minimum capital requirement for Austrian companies?',
+    answer: 'GmbH requires €35,000 with €17,500 minimum paid up; AG requires €70,000 with 25% minimum payment at registration. The GmbH is the most popular choice for small to medium businesses.'
+  }, {
+    question: 'Can foreigners fully own Austrian companies?',
+    answer: 'Yes, no restrictions on foreign ownership or nationality of directors. 100% foreign ownership permissible for all company types including GmbH and AG.'
+  }, {
+    question: 'How long does Austrian company registration take?',
+    answer: 'Typically 1 to 3 weeks depending on readiness of documentation and payment. GmbH formation takes 1-3 weeks, while AG may take 2-4 weeks due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in Austria?',
+    answer: 'Corporate tax is 25%; local trade tax (Kommunalsteuer) might apply (~3%). VAT is usually 20%. Austria offers favorable tax treaties and R&D incentives.'
+  }, {
+    question: 'What is the UBO register requirement in Austria?',
+    answer: 'Disclosure of Ultimate Beneficial Owners owning 25% or more is mandatory, maintained in the Transparency Register. This is required for all Austrian companies.'
+  }, {
+    question: 'What is the difference between GmbH and AG in Austria?',
+    answer: 'GmbH (Private Limited Company) is for SMEs and startups with minimum €35,000 capital. AG (Public Limited Company) is for larger companies and stock market participants, requiring minimum €70,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Austria?',
+    answer: 'Every Austrian company must have a physical registered office in Austria. We offer virtual office services with prestigious Austrian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Austrian social security system affect employers?',
+    answer: 'Austrian companies must register for social security if employing staff. The system includes health insurance, pension, and other social benefits for employees.'
+  }],
+  bulgaria: [{
+    question: 'What is the minimum capital requirement for Bulgarian companies?',
+    answer: 'For OOD, minimum share capital is BGN 2 (~€1). For AD, it is BGN 50,000 (~€25,500). The OOD is the most popular choice due to its minimal capital requirement.'
+  }, {
+    question: 'Can foreigners fully own Bulgarian companies?',
+    answer: 'Yes, there are no restrictions on foreign ownership. 100% foreign ownership is permitted for all company types including OOD and AD.'
+  }, {
+    question: 'How long does Bulgarian company registration take?',
+    answer: 'Usually 5-10 business days with complete documentation. OOD registration typically takes 5-10 days, while AD may take 10+ days due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in Bulgaria?',
+    answer: 'Flat corporate tax rate of 10% and VAT standard rate at 20%. Bulgaria offers the lowest corporate tax rate in the EU at 10%.'
+  }, {
+    question: 'What is the UBO register requirement in Bulgaria?',
+    answer: 'Bulgarian companies must register Ultimate Beneficial Owners with 25% or more ownership or control. This is mandatory for transparency and compliance.'
+  }, {
+    question: 'What is the difference between OOD and AD in Bulgaria?',
+    answer: 'OOD (Limited Liability Company) is for SMEs and startups with minimum BGN 2 capital. AD (Joint Stock Company) is for larger enterprises needing to raise capital, requiring minimum BGN 50,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Bulgaria?',
+    answer: 'Every Bulgarian company must have a physical registered office in Bulgaria. We offer virtual office services with prestigious Bulgarian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Bulgarian tax system work for companies?',
+    answer: 'Bulgarian companies must register with the National Revenue Agency for taxes and social security. The system includes VAT registration if threshold exceeded and ongoing tax compliance.'
+  }],
+  croatia: [{
+    question: 'What is the minimum capital requirement for Croatian companies?',
+    answer: 'd.o.o. requires HRK 10,000 minimum (~€1,300); d.d. requires HRK 200,000 (~€26,500). The d.o.o. is the most popular choice for SMEs due to its lower capital requirement.'
+  }, {
+    question: 'Can foreigners fully own Croatian companies?',
+    answer: 'Yes, 100% foreign ownership is permitted without restrictions. Full foreign ownership allowed for all company types including d.o.o. and d.d.'
+  }, {
+    question: 'How long does Croatian company registration take?',
+    answer: 'Typically 7-14 days for most companies; branches may take slightly less. d.o.o. registration takes 7-14 days, while d.d. may take 14-21 days due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in Croatia?',
+    answer: 'Corporate tax at 18%, VAT standard rate is 25%. Croatia offers a competitive corporate tax rate and access to EU market with increasing FDI incentives.'
+  }, {
+    question: 'What is the UBO register requirement in Croatia?',
+    answer: 'Companies must register Ultimate Beneficial Owners (25% or more ownership or control) for transparency purposes. This is mandatory for all Croatian companies.'
+  }, {
+    question: 'What is the difference between d.o.o. and d.d. in Croatia?',
+    answer: 'd.o.o. (Limited Liability Company) is for SMEs and startups with minimum HRK 10,000 capital. d.d. (Joint Stock Company) is for larger companies able to raise capital through shares, requiring minimum HRK 200,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Croatia?',
+    answer: 'Every Croatian company must have a physical registered office in Croatia. We offer virtual office services with prestigious Croatian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Croatian tax system work for companies?',
+    answer: 'Croatian companies must register with tax authorities and social security. The system includes VAT registration if applicable and ongoing tax administration and social security obligations.'
+  }],
+  cyprus: [{
+    question: 'What is the minimum capital requirement for Cypriot companies?',
+    answer: '€1,000 minimum for LTD; €25,629 for PLC. The LTD is the most popular choice for SMEs due to its lower capital requirement and simple structure.'
+  }, {
+    question: 'Can foreigners own Cypriot companies entirely?',
+    answer: 'Yes, 100% foreign ownership allowed, no residency needed. Full foreign ownership permitted for all company types with no restrictions on nationality of directors or shareholders.'
+  }, {
+    question: 'What is the usual registration timeline?',
+    answer: 'Typically 3-7 working days, faster for simple LTDs. LTD registration takes 3-7 days, while PLC may take 7-14 days due to higher capital requirements.'
+  }, {
+    question: 'How does corporate taxation work in Cyprus?',
+    answer: 'Flat 12.5% corporate tax rate, attractive for international businesses. Cyprus offers the lowest corporate tax rate in the EU at 12.5%, making it highly attractive for international business.'
+  }, {
+    question: 'Are UBO disclosures mandatory in Cyprus?',
+    answer: 'Yes, beneficial owners holding 25% or more must be registered with authorities. UBO register compliance is mandatory for transparency and anti-money laundering purposes.'
+  }, {
+    question: 'What is the difference between LTD and PLC in Cyprus?',
+    answer: 'LTD (Private Limited Company) is for SMEs and startups with minimum €1,000 capital. PLC (Public Limited Company) is for larger businesses seeking public funding, requiring minimum €25,629 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Cyprus?',
+    answer: 'Every Cypriot company must have a physical registered office address in Cyprus. We offer virtual office services with prestigious Cypriot addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Cypriot employment system work for companies?',
+    answer: 'Cypriot companies must register with Social Insurance Services if employing staff. The system includes social insurance contributions and employment law compliance for all employees.'
+  }],
+  czech: [{
+    question: 'What is the minimum capital requirement for Czech companies?',
+    answer: 's.r.o. requires CZK 1 (~€40); a.s. requires CZK 2 million (~€80k). The s.r.o. is the most popular choice for SMEs due to its extremely low capital requirement.'
+  }, {
+    question: 'Can foreigners fully own Czech companies?',
+    answer: 'No restrictions on foreign ownership or directors\' residency. 100% foreign ownership allowed for all company types including s.r.o. and a.s.'
+  }, {
+    question: 'How long does Czech company registration take?',
+    answer: 'Usually 7-14 business days, longer for larger a.s. companies. s.r.o. registration takes 7-14 days, while a.s. may take 14-21 days due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in the Czech Republic?',
+    answer: 'Corporate income tax rate at 19%; VAT standard rate 21%. The Czech Republic offers competitive tax rates and access to EU markets with central European economy benefits.'
+  }, {
+    question: 'What is the UBO register requirement in the Czech Republic?',
+    answer: 'Mandatory registration of Ultimate Beneficial Owners with significant ownership or control. UBO register compliance is required for persons with ≥25% ownership for transparency purposes.'
+  }, {
+    question: 'What is the difference between s.r.o. and a.s. in the Czech Republic?',
+    answer: 's.r.o. (Limited Liability Company) is for SMEs and startups with minimum CZK 1 capital. a.s. (Joint Stock Company) is for large companies intending to raise capital, requiring minimum CZK 2,000,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in the Czech Republic?',
+    answer: 'Every Czech company must have a physical registered office address in the Czech Republic. We offer virtual office services with prestigious Czech addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Czech employment system work for companies?',
+    answer: 'Czech companies must register with social security and health insurance authorities if employing staff. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  denmark: [{
+    question: 'What is the minimum capital requirement for Danish companies?',
+    answer: 'DKK 40,000 for ApS; DKK 500,000 for A/S. The ApS is the most popular choice for SMEs due to its lower capital requirement and fast registration process.'
+  }, {
+    question: 'Can foreigners fully own Danish companies?',
+    answer: 'Yes, 100% foreign ownership is allowed. No restrictions on foreign ownership for all company types including ApS and A/S.'
+  }, {
+    question: 'How fast is Danish company registration?',
+    answer: 'Typically 1-3 business days online for ApS. The Danish system is known for its fast and simple online registration process with robust digital infrastructure.'
+  }, {
+    question: 'What are the tax rates in Denmark?',
+    answer: 'Corporate tax at 22%; VAT standard rate 25%. Denmark offers competitive tax rates and access to Nordic and EU markets with a transparent legal system.'
+  }, {
+    question: 'Are UBO disclosures required in Denmark?',
+    answer: 'Yes, beneficial owners owning 25% or more must be registered. UBO register compliance is mandatory for transparency and anti-money laundering purposes.'
+  }, {
+    question: 'What is the difference between ApS and A/S in Denmark?',
+    answer: 'ApS (Private Limited Company) is for SMEs and startups with minimum DKK 40,000 capital. A/S (Public Limited Company) is for large companies wanting to list shares, requiring minimum DKK 500,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Denmark?',
+    answer: 'Every Danish company must have a physical registered office in Denmark. We offer virtual office services with prestigious Danish addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Danish employment system work for companies?',
+    answer: 'Danish companies must register for labor market and social security if hiring. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  estonia: [{
+    question: 'What is the minimum share capital for Estonian companies?',
+    answer: '€2,500 for OÜ (can be deferred for private companies), €25,000 for AS. The OÜ is the most popular choice for startups due to its flexible capital requirements and fast online registration.'
+  }, {
+    question: 'Can foreigners fully own Estonian companies?',
+    answer: 'Yes, 100% foreign ownership is permitted with no local residency required. Estonia offers e-Residency for global entrepreneurs to manage companies remotely.'
+  }, {
+    question: 'How fast is Estonian company registration?',
+    answer: 'Typically done within 1-3 business days, fully online. Estonia is renowned for its digital governance and efficient e-Business Register system.'
+  }, {
+    question: 'What is Estonia\'s taxation system like?',
+    answer: 'Corporate tax is 20% only on distributed profits; retained profits are tax-exempt. This unique system encourages reinvestment and business growth.'
+  }, {
+    question: 'What digital advantages does Estonia offer?',
+    answer: 'Full e-registration via state platform and e-Residency available worldwide. Estonia is a global leader in digital governance with transparent, digitally advanced business environment.'
+  }, {
+    question: 'What is the difference between OÜ and AS in Estonia?',
+    answer: 'OÜ (Private Limited Company) is for SMEs and startups with minimum €2,500 capital. AS (Public Limited Company) is for larger companies able to raise capital on stock markets, requiring minimum €25,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Estonia?',
+    answer: 'Every Estonian company must have a registered Estonian address (mandatory). We offer virtual office services with prestigious Estonian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Estonian employment system work for companies?',
+    answer: 'Estonian companies must register social security if employing workers. The system includes comprehensive social security contributions and employment law compliance in a digitally advanced environment.'
+  }],
+  finland: [{
+    question: 'Is minimum share capital mandatory for Finnish companies?',
+    answer: 'For Oy (private limited), minimum share capital is now €1; Oyj requires €80,000. Since 2019, private limited companies no longer have mandatory €2,500 paid-up capital requirement.'
+  }, {
+    question: 'Are non-resident directors allowed in Finnish companies?',
+    answer: 'Generally, at least one EEA resident director is required unless a permit is granted. This is a key requirement for Finnish company formation.'
+  }, {
+    question: 'How long is the Finnish incorporation process?',
+    answer: 'Typically 3-4 weeks for Oy; longer for public companies. The process varies depending on company type and document readiness, with faster processing for small companies online.'
+  }, {
+    question: 'What are the tax rates in Finland?',
+    answer: 'Corporate tax flat at 20%; VAT standard rate 24%. Finland offers competitive tax rates and access to Nordic and European markets with high legal and regulatory transparency.'
+  }, {
+    question: 'Can foreign nationals fully own Finnish companies?',
+    answer: 'Yes, there are no restrictions on foreign ownership. 100% foreign ownership is allowed for all company types including Oy and Oyj.'
+  }, {
+    question: 'What is the difference between Oy and Oyj in Finland?',
+    answer: 'Oy (Private Limited Company) is for SMEs and startups with minimum €1 capital. Oyj (Public Limited Company) is for larger enterprises listing on stock exchanges, requiring minimum €80,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Finland?',
+    answer: 'Every Finnish company must have a registered Finnish business address. We offer virtual office services with prestigious Finnish addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Finnish employment system work for companies?',
+    answer: 'Finnish companies must register for VAT, tax, and employments as applicable. The system includes comprehensive social security contributions and employment law compliance with strong governmental digital infrastructure.'
+  }],
+  greece: [{
+    question: 'What is the minimum capital requirement for Greek companies?',
+    answer: 'IKE requires minimum €4,500, AE requires €25,000. The IKE is the most popular choice for SMEs due to its flexible capital requirements and lower minimum threshold.'
+  }, {
+    question: 'Can foreigners fully own Greek companies?',
+    answer: 'Yes, without restriction. 100% foreign ownership is allowed for all company types including IKE and AE, with access to EU single market and strategic Mediterranean location.'
+  }, {
+    question: 'How long does Greek company registration take?',
+    answer: '7-15 business days depending on entity and document readiness. IKE registration takes 7-15 days, while AE may take 14-21 days due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in Greece?',
+    answer: 'Corporate tax at 22%; VAT standard at 24%. Greece offers competitive tax rates and access to EU single market with EU legal protections and transparent corporate governance.'
+  }, {
+    question: 'Is UBO disclosure required in Greece?',
+    answer: 'Yes, for owners above 25% beneficial ownership. Ultimate Beneficial Owners registration (UBO) is mandatory for transparency and compliance purposes.'
+  }, {
+    question: 'What is the difference between IKE and AE in Greece?',
+    answer: 'IKE (Private Company) is for SMEs and startups with minimum €4,500 capital. AE (Public Limited Company) is for larger companies suited for stock issuance, requiring minimum €25,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Greece?',
+    answer: 'Every Greek company must have a registered Greek business address. We offer virtual office services with prestigious Greek addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Greek employment system work for companies?',
+    answer: 'Greek companies must register employees with social security institutions (EFKA) if hiring. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  hungary: [{
+    question: 'What is the minimum required capital for Hungarian companies?',
+    answer: 'Kft requires HUF 3 million (~€8,000); Rt requires HUF 5 million (~€13,000). The Kft is the most popular choice for SMEs due to its lower capital requirement and fast registration process.'
+  }, {
+    question: 'Are foreign nationals allowed full ownership of Hungarian companies?',
+    answer: 'Yes, there are no limitations on foreign ownership. 100% foreign ownership is permitted without restrictions for all company types including Kft and Rt.'
+  }, {
+    question: 'How long does Hungarian company registration take?',
+    answer: '3 to 7 days via electronic registration system. Kft registration takes 3-7 days, while Rt may take 7-14 days due to higher capital requirements.'
+  }, {
+    question: 'What are the tax rates in Hungary?',
+    answer: 'Corporate tax is 9% flat rate (lowest in EU), VAT is 27% (highest in EU). Hungary offers the lowest corporate tax rate in the EU at 9%, making it highly attractive for international business.'
+  }, {
+    question: 'Do companies need to register their UBOs in Hungary?',
+    answer: 'Yes, Ultimate Beneficial Owners with ≥25% ownership must be registered. UBO information registration is mandatory for transparency and compliance purposes.'
+  }, {
+    question: 'What is the difference between Kft and Rt in Hungary?',
+    answer: 'Kft (Limited Liability Company) is for SMEs and startups with minimum HUF 3 million capital. Rt (Public Limited Company) is for large entities and stock market participants, requiring minimum HUF 5 million capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Hungary?',
+    answer: 'Every Hungarian company must have a registered Hungarian address. We offer virtual office services with prestigious Hungarian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Hungarian employment system work for companies?',
+    answer: 'Hungarian companies must register for tax and social security authority registrations if hiring. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  latvia: [{
+    question: 'What is the minimum capital requirement for Latvian companies?',
+    answer: 'SIA requires €2,800 minimum capital; AS requires €35,000. The SIA is the most popular choice for SMEs due to its moderate capital requirements and straightforward registration process.'
+  }, {
+    question: 'Are foreigners allowed full ownership of Latvian companies?',
+    answer: 'Yes, full foreign ownership is permitted with no residency requirements. 100% foreign ownership is allowed without restrictions for all company types including SIA and AS.'
+  }, {
+    question: 'How quickly is Latvian company registration?',
+    answer: 'Normally 3-7 business days for SIA; longer for AS. Latvia offers a straightforward online registration process via Latvian Company Register with transparent legal framework aligned with EU standards.'
+  }, {
+    question: 'What are the tax rates in Latvia?',
+    answer: 'Corporate tax is 20% on distributed profits; VAT at 21%. Latvia offers competitive tax rates and access to EU and Baltic markets with transparent legal framework.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Latvia?',
+    answer: 'Yes, UBOs with ≥25% ownership must be registered with authorities. UBO registration is mandatory for beneficial owners with ≥25% ownership for transparency and compliance purposes.'
+  }, {
+    question: 'What is the difference between SIA and AS in Latvia?',
+    answer: 'SIA (Limited Liability Company) is for SMEs and entrepreneurs with minimum €2,800 capital. AS (Joint Stock Company) is for larger companies intending to raise capital publicly, requiring minimum €35,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Latvia?',
+    answer: 'Every Latvian company must have a registered Latvian address (mandatory). We offer virtual office services with prestigious Latvian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Latvian employment system work for companies?',
+    answer: 'Latvian companies must register employees with State Social Insurance Agency if hiring. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  lithuania: [{
+    question: 'What is the minimum capital requirement for Lithuanian companies?',
+    answer: 'UAB requires €2,500; AB requires €40,000. The UAB is the most popular choice for SMEs due to its moderate capital requirements and fast registration process.'
+  }, {
+    question: 'Are foreigners allowed to own 100% of Lithuanian companies?',
+    answer: 'Yes, no restrictions on foreign ownership. 100% foreign ownership is permitted for all company types including UAB and AB.'
+  }, {
+    question: 'What is the typical registration time for Lithuanian companies?',
+    answer: 'Normally 3-5 business days for UAB. Lithuania offers fast and reliable company registration via Lithuanian Centre of Registers with transparent legal and regulatory environment.'
+  }, {
+    question: 'What are the corporate tax rates in Lithuania?',
+    answer: 'Corporate income tax at 15%. Lithuania offers competitive tax rates and strategic location in Baltic region with EU market access.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Lithuania?',
+    answer: 'Yes, beneficial owners with ≥25% ownership must be registered. UBO registration is mandatory for beneficial owners holding ≥25% for transparency and compliance purposes.'
+  }, {
+    question: 'What is the difference between UAB and AB in Lithuania?',
+    answer: 'UAB (Private Limited Company) is for SMEs and startups with minimum €2,500 capital. AB (Public Limited Company) is for larger companies and stock issuance, requiring minimum €40,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Lithuania?',
+    answer: 'Every Lithuanian company must have a registered office address in Lithuania. We offer virtual office services with prestigious Lithuanian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Lithuanian employment system work for companies?',
+    answer: 'Lithuanian companies must register employees with State Social Insurance Fund Board if hiring. The system includes comprehensive social security contributions and employment law compliance.'
+  }],
+  luxembourg: [{
+    question: 'What is the minimum capital requirement for Luxembourg companies?',
+    answer: 'SARL requires €12,000 minimum capital; SA requires €31,000. The SARL is the most popular choice for SMEs due to its lower capital requirement and suitability for family businesses and startups.'
+  }, {
+    question: 'Can foreigners fully own Luxembourg companies?',
+    answer: 'Yes, 100% foreign ownership allowed. Luxembourg offers a multilingual business environment (French, German, English) with modern and flexible company laws.'
+  }, {
+    question: 'How long does Luxembourg incorporation take?',
+    answer: 'Usually 2-4 weeks depending on documentation and processing. SARL takes 2-4 weeks, while SA may take 3-4 weeks due to higher capital requirements.'
+  }, {
+    question: 'What is the corporate tax rate in Luxembourg?',
+    answer: 'Combined rate approx. 24.94%, including municipal business tax. Luxembourg offers an attractive tax regime with extensive double tax treaties network.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Luxembourg?',
+    answer: 'Yes, as per EU directives, UBOs must be registered with the Register of Beneficial Owners. UBO registration is mandatory for transparency and compliance with EU transparency directive requirements.'
+  }, {
+    question: 'What is the difference between SARL and SA in Luxembourg?',
+    answer: 'SARL (Private Limited Company) is for SMEs and startups with minimum €12,000 capital. SA (Public Limited Company) is for larger companies seeking capital market funding, requiring minimum €31,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Luxembourg?',
+    answer: 'Every Luxembourg company must have a registered Luxembourg business address (mandatory). We offer virtual office services with prestigious Luxembourg addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Luxembourg employment system work for companies?',
+    answer: 'Luxembourg companies must register employees with social security institutions if applicable. The system includes comprehensive social security contributions and employment law compliance in a multilingual business environment.'
+  }],
+  malta: [{
+    question: 'What is the minimum capital requirement for Malta companies?',
+    answer: 'Ltd requires €1,165 minimum capital (20% paid up); PLC requires approx. €46,600 (25% paid up). The Ltd is the most popular choice for SMEs due to its lower capital requirement and suitability for family businesses and startups.'
+  }, {
+    question: 'Can foreigners fully own Malta companies?',
+    answer: 'Yes, 100% foreign ownership allowed. Malta offers a fully EU-compliant legal and tax framework with strong network of double tax treaties (70+ countries) and strategic location for EU and Mediterranean markets.'
+  }, {
+    question: 'How long does Malta incorporation take?',
+    answer: 'Typically 1-2 weeks for Ltd; ~2 weeks for PLC. Malta offers a streamlined registration process favored by investors with business-friendly digital registration and support services.'
+  }, {
+    question: 'What is the corporate tax rate in Malta?',
+    answer: 'Standard 35% with effective reductions to ~5% through refundable tax credits. Malta offers government incentives for R&D, IP and innovation, making it attractive for international businesses.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Malta?',
+    answer: 'Yes, UBO disclosure is mandatory as per EU transparency requirements. All companies must register their Ultimate Beneficial Owners with the Malta Business Registry for transparency and compliance.'
+  }, {
+    question: 'What is the difference between Ltd and PLC in Malta?',
+    answer: 'Ltd (Private Limited Company) is for SMEs and startups with minimum €1,165 capital. PLC (Public Limited Company) is for larger companies requiring capital market access, requiring minimum approx. €46,600 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Malta?',
+    answer: 'Every Malta company must have a registered business address in Malta (mandatory). We offer virtual office services with prestigious Maltese addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Malta employment system work for companies?',
+    answer: 'Malta companies must register employees with social security institutions (Jobs Plus) if applicable. The system includes comprehensive social security contributions and employment law compliance in a business-friendly environment.'
+  }],
+  poland: [{
+    question: 'What is the minimum capital requirement for Poland companies?',
+    answer: 'Sp. z o.o requires PLN 5,000 minimum capital; S.A. requires PLN 100,000. The Sp. z o.o is the most popular choice for SMEs due to its lower capital requirement and suitability for startups and family businesses.'
+  }, {
+    question: 'Can foreigners fully own Poland companies?',
+    answer: 'Yes, 100% foreign ownership allowed for all entity types. Poland offers a strategic location in Central Europe with access to EU and Eastern markets, competitive corporate tax rates, and a highly skilled workforce.'
+  }, {
+    question: 'How long does Poland incorporation take?',
+    answer: 'Usually 1-3 weeks (faster via online S24 portal). Poland has a growing reputation for efficient registration and business environment with modern online company registration portal.'
+  }, {
+    question: 'What is the corporate tax rate in Poland?',
+    answer: '19% standard CIT; 9% for eligible small taxpayers. Poland offers competitive corporate tax rates with reduced rates for small companies and government incentives and special economic zones.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Poland?',
+    answer: 'Yes, UBO registration is mandatory as per EU transparency directives. All companies must register their Ultimate Beneficial Owners with the National Court Register (KRS) for transparency and compliance.'
+  }, {
+    question: 'What is the difference between Sp. z o.o and S.A. in Poland?',
+    answer: 'Sp. z o.o (Limited Liability Company) is for SMEs and startups with minimum PLN 5,000 capital. S.A. (Joint-Stock Company) is for larger enterprises requiring capital market access, requiring minimum PLN 100,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Poland?',
+    answer: 'Every Poland company must have a registered physical office address in Poland (mandatory). We offer virtual office services with prestigious Polish addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Poland employment system work for companies?',
+    answer: 'Poland companies must register employees with Social Insurance Institution (ZUS) if applicable. The system includes comprehensive social security contributions and employment law compliance in a robust legal framework aligned with EU regulations.'
+  }],
+  portugal: [{
+    question: 'What is the minimum capital requirement for Portugal companies?',
+    answer: 'Lda requires €1 minimum capital; S.A. requires €50,000. The Lda is the most popular choice for SMEs due to its very low capital requirement and suitability for startups and small businesses.'
+  }, {
+    question: 'Can foreigners fully own Portugal companies?',
+    answer: 'Yes, 100% foreign ownership allowed. Portugal offers access to the EU market and Portuguese-speaking countries, competitive corporate tax rates with regional incentives, and a strategic location with access to Europe, Africa, and Americas.'
+  }, {
+    question: 'How long does Portugal incorporation take?',
+    answer: 'Approx. 2 weeks (faster with Empresa na Hora digital system). Portugal offers streamlined digital company registration with flexible and agile legal framework and government support for startups and innovation.'
+  }, {
+    question: 'What is the corporate tax rate in Portugal?',
+    answer: '21% standard rate; reduced rates for SMEs and regional incentives. Portugal offers competitive corporate tax rates with additional regional tax incentives and government support including Portugal 2030 program.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Portugal?',
+    answer: 'Yes, UBO registration is mandatory as per EU transparency laws. All companies must register their Ultimate Beneficial Owners with the Portuguese Commercial Registry for transparency and compliance.'
+  }, {
+    question: 'What is the difference between Lda and S.A. in Portugal?',
+    answer: 'Lda (Private Limited Company) is for SMEs and small businesses with minimum €1 capital. S.A. (Public Limited Company) is for larger companies and public offerings, requiring minimum €50,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Portugal?',
+    answer: 'Every Portugal company must have a registered business address in Portugal (mandatory). We offer virtual office services with prestigious Portuguese addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Portugal employment system work for companies?',
+    answer: 'Portugal companies must register employees for social security if applicable. The system includes comprehensive social security contributions and employment law compliance with a multilingual workforce and high quality of life.'
+  }],
+  romania: [{
+    question: 'What is the minimum capital requirement for Romania companies?',
+    answer: 'SRL requires RON 1 minimum capital; SA requires RON 90,000. The SRL is the most popular business form in Romania due to its extremely low capital requirement and suitability for SMEs, startups, and small to medium businesses.'
+  }, {
+    question: 'Can foreigners fully own Romania companies?',
+    answer: 'Yes, 100% foreign ownership allowed across all entity types. Romania offers a strategic location bridging Eastern and Western Europe, competitive corporate tax system with incentives for small businesses, and access to EU single market with Schengen membership since 2024.'
+  }, {
+    question: 'How long does Romania incorporation take?',
+    answer: 'Usually 1-3 weeks. Romania is a growing business hub with improving registration efficiency, offering a skilled labor force with relatively low operational costs and government incentives supporting technology and innovation sectors.'
+  }, {
+    question: 'What is the corporate tax rate in Romania?',
+    answer: 'Standard 16% CIT; 1%-3% for qualifying micro-enterprises depending on payroll. Romania offers competitive corporate tax system with incentives for small businesses and a large number of foreign companies benefiting from EU access and low taxes.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Romania?',
+    answer: 'Yes, UBO registration is mandatory under EU law. All companies must register their Ultimate Beneficial Owners with the National Trade Register Office (ONRC) for transparency and compliance with EU transparency rules.'
+  }, {
+    question: 'What is the difference between SRL and SA in Romania?',
+    answer: 'SRL (Limited Liability Company) is the most popular business form with minimum RON 1 capital. SA (Joint-Stock Company) is for larger businesses requiring share capital financing, requiring minimum RON 90,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Romania?',
+    answer: 'Every Romania company must have a registered physical business address in Romania (mandatory). We offer virtual office services with prestigious Romanian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Romania employment system work for companies?',
+    answer: 'Romania companies must register employees with Social Security (Casa de Asigurări Sociale) if applicable. The system includes comprehensive social security contributions and employment law compliance with a skilled labor force and relatively low operational costs.'
+  }],
+  slovakia: [{
+    question: 'What is the minimum capital requirement for Slovakia companies?',
+    answer: 's.r.o. requires €5,000 minimum capital with at least €750 per shareholder paid up; a.s. requires €25,000. The s.r.o. is the most common form for SMEs and startups due to its lower capital requirement and suitability for small and medium businesses.'
+  }, {
+    question: 'Can foreigners fully own Slovakia companies?',
+    answer: 'Yes, 100% foreign ownership allowed. Slovakia offers a strategic Central European location with EU and Schengen access, competitive corporate tax rates with a tiered system, and a highly skilled multilingual workforce at competitive costs.'
+  }, {
+    question: 'How long does Slovakia incorporation take?',
+    answer: 'Typically 1 week for s.r.o., 2-3 weeks for a.s. Slovakia offers an efficient registration process with electronic options, active government support for innovation, R&D, and investment incentives, and a robust infrastructure and logistics network.'
+  }, {
+    question: 'What is the corporate tax rate in Slovakia?',
+    answer: '21% standard rate; 10% reduced rate for incomes under €100,000 (in 2025). Slovakia offers competitive corporate tax rates with a tiered system, attracting many foreign investors due to its central location and EU membership.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Slovakia?',
+    answer: 'Yes, UBO registration is mandatory per EU guidelines. All companies must register their Ultimate Beneficial Owners with the Commercial Register for transparency and compliance with EU transparency requirements.'
+  }, {
+    question: 'What is the difference between s.r.o. and a.s. in Slovakia?',
+    answer: 's.r.o. (Private Limited Liability Company) is for SMEs and startups with minimum €5,000 capital. a.s. (Public Limited Company) is for larger enterprises and public offerings, requiring minimum €25,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Slovakia?',
+    answer: 'Every Slovakia company must have a registered business address in Slovakia (mandatory). We offer virtual office services with prestigious Slovak addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Slovakia employment system work for companies?',
+    answer: 'Slovakia companies must register employees with Social Insurance Agency if applicable. The system includes comprehensive social and health insurance registration with a highly skilled multilingual workforce at competitive costs.'
+  }],
+  slovenia: [{
+    question: 'What is the minimum capital requirement for Slovenia companies?',
+    answer: 'd.o.o. requires €7,500 minimum capital (25% to be paid upfront); d.d. requires €25,000. The d.o.o. is the most common entity for SMEs and startups due to its lower capital requirement and suitability for family businesses and startups.'
+  }, {
+    question: 'Can foreigners fully own Slovenia companies?',
+    answer: 'Yes, 100% foreign ownership allowed. Slovenia offers access to EU Single Market and Eurozone, competitive corporate tax rates with government incentives for R&D and startups, and a highly skilled and multilingual workforce.'
+  }, {
+    question: 'How long does Slovenia incorporation take?',
+    answer: '3-7 days electronically via e-VEM portal, longer for traditional processes. Slovenia offers fast electronic registration with a modern digital registration system for efficient incorporation and strong legal framework aligned with EU law.'
+  }, {
+    question: 'What is the corporate tax rate in Slovenia?',
+    answer: 'Standard 22% (temporarily increased from 19% during 2024-2028). Slovenia offers competitive corporate tax rates with government incentives for R&D and startups, attracting many foreign companies with 100% foreign ownership allowed.'
+  }, {
+    question: 'Is UBO disclosure mandatory in Slovenia?',
+    answer: 'Yes, UBO registration is mandatory under EU law. All companies must register their Ultimate Beneficial Owners with the Slovenian Business Register for transparency and compliance with EU transparency rules.'
+  }, {
+    question: 'What is the difference between d.o.o. and d.d. in Slovenia?',
+    answer: 'd.o.o. (Private Limited Company) is for SMEs and startups with minimum €7,500 capital. d.d. (Public Limited Company) is for larger businesses and stock market ventures, requiring minimum €25,000 capital.'
+  }, {
+    question: 'What are the requirements for a registered office in Slovenia?',
+    answer: 'Every Slovenia company must have a registered office address in Slovenia (mandatory). We offer virtual office services with prestigious Slovenian addresses that fulfill all legal requirements.'
+  }, {
+    question: 'How does the Slovenia employment system work for companies?',
+    answer: 'Slovenia companies must register employees with social security if applicable. The system includes comprehensive social security contributions and employment law compliance with a highly skilled and multilingual workforce.'
   }]
 };
 const countries = {
@@ -319,42 +2767,74 @@ const countries = {
   spain: 'Spain',
   italy: 'Italy',
   belgium: 'Belgium',
-  ireland: 'Ireland'
+  ireland: 'Ireland',
+  austria: 'Austria',
+  bulgaria: 'Bulgaria',
+  croatia: 'Croatia',
+  cyprus: 'Cyprus',
+  czech: 'Czech Republic',
+  denmark: 'Denmark',
+  estonia: 'Estonia',
+  finland: 'Finland',
+  greece: 'Greece',
+  hungary: 'Hungary',
+  latvia: 'Latvia',
+  lithuania: 'Lithuania',
+  luxembourg: 'Luxembourg',
+  malta: 'Malta',
+  poland: 'Poland',
+  portugal: 'Portugal',
+  romania: 'Romania',
+  slovakia: 'Slovakia',
+  slovenia: 'Slovenia'
 };
 export function CompanyFormationPage() {
-  const [selectedCountry, setSelectedCountry] = useState('netherlands');
+  const { country } = useParams();
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState(country || 'netherlands');
   const [formStep, setFormStep] = useState(1);
   const [companyType, setCompanyType] = useState('');
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   // Get country data with fallback to default
-  const getCountryData = countryCode => {
-    return COUNTRY_DATA[countryCode] || {
+  const getCountryData = (countryCode: string) => {
+    return COUNTRY_DATA[countryCode as keyof typeof COUNTRY_DATA] || {
       ...DEFAULT_COUNTRY_DATA,
       name: countryCode.charAt(0).toUpperCase() + countryCode.slice(1)
     };
   };
   const currentCountryData = getCountryData(selectedCountry);
   // Get country-specific FAQs with fallback to general FAQs
-  const getFaqs = countryCode => {
-    return countryFaqs[countryCode] || generalFaqs.slice(0, 4);
+  const getFaqs = (countryCode: string) => {
+    return countryFaqs[countryCode as keyof typeof countryFaqs] || generalFaqs.slice(0, 4);
   };
   const currentFaqs = getFaqs(selectedCountry);
-  // Load selected country from localStorage on initial load
+  // Update selected country when URL parameter changes
   useEffect(() => {
+    if (country && countries[country as keyof typeof countries]) {
+      setSelectedCountry(country);
+      localStorage.setItem('preferredCountry', country);
+    }
+  }, [country]);
+
+  // Load selected country from localStorage on initial load (fallback)
+  useEffect(() => {
+    if (!country) {
     const savedCountry = localStorage.getItem('preferredCountry');
-    if (savedCountry && countries[savedCountry]) {
+      if (savedCountry && countries[savedCountry as keyof typeof countries]) {
       setSelectedCountry(savedCountry);
     }
-  }, []);
-  // Save country preference to localStorage
-  const handleCountrySelect = country => {
+    }
+  }, [country]);
+  // Save country preference to localStorage and navigate to country-specific route
+  const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
     localStorage.setItem('preferredCountry', country);
+    navigate(`/services/${country}/company-formation`);
   };
-  const toggleFaq = index => {
+  const toggleFaq = (index: number) => {
     setExpandedFaq(expandedFaq === index ? null : index);
   };
   const filteredCountries = Object.entries(countries).filter(([key, name]) => name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -1083,7 +3563,7 @@ export function CompanyFormationPage() {
                           <div className="flex items-center">
                             <GlobeIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
                             <span className="text-white">
-                              {selectedCountry ? countries[selectedCountry] : 'Select a country'}
+                              {selectedCountry ? countries[selectedCountry as keyof typeof countries] : 'Select a country'}
                             </span>
                           </div>
                           <ChevronDownIcon className={`h-5 w-5 text-indigo-400 transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -1106,7 +3586,7 @@ export function CompanyFormationPage() {
                             <span className="bg-[#EA3A70]/10 p-2 rounded-full mr-3">
                               <BuildingIcon className="h-5 w-5 text-[#EA3A70]" />
                             </span>
-                            {companyType === 'branch' ? `Branch in ${countries[selectedCountry]}` : `${countries[selectedCountry]} ${currentCountryData.mainEntityType}`}
+                            {companyType === 'branch' ? `Branch in ${countries[selectedCountry as keyof typeof countries]}` : `${countries[selectedCountry as keyof typeof countries]} ${currentCountryData.mainEntityType}`}
                           </h3>
                           <div className="space-y-4">
                             <div className="flex justify-between py-2 border-b border-[#2D2755]">

@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BuildingIcon, MailIcon, PhoneIcon, MapPinIcon, FacebookIcon, TwitterIcon, InstagramIcon, LinkedinIcon } from 'lucide-react';
 import logo from '../../hoclogo.png';
 
 export function Footer() {
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
+
+  // Load selected country from localStorage
+  useEffect(() => {
+    const savedCountry = localStorage.getItem('preferredCountry');
+    if (savedCountry) {
+      setSelectedCountry(savedCountry);
+    }
+  }, []);
+
   return <footer className="bg-[#0A0826] border-t border-[#4A2D80]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
@@ -58,7 +68,7 @@ export function Footer() {
             <h3 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Services</h3>
             <ul className="space-y-1 sm:space-y-2">
               <li>
-                <Link to="/services/company-formation" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                <Link to={`/services/${selectedCountry}/company-formation`} className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
                   Company Formation
                 </Link>
               </li>
