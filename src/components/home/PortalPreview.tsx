@@ -335,7 +335,10 @@ export function PortalPreview() {
         </div>
       </div>
       <div className="mt-6 flex justify-end">
-        <button className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center">
+        <button
+          onClick={() => window.open('https://clientdashboard.houseofcompanies.io', '_blank')}
+          className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center"
+        >
           Explore Full Platform
           <ArrowRightIcon className="h-4 w-4 ml-2" />
         </button>

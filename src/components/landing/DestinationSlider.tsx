@@ -592,15 +592,79 @@ export function DestinationSlider() {
                   <button
                     onClick={() => {
                       if (destination.city === 'Amsterdam' && destination.country === 'Netherlands') {
-                        navigate('/netherlands-business-setup');
+                        navigate('/dutch-branch-brochure');
                         return;
                       }
                       if (destination.city === 'Paris' && destination.country === 'France') {
-                        navigate('/france-business-setup');
+                        navigate('/french-branch-brochure');
                         return;
                       }
                       if (destination.city === 'Berlin' && destination.country === 'Germany') {
-                        navigate('/germany-business-setup');
+                        navigate('/german-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Madrid' && destination.country === 'Spain') {
+                        navigate('/spanish-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Stockholm' && destination.country === 'Sweden') {
+                        navigate('/swedish-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Dublin' && destination.country === 'Ireland') {
+                        navigate('/irish-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Vienna' && destination.country === 'Austria') {
+                        navigate('/austrian-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Brussels' && destination.country === 'Belgium') {
+                        navigate('/belgian-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Warsaw' && destination.country === 'Poland') {
+                        navigate('/polish-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Budapest' && destination.country === 'Hungary') {
+                        navigate('/hungarian-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Milan' && destination.country === 'Italy') {
+                        navigate('/italian-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Rome' && destination.country === 'Italy') {
+                        navigate('/italian-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Athens' && destination.country === 'Greece') {
+                        navigate('/greek-branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Tallinn' && destination.country === 'Estonia') {
+                        navigate('/services/estonia/branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Riga' && destination.country === 'Latvia') {
+                        navigate('/services/latvia/branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Vilnius' && destination.country === 'Lithuania') {
+                        navigate('/services/lithuania/branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Luxembourg City' && destination.country === 'Luxembourg') {
+                        navigate('/services/luxembourg/branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Valletta' && destination.country === 'Malta') {
+                        navigate('/services/malta/branch-brochure');
+                        return;
+                      }
+                      if (destination.city === 'Ljubljana' && destination.country === 'Slovenia') {
+                        navigate('/services/slovenia/branch-brochure');
                         return;
                       }
                       const code = countryToCode[destination.country]

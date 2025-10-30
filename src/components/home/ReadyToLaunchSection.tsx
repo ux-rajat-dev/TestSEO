@@ -18,7 +18,7 @@ export function ReadyToLaunchSection() {
                 the Netherlands in just 48 hours
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/get-started" className="px-6 py-3 bg-white text-[#EA3A70] rounded-lg hover:bg-white/90 transition-colors flex items-center font-medium shadow-md shadow-black/20">
+                <Link to="/services" className="px-6 py-3 bg-white text-[#EA3A70] rounded-lg hover:bg-white/90 transition-colors flex items-center font-medium shadow-md shadow-black/20">
                   Get Started Now
                 </Link>
                 <Link to="/contact" className="px-6 py-3 bg-transparent text-white rounded-lg border border-white/30 hover:bg-white/10 transition-colors flex items-center font-medium">

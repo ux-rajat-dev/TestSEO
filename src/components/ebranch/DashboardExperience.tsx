@@ -45,7 +45,7 @@ export function DashboardExperience() {
     },
   ]
   return (
-    <section className="py-20 relative bg-[#0A0826]">
+    <section className="py-20 relative bg-gradient-to-b from-[#0F0B1F] to-[#1B1537]">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80')] opacity-5 bg-cover bg-center mix-blend-overlay"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
@@ -741,7 +741,10 @@ export function DashboardExperience() {
           </div>
         </div>
         <div className="text-center">
-          <button className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium shadow-md shadow-[#EA3A70]/20">
+          <button
+            onClick={() => window.open('https://clientdashboard.houseofcompanies.io', '_blank')}
+            className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium shadow-md shadow-[#EA3A70]/20"
+          >
             Try Interactive Demo
             <ArrowRightIcon className="h-4 w-4 ml-2" />
           </button>

@@ -36,27 +36,27 @@ export function EBranchFeatures() {
   const categories = [
     {
       id: 'core',
-      name: 'Enterprise Solutions',
+      name: 'Core Business Services',
       icon: BuildingIcon,
     },
     {
       id: 'compliance',
-      name: 'Regulatory Compliance',
+      name: 'Compliance Management',
       icon: ShieldIcon,
     },
     {
       id: 'financial',
-      name: 'Financial Management',
+      name: 'Financial Tools',
       icon: LineChartIcon,
     },
     {
       id: 'ai',
-      name: 'Advanced Analytics',
+      name: 'AI-Powered Features',
       icon: BrainIcon,
     },
     {
       id: 'support',
-      name: 'Professional Support',
+      name: 'Support Services',
       icon: HeadphonesIcon,
     },
   ]
@@ -64,13 +64,13 @@ export function EBranchFeatures() {
   const featuresByCategory = {
     core: [
       {
-        title: 'Business Formation',
-        description: `Comprehensive ${getCountryName(selectedCountry)} business registration with full legal documentation.`,
+        title: 'Company Formation',
+        description: `Complete ${getCountryName(selectedCountry)} company registration with all necessary legal documents.`,
         icon: <BuildingIcon className="h-6 w-6 text-[#EA3A70]" />,
       },
       {
-        title: 'Corporate Address',
-        description: `Strategic ${getCountryName(selectedCountry)} business location with professional mail management.`,
+        title: 'Business Address',
+        description: `Prestigious ${getCountryName(selectedCountry)} business address with mail handling services.`,
         icon: <MailIcon className="h-6 w-6 text-[#EA3A70]" />,
       },
       {
@@ -189,14 +189,14 @@ export function EBranchFeatures() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#EA3A70]/20 text-[#EA3A70] mb-4 backdrop-blur-sm">
             <GlobeIcon className="h-4 w-4 mr-2" />
-            <span>Enterprise Solutions</span>
+            <span>All-Inclusive Subscription</span>
           </div>
           <h2 className="text-3xl font-bold text-white mb-4">
-            Comprehensive Business Management Platform
+            Everything You Need in One Package
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            An integrated suite of professional services designed for efficient
-            European business operations.
+            eBranch combines all essential services into a single, comprehensive
+            solution for your European business operations.
           </p>
         </div>
         {/* Category Navigation */}
@@ -234,7 +234,10 @@ export function EBranchFeatures() {
             <CheckIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
             <span>All features included in your eBranch subscription</span>
           </div>
-          <button className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium shadow-md shadow-[#EA3A70]/20">
+          <button
+            onClick={() => window.open('https://clientdashboard.houseofcompanies.io', '_blank')}
+            className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium shadow-md shadow-[#EA3A70]/20"
+          >
             Explore Full Platform
             <ArrowRightIcon className="h-4 w-4 ml-2" />
           </button>

@@ -63,7 +63,7 @@ export function GlobalExpansionDashboard({
     
     // Navigate to Netherlands page when Netherlands is selected
     if (id === '1') { // Netherlands has id '1'
-      navigate('/netherlands-business-setup');
+      navigate('/dutch-branch-brochure');
     }
   };
   const selectedCountry = selectedExpansion ? expansions.find(exp => exp.id === selectedExpansion) : null;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Children } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ArrowRightIcon,
   CheckCircleIcon,
@@ -9,32 +9,6 @@ import {
   BarChart3Icon,
 } from 'lucide-react'
 import { countries } from '../../constants/countries'
-import { motion } from 'framer-motion'
-const containerVariants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-    },
-  },
-}
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.4, 0, 0.2, 1],
-    },
-  },
-}
 export function PathToIndependence() {
   const [selectedCountry, setSelectedCountry] = useState('nl')
   // Load selected country from localStorage on initial load
@@ -46,14 +20,6 @@ export function PathToIndependence() {
   }, [])
   // Get country name based on code
   const getCountryName = (code) => countries[code] || 'European'
-  const images = {
-    traditional:
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
-    ebranch:
-      'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
-    independence:
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
-  }
   const steps = [
     {
       title: 'Traditional Approach',
@@ -90,7 +56,7 @@ export function PathToIndependence() {
         },
         {
           label: 'Monthly Cost',
-          value: '€199',
+          value: '€499',
         },
         {
           label: 'Service Providers',
@@ -164,25 +130,10 @@ export function PathToIndependence() {
     },
   ]
   return (
-    <motion.section
-      className="py-20 relative bg-gradient-to-b from-[#0F0B1F] to-[#1B1537]"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{
-        once: true,
-        margin: '-100px',
-      }}
-      variants={containerVariants}
-    >
-      <motion.div
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80')] opacity-5 bg-cover bg-center mix-blend-overlay"
-        variants={containerVariants}
-      ></motion.div>
-      <motion.div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative"
-        variants={containerVariants}
-      >
-        <motion.div className="text-center mb-16" variants={itemVariants}>
+    <section className="py-20 relative bg-gradient-to-b from-[#0F0B1F] to-[#1B1537]">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80')] opacity-5 bg-cover bg-center mix-blend-overlay"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-white mb-4">
             Your Path to Business Independence
           </h2>
@@ -190,35 +141,19 @@ export function PathToIndependence() {
             See how eBranch transforms your journey from traditional business
             management to true operational independence
           </p>
-        </motion.div>
-        <motion.div className="relative mb-20" variants={itemVariants}>
+        </div>
+        <div className="relative mb-20">
           {/* Timeline connector */}
-          <motion.div
-            className="absolute left-1/2 top-0 bottom-0 w-1 bg-[#2D2755] transform -translate-x-1/2 hidden md:block"
-            variants={itemVariants}
-          ></motion.div>
+          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-[#2D2755] transform -translate-x-1/2 hidden md:block"></div>
           {/* Steps */}
           {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              className="relative mb-16 last:mb-0"
-              variants={itemVariants}
-            >
+            <div key={index} className="relative mb-16 last:mb-0">
               {/* Timeline dot */}
-              <motion.div
-                className="absolute left-1/2 top-0 w-8 h-8 bg-[#EA3A70] rounded-full transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10 hidden md:flex"
-                variants={itemVariants}
-              >
+              <div className="absolute left-1/2 top-0 w-8 h-8 bg-[#EA3A70] rounded-full transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10 hidden md:flex">
                 <span className="text-white font-bold">{index + 1}</span>
-              </motion.div>
-              <motion.div
+              </div>
+              <div
                 className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
-                whileHover={{
-                  scale: 1.02,
-                  transition: {
-                    duration: 0.3,
-                  },
-                }}
               >
                 <div
                   className={`bg-[#1B1537]/80 backdrop-blur-sm rounded-xl p-6 border border-[#2D2755] ${index === 1 ? 'border-[#EA3A70]/30' : ''}`}
@@ -255,26 +190,20 @@ export function PathToIndependence() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F0B1F] via-transparent to-transparent"></div>
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           ))}
-        </motion.div>
-        <motion.div
-          className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl border border-[#2D2755] overflow-hidden shadow-lg shadow-[#0F0B1F]/50 mb-16"
-          variants={itemVariants}
-        >
-          <motion.div
-            className="p-6 border-b border-[#2D2755]"
-            variants={itemVariants}
-          >
+        </div>
+        <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl border border-[#2D2755] overflow-hidden shadow-lg shadow-[#0F0B1F]/50 mb-16">
+          <div className="p-6 border-b border-[#2D2755]">
             <div className="flex items-center">
               <ClockIcon className="h-6 w-6 text-[#EA3A70] mr-3" />
               <h3 className="text-xl font-bold text-white">
                 Time Savings with eBranch
               </h3>
             </div>
-          </motion.div>
-          <motion.div className="overflow-x-auto" variants={itemVariants}>
+          </div>
+          <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-[#2D2755]">
@@ -317,9 +246,9 @@ export function PathToIndependence() {
                 ))}
               </tbody>
             </table>
-          </motion.div>
-        </motion.div>
-        <motion.div className="text-center mt-16" variants={itemVariants}>
+          </div>
+        </div>
+        <div className="text-center">
           <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl p-8 border border-[#2D2755] inline-block">
             <h3 className="text-2xl font-bold text-white mb-6">
               Ready to Transform Your Business Operations?
@@ -340,16 +269,16 @@ export function PathToIndependence() {
                 <span className="text-white">Launch in just 48 hours</span>
               </div>
             </div>
-            <button 
-              onClick={() => window.open('https://clientdashboard2.houseofcompanies.co.in/', '_blank')}
+            <button
+              onClick={() => window.open('https://clientdashboard.houseofcompanies.io/', '_blank')}
               className="mt-8 px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium shadow-md shadow-[#EA3A70]/20"
             >
               Start Your eBranch Journey
               <ArrowRightIcon className="h-4 w-4 ml-2" />
             </button>
           </div>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+        </div>
+      </div>
+    </section>
   )
 }

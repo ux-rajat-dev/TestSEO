@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import { createClient } from '@supabase/supabase-js';
+import { createSlug } from '../utils/slugUtils';
 
 // TODO: Create .env.local file with these variables:
 // VITE_SUPABASE_URL=https://ioztpmluibvrvkvywvnp.supabase.co
@@ -312,7 +313,7 @@ export function Discover() {
 
                     {/* Read More Button */}
                     <Link
-                      to={`/blog/${post.id}`}
+                      to={`/post/${createSlug(post.title)}`}
                       className="inline-flex items-center text-[#EA3A70] hover:text-[#EA3A70]/80 font-medium transition-colors text-sm sm:text-base"
                     >
                       Read More

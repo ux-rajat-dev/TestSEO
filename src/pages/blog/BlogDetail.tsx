@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import {
   ArrowLeftIcon,
@@ -11,6 +11,7 @@ import {
 import { Header } from "../../components/layout/Header";
 import { Footer } from "../../components/layout/Footer";
 import { createClient } from "@supabase/supabase-js";
+import { createSlug } from "../../utils/slugUtils";
 import "./BlogPage.css";
 
 const supabaseUrl = 'https://ioztpmluibvrvkvywvnp.supabase.co';
@@ -31,6 +32,7 @@ interface BlogPost {
 
 export function BlogDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -61,6 +63,10 @@ export function BlogDetail() {
         };
 
         setBlogPost(transformed);
+        
+        // Redirect to the new slug-based URL
+        const slug = createSlug(transformed.title);
+        navigate(`/post/${slug}`, { replace: true });
       } catch {
         setError("Failed to load blog post");
       } finally {

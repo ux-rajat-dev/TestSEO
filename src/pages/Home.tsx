@@ -1,31 +1,27 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Header } from '../components/layout/Header';
-import { Footer } from '../components/layout/Footer';
-import { NewHero } from '../components/home/NewHero';
-import { ProcessTimeline } from '../components/home/ProcessTimeline';
-import { ProductShowcase } from '../components/home/ProductShowcase';
-import { TrustSection } from '../components/home/TrustSection';
-import { ServicesGrid } from '../components/home/ServicesGrid';
-import { EducationalSection } from '../components/home/EducationalSection';
-import { NewsSection } from '../components/home/NewsSection';
-import { PageWrapper } from '../components/layout/PageWrapper';
-import { fadeInUp } from '../animations';
-
+import React from 'react'
+import { HeroSection } from '../components/home/HeroSection'
+import { ServicesSection } from '../components/home/ServicesSection'
+import { EBranchSection } from '../components/home/EBranchSection'
+import { ComparisonSection } from '../components/home/ComparisonSection'
+import { TestimonialsSection } from '../components/home/TestimonialsSection'
+import { InteractiveDemoSection } from '../components/home/InteractiveDemoSection'
+import { CtaSection } from '../components/home/CtaSection'
+import { Footer } from '../components/layout/Footer'
+import { Header } from '../components/layout/Header'
 export function Home() {
   return (
-    <PageWrapper>
+    <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
-      <motion.section className="relative py-20" variants={fadeInUp}>
-        <NewHero />
-        <ProcessTimeline />
-        <ProductShowcase />
-        <TrustSection />
-        <ServicesGrid />
-        <EducationalSection />
-        <NewsSection />
-      </motion.section>
+      <main>
+        <HeroSection />
+        <ServicesSection />
+        <EBranchSection />
+        <ComparisonSection />
+        <TestimonialsSection />
+        <InteractiveDemoSection />
+        <CtaSection />
+      </main>
       <Footer />
-    </PageWrapper>
-  );
+    </div>
+  )
 }

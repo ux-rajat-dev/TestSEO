@@ -1,36 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MenuIcon, XIcon, ChevronDownIcon, SearchIcon, CheckIcon } from 'lucide-react';
-// All 27 EU Countries used in company formation page
-const countries = {
-  netherlands: { name: 'Netherlands', flag: '🇳🇱' },
-  germany: { name: 'Germany', flag: '🇩🇪' },
-  france: { name: 'France', flag: '🇫🇷' },
-  spain: { name: 'Spain', flag: '🇪🇸' },
-  italy: { name: 'Italy', flag: '🇮🇹' },
-  belgium: { name: 'Belgium', flag: '🇧🇪' },
-  ireland: { name: 'Ireland', flag: '🇮🇪' },
-  austria: { name: 'Austria', flag: '🇦🇹' },
-  bulgaria: { name: 'Bulgaria', flag: '🇧🇬' },
-  croatia: { name: 'Croatia', flag: '🇭🇷' },
-  cyprus: { name: 'Cyprus', flag: '🇨🇾' },
-  czech: { name: 'Czech Republic', flag: '🇨🇿' },
-  denmark: { name: 'Denmark', flag: '🇩🇰' },
-  estonia: { name: 'Estonia', flag: '🇪🇪' },
-  finland: { name: 'Finland', flag: '🇫🇮' },
-  greece: { name: 'Greece', flag: '🇬🇷' },
-  hungary: { name: 'Hungary', flag: '🇭🇺' },
-  latvia: { name: 'Latvia', flag: '🇱🇻' },
-  lithuania: { name: 'Lithuania', flag: '🇱🇹' },
-  luxembourg: { name: 'Luxembourg', flag: '🇱🇺' },
-  malta: { name: 'Malta', flag: '🇲🇹' },
-  poland: { name: 'Poland', flag: '🇵🇱' },
-  portugal: { name: 'Portugal', flag: '🇵🇹' },
-  romania: { name: 'Romania', flag: '🇷🇴' },
-  slovakia: { name: 'Slovakia', flag: '🇸🇰' },
-  slovenia: { name: 'Slovenia', flag: '🇸🇮' },
-  sweden: { name: 'Sweden', flag: '🇸🇪' }
-};
+import { useCountry } from '../../contexts/CountryContext';
 import logo from '../../hoclogo.png';
 import { createPortal } from 'react-dom';
 import { useClickOutside } from '../../hooks/useClickOutside';
@@ -39,7 +10,7 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 
 
 // Service dropdown items - will be updated dynamically
-const getServiceItems = (selectedCountry: string) => [{
+const getServiceItems = (selectedCountry: string, countries: any) => [{
   name: 'Company Formation',
   description: `Register your business in ${countries[selectedCountry as keyof typeof countries]?.name || 'the Netherlands'}`,
   href: `/services/${selectedCountry}/company-formation`
@@ -108,11 +79,11 @@ type NavigationItem = {
 };
 
 // Navigation items will be created dynamically in the component
-const getNavigationItems = (selectedCountry: string): NavigationItem[] => [
+const getNavigationItems = (selectedCountry: string, countries: any): NavigationItem[] => [
   {
     name: 'Solutions',
     type: 'dropdown',
-    items: getServiceItems(selectedCountry),
+    items: getServiceItems(selectedCountry, countries),
   },
   {
     name: 'eBranch',
@@ -150,40 +121,32 @@ const getNavigationItems = (selectedCountry: string): NavigationItem[] => [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState('netherlands');
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [countrySearchQuery, setCountrySearchQuery] = useState('');
+  
+  const { selectedCountry, setSelectedCountry, countries } = useCountry();
 
   const location = useLocation();
   const navigate = useNavigate();
   
   // Get dynamic navigation items based on selected country
-  const navigationItems = getNavigationItems(selectedCountry);
+  const navigationItems = getNavigationItems(selectedCountry, countries);
   
   // Refs for different dropdown elements
-  const desktopNavRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const countrySelectorRef = useRef<HTMLDivElement>(null);
+  const desktopNavRef = useClickOutside<HTMLDivElement>(() => {
+    setOpenDropdown(null);
+  });
+  const mobileMenuRef = useClickOutside<HTMLDivElement>(() => {
+    setIsMenuOpen(false);
+    setOpenDropdown(null); // Also close any open mobile dropdowns
+  });
+  const countrySelectorRef = useClickOutside<HTMLDivElement>(() => {
+    setIsCountryDropdownOpen(false);
+  });
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
-
-  // Close mobile menu when clicking outside
-  useClickOutside(mobileMenuRef, () => {
-    setIsMenuOpen(false);
-    setOpenDropdown(null); // Also close any open mobile dropdowns
-  });
-
-  // Close country selector when clicking outside
-  useClickOutside(countrySelectorRef, () => {
-    setIsCountryDropdownOpen(false);
-  });
-
-  // Close desktop dropdowns when clicking outside
-  useClickOutside(desktopNavRef, () => {
-    setOpenDropdown(null);
-  });
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -208,8 +171,6 @@ export function Header() {
   const handleCountryChange = (country: string) => {
     setSelectedCountry(country);
     setIsCountryDropdownOpen(false);
-    // Save country preference to localStorage
-    localStorage.setItem('preferredCountry', country);
     
     // Navigate to country-specific routes based on current path
     const currentPath = location.pathname;
@@ -221,18 +182,6 @@ export function Header() {
     }
   };
 
-  // Load selected country from localStorage on initial load
-  useEffect(() => {
-    const savedCountry = localStorage.getItem('preferredCountry');
-    if (savedCountry && countries[savedCountry as keyof typeof countries]) {
-      setSelectedCountry(savedCountry);
-    }
-  }, []);
-
-  // Filter countries based on search query
-  const filteredCountries = Object.entries(countries).filter(([key, country]) => 
-    country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
-  );
 
   // Tutorial categories removed - no longer needed for mega menu
 
@@ -424,7 +373,7 @@ export function Header() {
                   </div>
                   <div className="max-h-48 overflow-y-auto space-y-1">
                     {Object.entries(countries)
-                      .filter(([key, country]) => 
+                      .filter(([, country]) => 
                         country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
                       )
                       .map(([key, country]) => (
@@ -451,7 +400,7 @@ export function Header() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
             <a 
-              href="https://clientdashboard3.houseofcompanies.co.in/" 
+              href="https://clientdashboard.houseofcompanies.io/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md shadow-[#EA3A70]/20"
@@ -484,7 +433,7 @@ export function Header() {
                 <ChevronDownIcon className={`h-4 w-4 transition-transform ${openDropdown === 'mobile-services' ? 'rotate-180' : ''}`} />
               </button>
               {openDropdown === 'mobile-services' && <div className="pl-4 space-y-1 border-l border-[#2D2755] ml-3">
-                  {getServiceItems(selectedCountry).map((item: any) => <Link key={item.name} to={item.href} className="block px-3 py-2 rounded-lg text-sm text-white hover:bg-[#2D2755]/30" onClick={() => {
+                  {getServiceItems(selectedCountry, countries).map((item: any) => <Link key={item.name} to={item.href} className="block px-3 py-2 rounded-lg text-sm text-white hover:bg-[#2D2755]/30" onClick={() => {
                     setIsMenuOpen(false);
                     setOpenDropdown(null);
                   }}>
@@ -627,7 +576,7 @@ export function Header() {
                   </h4>
                   <div className="grid grid-cols-1 gap-2">
                     {Object.entries(countries)
-                      .filter(([key, country]) => 
+                      .filter(([, country]) => 
                         country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
                       )
                       .map(([key, country]) => (

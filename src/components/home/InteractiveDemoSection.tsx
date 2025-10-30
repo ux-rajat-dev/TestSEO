@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import { PlayCircleIcon, CheckCircleIcon, ArrowRightIcon, BuildingIcon, EuroIcon, FileTextIcon } from 'lucide-react';
-import { SimpleImage } from '../common/SimpleImage';
+import React, { useState } from 'react'
+import {
+  PlayCircleIcon,
+  CheckCircleIcon,
+  ArrowRightIcon,
+  BuildingIcon,
+  EuroIcon,
+  FileTextIcon,
+} from 'lucide-react'
 export function InteractiveDemoSection() {
-  const [activeTab, setActiveTab] = useState('branch');
-  return <section className="py-20 relative bg-gradient-to-b from-[#1B1537] to-[#0F0B1F]">
+  const [activeTab, setActiveTab] = useState('branch')
+  return (
+    <section className="py-20 relative bg-gradient-to-b from-[#1B1537] to-[#0F0B1F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-white mb-4">
@@ -17,17 +24,27 @@ export function InteractiveDemoSection() {
           <div>
             <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl border border-[#2D2755] p-6">
               <div className="flex mb-6">
-                <button onClick={() => setActiveTab('branch')} className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'branch' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}>
+                <button
+                  onClick={() => setActiveTab('branch')}
+                  className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'branch' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}
+                >
                   Branch Registration
                 </button>
-                <button onClick={() => setActiveTab('vat')} className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'vat' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}>
+                <button
+                  onClick={() => setActiveTab('vat')}
+                  className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'vat' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}
+                >
                   VAT Registration
                 </button>
-                <button onClick={() => setActiveTab('compliance')} className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'compliance' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}>
+                <button
+                  onClick={() => setActiveTab('compliance')}
+                  className={`flex-1 py-3 px-4 rounded-lg text-center ${activeTab === 'compliance' ? 'bg-[#EA3A70]/10 border border-[#EA3A70]/30 text-[#EA3A70]' : 'text-gray-300 hover:bg-[#2D2755]/50'}`}
+                >
                   Compliance
                 </button>
               </div>
-              {activeTab === 'branch' && <div className="space-y-6">
+              {activeTab === 'branch' && (
+                <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="p-2 rounded-full bg-[#EA3A70]/20 mr-3 mt-1">
                       <CheckCircleIcon className="h-5 w-5 text-[#EA3A70]" />
@@ -83,8 +100,10 @@ export function InteractiveDemoSection() {
                       </p>
                     </div>
                   </div>
-                </div>}
-              {activeTab === 'vat' && <div className="space-y-6">
+                </div>
+              )}
+              {activeTab === 'vat' && (
+                <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="p-2 rounded-full bg-[#EA3A70]/20 mr-3 mt-1">
                       <CheckCircleIcon className="h-5 w-5 text-[#EA3A70]" />
@@ -125,8 +144,10 @@ export function InteractiveDemoSection() {
                       </p>
                     </div>
                   </div>
-                </div>}
-              {activeTab === 'compliance' && <div className="space-y-6">
+                </div>
+              )}
+              {activeTab === 'compliance' && (
+                <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="p-2 rounded-full bg-[#EA3A70]/20 mr-3 mt-1">
                       <CheckCircleIcon className="h-5 w-5 text-[#EA3A70]" />
@@ -168,8 +189,12 @@ export function InteractiveDemoSection() {
                       </p>
                     </div>
                   </div>
-                </div>}
-              <button className="mt-8 w-full flex items-center justify-center px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors font-medium shadow-md shadow-[#EA3A70]/20">
+                </div>
+              )}
+              <button
+                onClick={() => window.open('https://clientdashboard.houseofcompanies.io', '_blank')}
+                className="mt-8 w-full flex items-center justify-center px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors font-medium shadow-md shadow-[#EA3A70]/20"
+              >
                 Try Interactive Demo
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </button>
@@ -178,7 +203,11 @@ export function InteractiveDemoSection() {
           <div className="relative">
             <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-2xl border border-[#2D2755] overflow-hidden shadow-2xl">
               <div className="relative aspect-video">
-                <SimpleImage imageName="Branch_LP.jpg" alt="Platform demo" className="w-full h-full object-cover opacity-90" />
+                <img
+                  src="https://uploadthingy.s3.us-west-1.amazonaws.com/1Xk94GYreSkZ99Kf2xGmZQ/Branch_LP.jpg"
+                  alt="Platform demo"
+                  className="w-full h-full object-cover opacity-90"
+                />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button className="p-4 rounded-full bg-[#EA3A70]/90 hover:bg-[#EA3A70] transition-colors shadow-lg">
                     <PlayCircleIcon className="h-12 w-12 text-white" />
@@ -210,5 +239,6 @@ export function InteractiveDemoSection() {
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  )
 }

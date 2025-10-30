@@ -12,6 +12,7 @@ import { Header } from "../../components/layout/Header";
 import { Footer } from "../../components/layout/Footer";
 import { AddBlogPost } from "../../components/blog/AddBlogPost";
 import { createClient } from "@supabase/supabase-js";
+import { createSlug } from "../../utils/slugUtils";
 
 const supabaseUrl = 'https://ioztpmluibvrvkvywvnp.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvenRwbWx1aWJ2cnZrdnl3dm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxMzY0OTQsImV4cCI6MjA2MjcxMjQ5NH0.E3ktAWoXBGSpb1NIEaj070ZY6LfngvLUXhZ3iNsH-eg';
@@ -218,7 +219,7 @@ export function BlogPage() {
                       {extractTextFromHTML(post.blog_content).length > 200 && "..."}
                     </div>
                     <Link
-                      to={`/blog/${post.id}`}
+                      to={`/post/${createSlug(post.title)}`}
                       className="inline-flex items-center text-[#EA3A70] hover:text-[#EA3A70]/80 font-medium"
                     >
                       Read More
