@@ -32,10 +32,42 @@ import { GermanyProductPage } from './components/expansion/GermanyProductPage'
 import { CountryPage } from './components/countryyy p/CountryPage'
 import { Contact } from './pages/Contact'
 import { QuotePage } from './pages/QuotePage'
+import { PromoPage } from './pages/PromoPage'
+import { QualificationPage } from './pages/QualificationPage'
+import { OrderSummaryPage } from './pages/OrderSummaryPage'
+import { RegistrationPage } from './pages/RegistrationPage'
 import { FloatingChatbot } from './components/FloatingChatbot'
 import { CountryProvider } from './contexts/CountryContext'
 import { BranchBrochureLayout } from './components/layout/BranchBrochureLayout'
 import { NetherlandsBranchPage } from './pages/NetherlandsBranchPage'
+import {
+  BelgiumBranchPage,
+  GermanyBranchPage,
+  AustriaBranchPage,
+  BulgariaBranchPage,
+  CroatiaBranchPage,
+  CyprusBranchPage,
+  CzechRepublicBranchPage,
+  DenmarkBranchPage,
+  EstoniaBranchPage,
+  FinlandBranchPage,
+  FranceBranchPage,
+  GreeceBranchPage,
+  HungaryBranchPage,
+  IrelandBranchPage,
+  ItalyBranchPage,
+  LatviaBranchPage,
+  LithuaniaBranchPage,
+  LuxembourgBranchPage,
+  MaltaBranchPage,
+  PolandBranchPage,
+  PortugalBranchPage,
+  RomaniaBranchPage,
+  SlovakiaBranchPage,
+  SloveniaBranchPage,
+  SpainBranchPage,
+  SwedenBranchPage,
+} from './pages/branch-pages'
 import { DutchBranchBrochure } from './pages/DutchBranchBrochure'
 import { AustrianBranchBrochure } from './pages/AustrianBranchBrochure'
 import { BelgianBranchBrochure } from './pages/BelgianBranchBrochure'
@@ -80,6 +112,32 @@ export function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/netherlands-branch" element={<NetherlandsBranchPage />} />
+        <Route path="/belgium-branch" element={<BelgiumBranchPage />} />
+        <Route path="/germany-branch" element={<GermanyBranchPage />} />
+        <Route path="/france-branch" element={<FranceBranchPage />} />
+        <Route path="/spain-branch" element={<SpainBranchPage />} />
+        <Route path="/italy-branch" element={<ItalyBranchPage />} />
+        <Route path="/poland-branch" element={<PolandBranchPage />} />
+        <Route path="/austria-branch" element={<AustriaBranchPage />} />
+        <Route path="/bulgaria-branch" element={<BulgariaBranchPage />} />
+        <Route path="/croatia-branch" element={<CroatiaBranchPage />} />
+        <Route path="/cyprus-branch" element={<CyprusBranchPage />} />
+        <Route path="/czech-republic-branch" element={<CzechRepublicBranchPage />} />
+        <Route path="/denmark-branch" element={<DenmarkBranchPage />} />
+        <Route path="/estonia-branch" element={<EstoniaBranchPage />} />
+        <Route path="/finland-branch" element={<FinlandBranchPage />} />
+        <Route path="/greece-branch" element={<GreeceBranchPage />} />
+        <Route path="/hungary-branch" element={<HungaryBranchPage />} />
+        <Route path="/ireland-branch" element={<IrelandBranchPage />} />
+        <Route path="/latvia-branch" element={<LatviaBranchPage />} />
+        <Route path="/lithuania-branch" element={<LithuaniaBranchPage />} />
+        <Route path="/luxembourg-branch" element={<LuxembourgBranchPage />} />
+        <Route path="/malta-branch" element={<MaltaBranchPage />} />
+        <Route path="/portugal-branch" element={<PortugalBranchPage />} />
+        <Route path="/romania-branch" element={<RomaniaBranchPage />} />
+        <Route path="/slovakia-branch" element={<SlovakiaBranchPage />} />
+        <Route path="/slovenia-branch" element={<SloveniaBranchPage />} />
+        <Route path="/sweden-branch" element={<SwedenBranchPage />} />
         <Route path="/services/company-formation" element={<CompanyFormationPage />} />
         <Route path="/services/:country/company-formation" element={<CompanyFormationPage />} />
         <Route path="/services/mailbox" element={<MailboxPage />} />
@@ -370,6 +428,10 @@ export function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/quote" element={<QuotePage />} />
+        <Route path="/promo" element={<PromoPage />} />
+        <Route path="/qualification" element={<QualificationPage />} />
+        <Route path="/order-summary" element={<OrderSummaryPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
         <Route path="/france-business-setup" element={<FranceProductPage />} />
         <Route path="/germany-business-setup" element={<GermanyProductPage />} />
         <Route path="/country/:countryCode" element={<CountryPage />} />
