@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { PercentIcon, ArrowRightIcon, CheckIcon, FileTextIcon, BarChart2Icon, GlobeIcon, CalendarIcon, BrainIcon, BookOpenIcon, MessageSquareIcon, HeadphonesIcon, SparklesIcon, LineChartIcon, UserIcon, LayoutIcon, PiggyBankIcon, LightbulbIcon, MousePointerIcon, EyeIcon, ShieldIcon } from 'lucide-react';
 import { TaxAnalysisTool } from '../../components/tax/TaxAnalysisTool';
@@ -7,7 +7,16 @@ import { AITaxAgent } from '../../components/tax/AITaxAgent';
 import { VATFilingTutorial } from '../../components/tax/VATFilingTutorial';
 import { TaxPortalPreview } from '../../components/tax/TaxPortalPreview';
 export function TaxFilingPage() {
+  const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState('analysis');
+  
+  const handleGetQuote = (focus: 'vat-filing' | 'cit-filing' | 'tax-registration') => {
+    navigate('/qualification', {
+      state: {
+        primaryFocus: focus
+      }
+    });
+  };
   return <MainLayout>
       {/* Hero Section */}
       <section className="relative">
@@ -35,9 +44,12 @@ export function TaxFilingPage() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-            <Link to="/portal/tax-filing" className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
-              Get Started
+            <button onClick={() => handleGetQuote('vat-filing')} className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+              Get Quote
               <ArrowRightIcon className="h-5 w-5 ml-2" />
+            </button>
+            <Link to="/portal/tax-filing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+              Get Started
             </Link>
             <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
               View Pricing

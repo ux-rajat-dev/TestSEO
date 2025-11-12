@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeftIcon, CheckCircleIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 
 // Import the quote flow components
@@ -44,6 +44,7 @@ export type QuoteUserData = {
     country: string;
     fee: number;
   }[];
+  primaryFocus?: string; // 'accounting', 'tax-registration', 'ai-bookkeeping', 'virtual-office', 'vat-filing', 'cit-filing', 'branch-registration'
 };
 
 const steps = [
@@ -60,6 +61,8 @@ const steps = [
 
 export const QuotePage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { primaryFocus } = location.state || {};
   const [currentStep, setCurrentStep] = useState(1);
   const [userData, setUserData] = useState<QuoteUserData>({
     businessJourney: null,
@@ -83,7 +86,8 @@ export const QuotePage: React.FC = () => {
     },
     totalPrice: 0,
     basePrice: 0,
-    countryFees: []
+    countryFees: [],
+    primaryFocus: primaryFocus || 'branch-registration'
   });
 
   const nextStep = () => {
@@ -115,25 +119,25 @@ export const QuotePage: React.FC = () => {
 
     switch (currentStep) {
       case 1:
-        return <BusinessJourneyStep {...commonProps} />;
+        return <BusinessJourneyStep {...commonProps} primaryFocus={userData.primaryFocus} />;
       case 2:
-        return <GeographyStep {...commonProps} />;
+        return <GeographyStep {...commonProps} primaryFocus={userData.primaryFocus} />;
       case 3:
-        return <ServicesStep {...commonProps} />;
+        return <ServicesStep {...commonProps} primaryFocus={userData.primaryFocus} />;
       case 4:
         return <BusinessProfileStep {...commonProps} />;
       case 5:
         return <TimelineStep {...commonProps} />;
       case 6:
-        return <PlanSelectionStep {...commonProps} />;
+        return <PlanSelectionStep {...commonProps} primaryFocus={userData.primaryFocus} />;
       case 7:
         return <AddOnsStep {...commonProps} />;
       case 8:
         return <ContactInfoStep {...commonProps} />;
       case 9:
-        return <SummaryStep {...commonProps} />;
+        return <SummaryStep {...commonProps} primaryFocus={userData.primaryFocus} />;
       default:
-        return <BusinessJourneyStep {...commonProps} />;
+        return <BusinessJourneyStep {...commonProps} primaryFocus={userData.primaryFocus} />;
     }
   };
 

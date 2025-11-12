@@ -8,12 +8,14 @@ interface SummaryStepProps {
   prevStep: () => void;
   updateUserData: (data: Partial<QuoteUserData>) => void;
   userData: QuoteUserData;
+  primaryFocus?: string;
 }
 
 export const SummaryStep: React.FC<SummaryStepProps> = ({
   prevStep,
   updateUserData,
-  userData
+  userData,
+  primaryFocus = 'branch-registration'
 }) => {
   const [isGenerating, setIsGenerating] = useState(true);
   const [quoteGenerated, setQuoteGenerated] = useState(false);
@@ -119,7 +121,15 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
           <CheckCircleIcon className="h-8 w-8 text-white" />
         </motion.div>
         <h2 className="text-2xl font-bold text-white mb-2">Your Quote is Ready!</h2>
-        <p className="text-gray-300">Here's your personalized quote based on your requirements</p>
+        <p className="text-gray-300">
+          {primaryFocus === 'accounting' && "Here's your personalized accounting services quote"}
+          {primaryFocus === 'tax-registration' && "Here's your personalized tax registration quote"}
+          {primaryFocus === 'ai-bookkeeping' && "Here's your personalized AI bookkeeping quote"}
+          {primaryFocus === 'virtual-office' && "Here's your personalized virtual office quote"}
+          {primaryFocus === 'vat-filing' && "Here's your personalized VAT filing quote"}
+          {primaryFocus === 'cit-filing' && "Here's your personalized CIT filing quote"}
+          {(primaryFocus === 'branch-registration' || !primaryFocus) && "Here's your personalized quote based on your requirements"}
+        </p>
       </div>
 
       <motion.div
@@ -139,16 +149,31 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
               <p className="text-lg font-bold text-[#EA3A70]">€{userData.basePrice}</p>
             </div>
             
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">Expansion Countries</h4>
-              <div className="flex flex-wrap gap-1">
-                {userData.geography.expandTo.map(country => (
-                  <span key={country} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">
-                    {country}
-                  </span>
-                ))}
+            {(primaryFocus === 'branch-registration' || !primaryFocus) && userData.geography.expandTo.length > 0 && (
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Expansion Countries</h4>
+                <div className="flex flex-wrap gap-1">
+                  {userData.geography.expandTo.map(country => (
+                    <span key={country} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">
+                      {country}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+            {primaryFocus !== 'branch-registration' && primaryFocus && (
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Primary Focus</h4>
+                <p className="text-gray-600 capitalize">
+                  {primaryFocus === 'accounting' && 'Accounting Services'}
+                  {primaryFocus === 'tax-registration' && 'Tax Registration (VAT, Wage Tax)'}
+                  {primaryFocus === 'ai-bookkeeping' && 'AI Bookkeeping'}
+                  {primaryFocus === 'virtual-office' && 'Virtual Office'}
+                  {primaryFocus === 'vat-filing' && 'VAT Filing'}
+                  {primaryFocus === 'cit-filing' && 'CIT Filing'}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -186,7 +211,13 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
             <span className="text-lg font-bold text-gray-900">Total Investment</span>
             <span className="text-2xl font-bold text-[#EA3A70]">€{userData.totalPrice}</span>
           </div>
-          <p className="text-sm text-gray-600 mt-1">One-time setup + annual plan</p>
+          <p className="text-sm text-gray-600 mt-1">
+            {primaryFocus === 'branch-registration' || !primaryFocus 
+              ? 'One-time setup + annual plan' 
+              : primaryFocus === 'accounting' || primaryFocus === 'ai-bookkeeping'
+              ? 'Annual subscription plan'
+              : 'Service-based pricing'}
+          </p>
         </div>
       </motion.div>
 

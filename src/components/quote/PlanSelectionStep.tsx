@@ -8,13 +8,15 @@ interface PlanSelectionStepProps {
   prevStep: () => void;
   updateUserData: (data: Partial<QuoteUserData>) => void;
   userData: QuoteUserData;
+  primaryFocus?: string;
 }
 
 export const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
   nextStep,
   prevStep,
   updateUserData,
-  userData
+  userData,
+  primaryFocus = 'branch-registration'
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string>(userData.plan || '');
 
@@ -51,8 +53,14 @@ export const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     },
     {
       id: 'ebranch',
-      name: 'eBranch Plan',
-      subtitle: 'Most popular for EU expansion',
+      name: 'eBranch™ Plan',
+      subtitle: primaryFocus === 'accounting' ? 'Complete accounting & compliance solution' :
+                primaryFocus === 'tax-registration' ? 'Complete tax registration & compliance solution' :
+                primaryFocus === 'ai-bookkeeping' ? 'Complete AI bookkeeping & compliance solution' :
+                primaryFocus === 'virtual-office' ? 'Complete virtual office & compliance solution' :
+                primaryFocus === 'vat-filing' ? 'Complete VAT filing & compliance solution' :
+                primaryFocus === 'cit-filing' ? 'Complete CIT filing & compliance solution' :
+                'Most popular for EU expansion',
       price: '€1,995',
       period: '/year',
       originalPrice: '€2,495',

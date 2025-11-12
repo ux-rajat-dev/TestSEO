@@ -13,6 +13,7 @@ export interface QualificationData {
   phone: string
   from?: string
   to?: string
+  primaryFocus?: string // 'accounting', 'tax-registration', 'ai-bookkeeping', 'virtual-office', 'vat-filing', 'cit-filing', 'branch-registration'
   selectedServices?: string[]
 }
 
@@ -46,6 +47,7 @@ export async function saveQualificationData(
         phone: data.phone,
         from_country: data.from || null,
         to_country: data.to || null,
+        primary_focus: data.primaryFocus || null,
         selected_services: data.selectedServices ? JSON.stringify(data.selectedServices) : null,
         status: 'pending', // Status before account creation
         created_at: new Date().toISOString(),

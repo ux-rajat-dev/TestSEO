@@ -20,6 +20,7 @@ CREATE TABLE qualifications (
   phone VARCHAR(50),
   from_country VARCHAR(100),
   to_country VARCHAR(100),
+  primary_focus VARCHAR(100), -- 'accounting', 'tax-registration', 'ai-bookkeeping', 'virtual-office', 'vat-filing', 'cit-filing', 'branch-registration'
   selected_services JSONB,
   order_summary JSONB, -- Stores order summary with services and pricing as JSON
   status VARCHAR(50) DEFAULT 'pending', -- 'pending', 'linked', 'completed'

@@ -36,6 +36,12 @@ import { PromoPage } from './pages/PromoPage'
 import { QualificationPage } from './pages/QualificationPage'
 import { OrderSummaryPage } from './pages/OrderSummaryPage'
 import { RegistrationPage } from './pages/RegistrationPage'
+import { AccountingProductPage } from './pages/products/AccountingProductPage'
+import { TaxRegistrationProductPage } from './pages/products/TaxRegistrationProductPage'
+import { AIBookkeepingProductPage } from './pages/products/AIBookkeepingProductPage'
+import { VirtualOfficeProductPage } from './pages/products/VirtualOfficeProductPage'
+import { VATFilingProductPage } from './pages/products/VATFilingProductPage'
+import { CITFilingProductPage } from './pages/products/CITFilingProductPage'
 import { FloatingChatbot } from './components/FloatingChatbot'
 import { CountryProvider } from './contexts/CountryContext'
 import { BranchBrochureLayout } from './components/layout/BranchBrochureLayout'
@@ -432,6 +438,13 @@ export function App() {
         <Route path="/qualification" element={<QualificationPage />} />
         <Route path="/order-summary" element={<OrderSummaryPage />} />
         <Route path="/register" element={<RegistrationPage />} />
+        {/* Product Pages - Entry Points */}
+        <Route path="/accounting-product" element={<AccountingProductPage />} />
+        <Route path="/tax-registration-product" element={<TaxRegistrationProductPage />} />
+        <Route path="/ai-bookkeeping-product" element={<AIBookkeepingProductPage />} />
+        <Route path="/virtual-office-product" element={<VirtualOfficeProductPage />} />
+        <Route path="/vat-filing-product" element={<VATFilingProductPage />} />
+        <Route path="/cit-filing-product" element={<CITFilingProductPage />} />
         <Route path="/france-business-setup" element={<FranceProductPage />} />
         <Route path="/germany-business-setup" element={<GermanyProductPage />} />
         <Route path="/country/:countryCode" element={<CountryPage />} />

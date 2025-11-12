@@ -28,7 +28,14 @@ import {
 
   EuroIcon,
 
+  DownloadIcon,
+
+  MailIcon,
+
 } from 'lucide-react'
+
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 import { Header } from '../components/layout/Header'
 import { updateQualificationWithOrder } from '../services/qualificationService'
@@ -50,6 +57,22 @@ interface Addon {
 }
 
 const addons: Addon[] = [
+
+  {
+
+    id: 'registered-office',
+
+    name: 'Registered Office Address',
+
+    description: 'Professional business address and mail handling',
+
+    price: 500,
+
+    interval: 'year',
+
+    icon: <BuildingIcon className="h-5 w-5" />,
+
+  },
 
   {
 
@@ -134,10 +157,16 @@ export function OrderSummaryPage() {
   const [includeOrderForm, setIncludeOrderForm] = useState<boolean | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [isSendingEmail, setIsSendingEmail] = useState(false)
+  const [emailSent, setEmailSent] = useState(false)
 
-  const planPrice = 1495
-
+  const basePlanPrice = 1495
   const planName = 'eBranch'
+  
+  // Calculate plan price: base price + Registered Office Address if selected
+  const hasRegisteredOffice = selectedAddons['registered-office'] > 0
+  const planPrice = hasRegisteredOffice ? 1995 : basePlanPrice
 
   const handleAddonQuantityChange = (addonId: string, change: number) => {
 
@@ -168,42 +197,345 @@ export function OrderSummaryPage() {
   }
 
   const calculateTotals = () => {
-
+    // Calculate addons total (excluding registered-office which is already in planPrice)
     const addonsTotal = Object.entries(selectedAddons).reduce(
-
       (sum, [addonId, quantity]) => {
-
+        // Skip registered-office as it's included in planPrice
+        if (addonId === 'registered-office') return sum
+        
         const addon = addons.find((a) => a.id === addonId)
-
-        return sum + (addon ? addon.price * quantity : 0)
-
+        if (!addon) return sum
+        
+        // Convert monthly prices to yearly for calculation
+        const yearlyPrice = addon.interval === 'month' 
+          ? addon.price * quantity * 12 
+          : addon.price * quantity
+        
+        return sum + yearlyPrice
       },
-
       0,
-
     )
 
     const subtotal = planPrice + addonsTotal
-
     const vat = subtotal * 0.21
-
     const total = subtotal + vat
 
     return {
-
       addonsTotal,
-
       subtotal,
-
       vat,
-
       total,
-
     }
-
   }
 
   const totals = calculateTotals()
+
+  const generatePDF = () => {
+    const doc = new jsPDF()
+    
+    // Website color scheme
+    const colors = {
+      primary: [234, 58, 112], // #EA3A70
+      darkBg: [15, 11, 31], // #0F0B1F
+      cardBg: [27, 21, 55], // #1B1537
+      border: [45, 39, 85], // #2D2755
+      text: [255, 255, 255],
+      textGray: [200, 200, 200],
+    }
+
+    let yPos = 20
+
+    // Header with dark background
+    doc.setFillColor(...colors.darkBg)
+    doc.rect(0, 0, 210, 50, 'F')
+    
+    // Title
+    doc.setTextColor(...colors.text)
+    doc.setFontSize(24)
+    doc.setFont('helvetica', 'bold')
+    doc.text(`${planName} Package Summary`, 105, 25, { align: 'center' })
+    
+    // Subtitle
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(...colors.textGray)
+    doc.text('Complete branch management solution', 105, 35, { align: 'center' })
+    
+    // Date
+    const date = new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })
+    doc.setFontSize(10)
+    doc.text(`Generated on: ${date}`, 105, 45, { align: 'center' })
+
+    yPos = 60
+
+    // Package Details Section
+    doc.setFillColor(...colors.cardBg)
+    doc.rect(10, yPos, 190, 30, 'F')
+    doc.setDrawColor(...colors.primary)
+    doc.setLineWidth(0.5)
+    doc.rect(10, yPos, 190, 30, 'S')
+    
+    yPos += 10
+    doc.setTextColor(...colors.text)
+    doc.setFontSize(16)
+    doc.setFont('helvetica', 'bold')
+    doc.text(`${planName} Package`, 15, yPos)
+    
+    yPos += 8
+    doc.setFontSize(20)
+    doc.setTextColor(...colors.primary)
+    doc.text(`€${planPrice.toLocaleString()} / year`, 15, yPos)
+    
+    if (hasRegisteredOffice) {
+      yPos += 7
+      doc.setFontSize(9)
+      doc.setTextColor(...colors.textGray)
+      doc.text(`(€${basePlanPrice.toLocaleString()}/year + €500 Registered Office)`, 15, yPos)
+    }
+
+    yPos += 20
+
+    // Included Features Section
+    // Header bar with pink accent
+    doc.setFillColor(...colors.darkBg)
+    doc.rect(10, yPos, 190, 8, 'F')
+    doc.setDrawColor(...colors.primary)
+    doc.setLineWidth(0.5)
+    doc.rect(10, yPos, 190, 8, 'S')
+    
+    // Pink accent line
+    doc.setFillColor(...colors.primary)
+    doc.rect(10, yPos + 7.5, 190, 0.5, 'F')
+    
+    doc.setTextColor(...colors.primary)
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Included Features', 15, yPos + 5.5)
+
+    yPos += 12
+
+    const includedFeatures = [
+      'Full company registration',
+      'VAT & tax setup',
+      'Employer registration',
+      'Compliance monitoring',
+      'Software suite access',
+      'Document management',
+      'AI Bookkeeping (included, excluding €0.09 per uploaded/processed document)',
+      'Financial Reporting (included)',
+      'Document Generation (included)',
+      'Corporate Agent (included)',
+      'Priority support',
+    ]
+
+    // White background for features list
+    const featuresHeight = includedFeatures.length * 7 + 10
+    doc.setFillColor(255, 255, 255)
+    doc.rect(10, yPos, 190, featuresHeight, 'F')
+    doc.setDrawColor(...colors.border)
+    doc.setLineWidth(0.2)
+    doc.rect(10, yPos, 190, featuresHeight, 'S')
+
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(0, 0, 0) // Black text on white background
+    
+    let featureYPos = yPos + 7
+    includedFeatures.forEach((feature, index) => {
+      if (featureYPos > 270) {
+        doc.addPage()
+        featureYPos = 20
+        // Redraw white background on new page
+        doc.setFillColor(255, 255, 255)
+        doc.rect(10, featureYPos - 7, 190, featuresHeight - (featureYPos - yPos), 'F')
+        doc.setDrawColor(...colors.border)
+        doc.rect(10, featureYPos - 7, 190, featuresHeight - (featureYPos - yPos), 'S')
+      }
+      
+      // Pink bullet point
+      doc.setFillColor(...colors.primary)
+      doc.circle(15, featureYPos - 2, 1.5, 'F')
+      
+      // Feature text in black
+      doc.setTextColor(0, 0, 0)
+      doc.text(feature, 20, featureYPos)
+      featureYPos += 7
+    })
+
+    yPos = featureYPos + 5
+
+    // Optional Add-ons Section
+    const selectedAddonsList = Object.entries(selectedAddons)
+      .filter(([_, qty]) => qty > 0)
+      .map(([id, qty]) => {
+        const addon = addons.find(a => a.id === id)
+        if (!addon) return null
+        
+        const yearlyPrice = addon.interval === 'month' 
+          ? addon.price * qty * 12 
+          : addon.price * qty
+        
+        return {
+          name: addon.name,
+          quantity: qty,
+          price: addon.price,
+          interval: addon.interval,
+          yearlyPrice,
+        }
+      })
+      .filter(Boolean)
+
+    if (selectedAddonsList.length > 0) {
+      if (yPos > 250) {
+        doc.addPage()
+        yPos = 20
+      }
+
+      // Header bar with pink accent
+      doc.setFillColor(...colors.darkBg)
+      doc.rect(10, yPos, 190, 8, 'F')
+      doc.setDrawColor(...colors.primary)
+      doc.setLineWidth(0.5)
+      doc.rect(10, yPos, 190, 8, 'S')
+      
+      // Pink accent line
+      doc.setFillColor(...colors.primary)
+      doc.rect(10, yPos + 7.5, 190, 0.5, 'F')
+      
+      doc.setTextColor(...colors.primary)
+      doc.setFontSize(12)
+      doc.setFont('helvetica', 'bold')
+      doc.text('Optional Add-ons', 15, yPos + 5.5)
+
+      yPos += 12
+
+      // Add-ons table
+      const addonTableData = selectedAddonsList.map(addon => [
+        addon.name,
+        addon.interval === 'month' ? `${addon.quantity} × €${addon.price}/${addon.interval}` : `${addon.quantity} × €${addon.price}/${addon.interval}`,
+        `€${addon.yearlyPrice.toLocaleString()}/year`,
+      ])
+
+      autoTable(doc, {
+        startY: yPos,
+        head: [['Add-on', 'Details', 'Yearly Price']],
+        body: addonTableData,
+        theme: 'plain',
+        headStyles: {
+          fillColor: colors.primary,
+          textColor: colors.text,
+          fontStyle: 'bold',
+        },
+        bodyStyles: {
+          fillColor: colors.cardBg,
+          textColor: colors.text,
+        },
+        alternateRowStyles: {
+          fillColor: colors.darkBg,
+        },
+        styles: {
+          lineColor: colors.border,
+          lineWidth: 0.1,
+        },
+        margin: { left: 10, right: 10 },
+      })
+
+      yPos = (doc as any).lastAutoTable.finalY + 10
+    }
+
+    // Pricing Summary
+    if (yPos > 230) {
+      doc.addPage()
+      yPos = 20
+    }
+
+    // Header bar with pink accent
+    doc.setFillColor(...colors.darkBg)
+    doc.rect(10, yPos, 190, 8, 'F')
+    doc.setDrawColor(...colors.primary)
+    doc.setLineWidth(0.5)
+    doc.rect(10, yPos, 190, 8, 'S')
+    
+    // Pink accent line
+    doc.setFillColor(...colors.primary)
+    doc.rect(10, yPos + 7.5, 190, 0.5, 'F')
+    
+    doc.setTextColor(...colors.primary)
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Pricing Summary', 15, yPos + 5.5)
+
+    yPos += 15
+
+    // Summary table
+    const summaryData = [
+      [`${planName} Package`, `€${planPrice.toLocaleString()}`],
+    ]
+
+    // Add addons to summary
+    selectedAddonsList.forEach(addon => {
+      summaryData.push([
+        `${addon.name}${addon.interval === 'month' ? ` (×${addon.quantity})` : ''}`,
+        `€${addon.yearlyPrice.toLocaleString()}/year`,
+      ])
+    })
+
+    summaryData.push(
+      ['Subtotal', `€${totals.subtotal.toLocaleString()}`],
+      ['VAT (21%)', `€${totals.vat.toFixed(2)}`],
+    )
+
+    autoTable(doc, {
+      startY: yPos,
+      body: summaryData,
+      theme: 'plain',
+      bodyStyles: {
+        fillColor: colors.cardBg,
+        textColor: colors.text,
+        fontStyle: 'normal',
+      },
+      alternateRowStyles: {
+        fillColor: colors.darkBg,
+      },
+      styles: {
+        lineColor: colors.border,
+        lineWidth: 0.1,
+      },
+      margin: { left: 10, right: 10 },
+      columnStyles: {
+        0: { cellWidth: 140 },
+        1: { cellWidth: 50, halign: 'right' },
+      },
+    })
+
+    yPos = (doc as any).lastAutoTable.finalY + 5
+
+    // Total
+    doc.setFillColor(...colors.primary)
+    doc.rect(10, yPos, 190, 12, 'F')
+    doc.setTextColor(...colors.text)
+    doc.setFontSize(14)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Total', 15, yPos + 7)
+    doc.text(`€${totals.total.toFixed(2)}`, 195, yPos + 7, { align: 'right' })
+
+    yPos += 20
+
+    // Footer note
+    if (yPos < 280) {
+      doc.setFontSize(9)
+      doc.setFont('helvetica', 'italic')
+      doc.setTextColor(...colors.textGray)
+      doc.text('No payment required yet. Create your account first. Payment will be requested after registration.', 105, yPos, { align: 'center', maxWidth: 190 })
+    }
+
+    // Save PDF
+    doc.save(`${planName}-package-summary.pdf`)
+  }
 
   const handleContinue = async () => {
 
@@ -382,7 +714,14 @@ export function OrderSummaryPage() {
 
                       </div>
 
-                      <div className="text-sm text-gray-400">/year</div>
+                      <div className="text-sm text-gray-400">
+                        /year
+                        {hasRegisteredOffice && (
+                          <span className="block text-xs text-gray-500 mt-1">
+                            (€{basePlanPrice.toLocaleString()}/year + €500 Registered Office)
+                          </span>
+                        )}
+                      </div>
 
                     </div>
 
@@ -406,8 +745,6 @@ export function OrderSummaryPage() {
 
                         'VAT & tax setup',
 
-                        'Registered office address',
-
                         'Employer registration',
 
                         'Compliance monitoring',
@@ -415,6 +752,14 @@ export function OrderSummaryPage() {
                         'Software suite access',
 
                         'Document management',
+
+                        'AI Bookkeeping (included, excluding €0.09 per uploaded/processed document)',
+
+                        'Financial Reporting (included)',
+
+                        'Document Generation (included)',
+
+                        'Corporate Agent (included)',
 
                         'Priority support',
 
@@ -512,6 +857,12 @@ export function OrderSummaryPage() {
 
                                   €{addon.price}/{addon.interval}
 
+                                  {addon.interval === 'month' && (
+                                    <span className="text-xs text-gray-400 ml-1">
+                                      (€{addon.price * 12}/year)
+                                    </span>
+                                  )}
+
                                 </div>
 
                               </div>
@@ -570,11 +921,27 @@ export function OrderSummaryPage() {
 
                             {quantity > 0 && (
 
-                              <div className="text-white font-semibold">
+                              <div className="text-white font-semibold text-right">
 
-                                €{monthlyTotal.toLocaleString()}/
+                                <div>
 
-                                {addon.interval}
+                                  €{addon.interval === 'month' 
+                                    ? (addon.price * quantity * 12).toLocaleString() 
+                                    : monthlyTotal.toLocaleString()}
+
+                                  {addon.interval === 'month' ? '/year' : `/${addon.interval}`}
+
+                                </div>
+
+                                {addon.interval === 'month' && quantity > 0 && (
+
+                                  <div className="text-xs text-gray-400 mt-1">
+
+                                    (€{monthlyTotal.toLocaleString()}/month)
+
+                                  </div>
+
+                                )}
 
                               </div>
 
@@ -746,6 +1113,11 @@ export function OrderSummaryPage() {
 
                         if (!addon || quantity === 0) return null
 
+                        // Calculate yearly price for display
+                        const yearlyPrice = addon.interval === 'month' 
+                          ? addon.price * quantity * 12 
+                          : addon.price * quantity
+
                         return (
 
                           <div
@@ -758,13 +1130,15 @@ export function OrderSummaryPage() {
 
                             <span>
 
-                              {addon.name} (×{quantity})
+                              {addon.name} {addon.interval === 'month' && `(×${quantity})`}
 
                             </span>
 
                             <span>
 
-                              €{(addon.price * quantity).toLocaleString()}
+                              €{yearlyPrice.toLocaleString()}
+
+                              {addon.interval === 'month' && '/year'}
 
                             </span>
 
@@ -836,6 +1210,225 @@ export function OrderSummaryPage() {
 
                     </div>
 
+                  </div>
+
+                  {/* Package Download/Email Options */}
+                  <div className="mb-6 space-y-3">
+                    <div className="text-sm font-semibold text-white mb-3">
+                      Get Your Package Details
+                    </div>
+                    
+                    <button
+                      onClick={() => {
+                        setIsDownloading(true)
+                        try {
+                          generatePDF()
+                        } catch (error) {
+                          console.error('Error generating PDF:', error)
+                        } finally {
+                          setTimeout(() => setIsDownloading(false), 500)
+                        }
+                      }}
+                      disabled={isDownloading}
+                      className="w-full border-2 border-[#2D2755] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2D2755]/50 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isDownloading ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Preparing Download...
+                        </>
+                      ) : (
+                        <>
+                          <DownloadIcon className="h-5 w-5 mr-2" />
+                          Download Package Summary
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        setIsSendingEmail(true)
+                        setEmailSent(false)
+                        setSaveError(null)
+                        
+                        try {
+                          const userEmail = formData?.email || qualification?.email
+                          if (!userEmail) {
+                            setSaveError('Email address is required to send package summary')
+                            setIsSendingEmail(false)
+                            return
+                          }
+
+                          // Prepare addons list for email
+                          const addonsList = Object.entries(selectedAddons)
+                            .filter(([_, qty]) => qty > 0)
+                            .map(([id, qty]) => {
+                              const addon = addons.find(a => a.id === id)
+                              if (!addon) return null
+                              return {
+                                name: addon.name,
+                                quantity: qty,
+                                price: addon.price,
+                                interval: addon.interval
+                              }
+                            })
+                            .filter(Boolean)
+
+                          // Prepare data for Google Apps Script
+                          const emailData = {
+                            name: formData?.name || qualification?.name || formData?.companyName || qualification?.companyName || 'Customer',
+                            email: userEmail,
+                            phone: formData?.phone || qualification?.phone || '',
+                            companyName: formData?.companyName || qualification?.companyName || '',
+                            planName: planName,
+                            basePlanPrice: basePlanPrice,
+                            hasRegisteredOffice: hasRegisteredOffice,
+                            selectedAddons: selectedAddons,
+                            addonsList: addonsList,
+                            addonsTotal: totals.addonsTotal,
+                            subtotal: totals.subtotal,
+                            vat: totals.vat,
+                            total: totals.total,
+                            country: country || '',
+                            primaryFocus: qualification?.primaryFocus || formData?.primaryFocus || 'branch-registration',
+                            qualificationId: qualificationId || '',
+                            notes: ''
+                          }
+
+                          // Save order summary to qualification table as JSON (similar to handleContinue)
+                          if (qualificationId) {
+                            try {
+                              const updateResult = await updateQualificationWithOrder(qualificationId, {
+                                planName,
+                                planPrice,
+                                selectedAddons,
+                                addonsTotal: totals.addonsTotal,
+                                subtotal: totals.subtotal,
+                                vat: totals.vat,
+                                total: totals.total,
+                                includeOrderForm: includeOrderForm || false,
+                                tier,
+                                country,
+                              })
+                              
+                              if (updateResult.success) {
+                                console.log('Order summary saved to qualification table successfully')
+                              } else {
+                                console.warn('Failed to save order summary to qualification table:', updateResult.error)
+                                // Don't fail the whole process if this fails
+                              }
+                            } catch (dbError) {
+                              console.error('Error saving order summary to qualification table:', dbError)
+                              // Don't fail the whole process if this fails
+                            }
+                          }
+
+                          // Save to Google Sheets using Apps Script (no popup, handles auth server-side)
+                          // Using GET request with URL parameters to avoid CORS issues (same approach as PricingPlans)
+                          // The Apps Script handles authentication automatically, no user interaction needed
+                          const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAFnHmIxivhMYWXm04aH8ArzSsMyxckKsThL3qeyXieWaRrG4dXq85ZJdWdKnasklKPQ/exec'
+                          
+                          console.log('Saving data to Google Sheets via Apps Script:', emailData)
+                          
+                          // Prepare URL parameters (same format as PricingPlans.tsx)
+                          const params = new URLSearchParams({
+                            name: emailData.name || '',
+                            email: emailData.email || '',
+                            phone: emailData.phone || '',
+                            companyName: emailData.companyName || '',
+                            planName: emailData.planName || '',
+                            basePlanPrice: emailData.basePlanPrice?.toString() || '0',
+                            hasRegisteredOffice: emailData.hasRegisteredOffice ? 'true' : 'false',
+                            selectedAddons: JSON.stringify(emailData.selectedAddons || {}),
+                            addonsList: JSON.stringify(emailData.addonsList || []),
+                            addonsTotal: emailData.addonsTotal?.toString() || '0',
+                            subtotal: emailData.subtotal?.toString() || '0',
+                            vat: emailData.vat?.toString() || '0',
+                            total: emailData.total?.toString() || '0',
+                            country: emailData.country || '',
+                            primaryFocus: emailData.primaryFocus || '',
+                            qualificationId: emailData.qualificationId?.toString() || '',
+                            notes: emailData.notes || '',
+                            timestamp: new Date().toISOString()
+                          })
+                          
+                          // Use GET request with no-cors mode to avoid CORS issues
+                          // Note: We can't read the response with no-cors, but the request will succeed if it reaches the server
+                          const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
+                            method: 'GET',
+                            mode: 'no-cors'
+                          })
+                          
+                          // Since we're using no-cors mode, we can't read the response
+                          // But the request should succeed if it reaches the server
+                          console.log('Package summary submitted to Google Sheets (no-cors mode)')
+                          setEmailSent(true) // Show success message
+                          setTimeout(() => setEmailSent(false), 5000)
+                        } catch (error: any) {
+                          console.error('Error sending email:', error)
+                          setSaveError(error.message || 'Failed to send email. Please try again.')
+                        } finally {
+                          setIsSendingEmail(false)
+                        }
+                      }}
+                      disabled={isSendingEmail || emailSent}
+                      className="w-full border-2 border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/10 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSendingEmail ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#EA3A70]"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Sending Email...
+                        </>
+                      ) : emailSent ? (
+                        <>
+                          <CheckIcon className="h-5 w-5 mr-2" />
+                          Email Sent!
+                        </>
+                      ) : (
+                        <>
+                          <MailIcon className="h-5 w-5 mr-2" />
+                          Receive via Email
+                        </>
+                      )}
+                    </button>
                   </div>
 
                   {/* Error Message */}
@@ -914,5 +1507,25 @@ export function OrderSummaryPage() {
 
   )
 
+}
+
+// TypeScript declaration for Google Identity Services
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        oauth2: {
+          initTokenClient: (config: {
+            client_id: string
+            scope: string
+            callback: (tokenResponse: { access_token: string }) => void
+            error_callback?: (error: any) => void
+          }) => {
+            requestAccessToken: (options?: { prompt?: string }) => void
+          }
+        }
+      }
+    }
+  }
 }
 

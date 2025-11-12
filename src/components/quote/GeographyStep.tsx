@@ -7,13 +7,15 @@ interface GeographyStepProps {
   prevStep: () => void;
   updateUserData: (data: Partial<QuoteUserData>) => void;
   userData: QuoteUserData;
+  primaryFocus?: string;
 }
 
 export const GeographyStep: React.FC<GeographyStepProps> = ({
   nextStep,
   prevStep,
   updateUserData,
-  userData
+  userData,
+  primaryFocus = 'branch-registration'
 }) => {
   const [basedIn, setBasedIn] = useState<string>(userData.geography.basedIn || '');
   const [expandTo, setExpandTo] = useState<string[]>(userData.geography.expandTo || []);
@@ -35,6 +37,10 @@ export const GeographyStep: React.FC<GeographyStepProps> = ({
     });
     nextStep();
   };
+
+  // For non-branch-registration flows, geography might be less relevant
+  // but we still collect it for context
+  const isBranchRegistration = primaryFocus === 'branch-registration' || !primaryFocus;
 
   // List of EU countries with their specific registration fees
   const euCountries = [
@@ -75,17 +81,69 @@ export const GeographyStep: React.FC<GeographyStepProps> = ({
     'Israel', 'South Africa', 'Nigeria', 'Kenya', 'Other'
   ];
 
+  const getTitle = () => {
+    if (primaryFocus === 'accounting' || primaryFocus === 'ai-bookkeeping') {
+      return "Where is your business located?";
+    }
+    if (primaryFocus === 'tax-registration' || primaryFocus === 'vat-filing' || primaryFocus === 'cit-filing') {
+      return "Where do you need tax services?";
+    }
+    if (primaryFocus === 'virtual-office') {
+      return "Where do you need a virtual office?";
+    }
+    return "Where are you based?";
+  };
+
+  const getDescription = () => {
+    if (primaryFocus === 'accounting' || primaryFocus === 'ai-bookkeeping') {
+      return "Tell us about your business location for accounting setup";
+    }
+    if (primaryFocus === 'tax-registration' || primaryFocus === 'vat-filing' || primaryFocus === 'cit-filing') {
+      return "Tell us where you need tax registration or filing services";
+    }
+    if (primaryFocus === 'virtual-office') {
+      return "Tell us where you need a virtual office address";
+    }
+    return "Tell us about your current location and expansion goals";
+  };
+
+  const getLocationLabel = () => {
+    if (primaryFocus === 'accounting' || primaryFocus === 'ai-bookkeeping') {
+      return "Where is your business based?";
+    }
+    if (primaryFocus === 'tax-registration' || primaryFocus === 'vat-filing' || primaryFocus === 'cit-filing') {
+      return "Where is your business located?";
+    }
+    if (primaryFocus === 'virtual-office') {
+      return "Where do you need a virtual office?";
+    }
+    return "Where is your business based?";
+  };
+
+  const getTargetLabel = () => {
+    if (primaryFocus === 'accounting' || primaryFocus === 'ai-bookkeeping') {
+      return "Where do you need accounting services? (Select all that apply)";
+    }
+    if (primaryFocus === 'tax-registration' || primaryFocus === 'vat-filing' || primaryFocus === 'cit-filing') {
+      return "Where do you need tax services? (Select all that apply)";
+    }
+    if (primaryFocus === 'virtual-office') {
+      return "Where do you need virtual office services? (Select all that apply)";
+    }
+    return "Where do you want to expand? (Select all that apply)";
+  };
+
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">Where are you based?</h2>
-        <p className="text-gray-300">Tell us about your current location and expansion goals</p>
+        <h2 className="text-2xl font-bold text-white mb-2">{getTitle()}</h2>
+        <p className="text-gray-300">{getDescription()}</p>
       </div>
 
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-white mb-2">
-            Where is your business based?
+            {getLocationLabel()}
           </label>
           <select 
             value={basedIn} 
@@ -101,9 +159,34 @@ export const GeographyStep: React.FC<GeographyStepProps> = ({
           </select>
         </div>
 
+        {isBranchRegistration && (
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              {getTargetLabel()}
+            </label>
+            <div className="max-h-60 overflow-y-auto space-y-2 border border-[#2D2755] rounded-lg p-4 bg-[#1B1537]">
+              {euCountries.map(country => (
+                <div key={country.name} className="flex items-center">
+                  <input 
+                    type="checkbox" 
+                    id={country.name} 
+                    checked={expandTo.includes(country.name)} 
+                    onChange={() => handleExpandToChange(country.name)} 
+                    className="h-4 w-4 text-[#EA3A70] border-[#2D2755] rounded bg-[#1B1537] focus:ring-[#EA3A70]" 
+                  />
+                  <label htmlFor={country.name} className="ml-3 text-sm text-gray-300">
+                    {country.name}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {!isBranchRegistration && (
         <div>
           <label className="block text-sm font-medium text-white mb-2">
-            Where do you want to expand? (Select all that apply)
+              {getTargetLabel()}
           </label>
           <div className="max-h-60 overflow-y-auto space-y-2 border border-[#2D2755] rounded-lg p-4 bg-[#1B1537]">
             {euCountries.map(country => (
@@ -122,6 +205,7 @@ export const GeographyStep: React.FC<GeographyStepProps> = ({
             ))}
           </div>
         </div>
+        )}
 
         {expandTo.length > 0 && (
           <motion.div 
@@ -151,7 +235,7 @@ export const GeographyStep: React.FC<GeographyStepProps> = ({
         <button 
           className="px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
           onClick={handleContinue} 
-          disabled={!basedIn || expandTo.length === 0}
+          disabled={!basedIn || (isBranchRegistration && expandTo.length === 0)}
         >
           Continue
         </button>

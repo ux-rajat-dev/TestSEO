@@ -438,94 +438,82 @@ export function NetherlandsBranchPage() {
 
       <Header />
 
-      {/* Hero Section with Country Header */}
-
-      <section className="relative py-20 overflow-hidden">
-
-        <div
-
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-
-          style={{
-
-            backgroundImage:
-
-              'url(https://images.unsplash.com/photo-1576924542622-772281b13aa8?auto=format&fit=crop&q=80)',
-
-          }}
-
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] via-[#0F0B1F]/95 to-[#0F0B1F]" />
-
+      {/* Hero Section - Configuration Flow Indicator */}
+      <section className="relative py-12 overflow-hidden bg-[#0F0B1F] border-b border-[#2D2755]">
         <div className="container mx-auto px-4 relative">
-
-          <div className="max-w-4xl mx-auto text-center">
-
-            <div className="inline-flex items-center bg-gradient-to-r from-orange-500/10 to-red-500/10 px-4 py-2 rounded-full text-orange-400 backdrop-blur-sm mb-6">
-
-              <MapPinIcon className="h-5 w-5 mr-2" />
-
-              🇳🇱 Netherlands Branch Registration
-
+          <div className="max-w-4xl mx-auto">
+            {/* Configuration Flow Badge */}
+            <div className="flex items-center justify-center mb-6">
+              <div className="inline-flex items-center bg-gradient-to-r from-[#EA3A70]/20 to-purple-500/20 px-4 py-2 rounded-full text-[#EA3A70] backdrop-blur-sm border border-[#EA3A70]/30">
+                <SparklesIcon className="h-4 w-4 mr-2" />
+                <span className="text-sm font-medium">Configuration Flow</span>
+              </div>
+            </div>
+            
+            {/* Topic Selection - Branch Registration */}
+            <div className="text-center mb-4">
+              <div className="inline-flex items-center bg-[#1B1537] px-4 py-2 rounded-lg border border-[#2D2755] mb-4">
+                <BuildingIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
+                <span className="text-white font-medium">Topic: Branch Registration</span>
+                <MapPinIcon className="h-4 w-4 text-gray-400 ml-2" />
+                <span className="text-gray-400 ml-1">🇳🇱 Netherlands</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-
-              Launch Your Business in the Netherlands
-
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                Configure Your Netherlands Branch Setup
             </h1>
 
-            <p className="text-xl text-gray-300 mb-8">
-
-              The Netherlands offers one of Europe's most efficient business
-
-              environments with no notary requirements and 48-hour processing.
-
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-
-              <div className="flex items-center bg-[#1B1537] px-4 py-2 rounded-lg border border-[#2D2755]">
-
-                <ShieldCheckIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
-
-                <span className="text-white">No notary required</span>
-
+              <p className="text-gray-400 text-sm max-w-2xl mx-auto mb-4">
+                Complete your branch registration configuration and select your preferred package
+              </p>
+              
+              {/* Workflow Selection */}
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={() => navigate('/qualification', { state: { primaryFocus: 'accounting' } })}
+                  className="px-4 py-2 bg-[#1B1537] border border-[#2D2755] rounded-lg text-white text-sm hover:border-[#EA3A70]/50 transition-colors"
+                >
+                  Switch to Accounting
+                </button>
+                <button
+                  onClick={() => navigate('/qualification', { state: { primaryFocus: 'tax-registration' } })}
+                  className="px-4 py-2 bg-[#1B1537] border border-[#2D2755] rounded-lg text-white text-sm hover:border-[#EA3A70]/50 transition-colors"
+                >
+                  Switch to Tax Registration
+                </button>
+                <button
+                  onClick={() => navigate('/qualification', { state: { primaryFocus: 'ai-bookkeeping' } })}
+                  className="px-4 py-2 bg-[#1B1537] border border-[#2D2755] rounded-lg text-white text-sm hover:border-[#EA3A70]/50 transition-colors"
+                >
+                  Switch to AI Bookkeeping
+                </button>
+                <button
+                  onClick={() => navigate('/qualification', { state: { primaryFocus: 'virtual-office' } })}
+                  className="px-4 py-2 bg-[#1B1537] border border-[#2D2755] rounded-lg text-white text-sm hover:border-[#EA3A70]/50 transition-colors"
+                >
+                  Switch to Virtual Office
+                </button>
               </div>
-
-              <div className="flex items-center bg-[#1B1537] px-4 py-2 rounded-lg border border-[#2D2755]">
-
-                <ClockIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
-
-                <span className="text-white">48-hour processing</span>
-
               </div>
-
-              <div className="flex items-center bg-[#1B1537] px-4 py-2 rounded-lg border border-[#2D2755]">
-
-                <TrendingUpIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
-
-                <span className="text-white">EU market access</span>
-
               </div>
-
             </div>
-
-          </div>
-
-        </div>
-
       </section>
 
-      {/* Pricing Card */}
-
-      <section className="py-16 bg-[#0F0B1F]">
-
+      {/* Suggested Package Section */}
+      <section className="py-12 bg-[#0F0B1F] relative">
         <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Section Header */}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                Suggested Package
+              </h2>
+              <p className="text-gray-400 text-sm">
+                Recommended solution for your branch registration needs
+              </p>
+            </div>
 
           <div className="max-w-2xl mx-auto">
-
             <div className="bg-[#1B1537] rounded-lg border-2 border-[#EA3A70] relative">
 
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -614,6 +602,53 @@ export function NetherlandsBranchPage() {
 
               </div>
 
+              </div>
+
+            </div>
+
+            {/* Sticky Action Banner */}
+            <div className="mt-8 sticky top-4 z-10">
+              <div className="bg-[#1B1537] rounded-lg border-2 border-[#2D2755] p-6 shadow-xl">
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-semibold text-white mb-1">
+                    Continue Your Configuration
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    Choose your next step to proceed
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Path A: Continue Configuration */}
+                  <button
+                    onClick={handleViewPackage}
+                    className="bg-[#EA3A70] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center border-2 border-[#EA3A70]"
+                  >
+                    <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                    Continue Configuration
+                    <ArrowRightIcon className="h-4 w-4 ml-2" />
+                  </button>
+
+                  {/* Path B: Get Memo */}
+                  <button
+                    onClick={handleGetMemo}
+                    className="border-2 border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/10 transition-colors flex items-center justify-center"
+                  >
+                    <FileTextIcon className="h-5 w-5 mr-2" />
+                    Get Tax Memo
+                    <ArrowRightIcon className="h-4 w-4 ml-2" />
+                  </button>
+
+                  {/* Path C: Schedule Call */}
+                  <button
+                    onClick={() => setShowExpertModal(true)}
+                    className="border-2 border-[#2D2755] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2D2755]/50 transition-colors flex items-center justify-center"
+                  >
+                    <CalendarIcon className="h-5 w-5 mr-2" />
+                    Schedule Call
+                  </button>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -722,157 +757,6 @@ export function NetherlandsBranchPage() {
 
       </section>
 
-      {/* Three-Path CTA Section */}
-
-      <section className="py-16 bg-[#1B1537]">
-
-        <div className="container mx-auto px-4">
-
-          <div className="max-w-4xl mx-auto">
-
-            <div className="text-center mb-12">
-
-              <h2 className="text-3xl font-bold text-white mb-4">
-
-                Choose Your Next Step
-
-              </h2>
-
-              <p className="text-gray-400">
-
-                Select the option that best fits your timeline and needs
-
-              </p>
-
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-              {/* Path A: View Package */}
-
-              <div className="bg-[#0F0B1F] rounded-lg p-6 border-2 border-[#EA3A70] hover:border-[#EA3A70]/80 transition-all">
-
-                <div className="bg-[#EA3A70]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-
-                  <ShoppingCartIcon className="h-6 w-6 text-[#EA3A70]" />
-
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-2">
-
-                  View Full Package
-
-                </h3>
-
-                <p className="text-gray-400 text-sm mb-4">
-
-                  Ready to start? Review the complete package and configure your
-
-                  services.
-
-                </p>
-
-                <button
-
-                  onClick={handleViewPackage}
-
-                  className="w-full bg-[#EA3A70] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center"
-
-                >
-
-                  View Package
-
-                  <ArrowRightIcon className="h-4 w-4 ml-2" />
-
-                </button>
-
-              </div>
-
-              {/* Path B: Get Memo */}
-
-              <div className="bg-[#0F0B1F] rounded-lg p-6 border-2 border-[#2D2755] hover:border-[#EA3A70]/50 transition-all">
-
-                <div className="bg-purple-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-
-                  <FileTextIcon className="h-6 w-6 text-purple-400" />
-
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-2">
-
-                  Get Tax Memo
-
-                </h3>
-
-                <p className="text-gray-400 text-sm mb-4">
-
-                  Need more details? Get a personalized analysis and
-
-                  recommendations.
-
-                </p>
-
-                <button
-
-                  onClick={handleGetMemo}
-
-                  className="w-full border border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/10 transition-colors flex items-center justify-center"
-
-                >
-
-                  Get Memo
-
-                  <ArrowRightIcon className="h-4 w-4 ml-2" />
-
-                </button>
-
-              </div>
-
-              {/* Path C: Schedule Call */}
-
-              <div className="bg-[#0F0B1F] rounded-lg p-6 border-2 border-[#2D2755] hover:border-[#EA3A70]/50 transition-all">
-
-                <div className="bg-blue-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-
-                  <CalendarIcon className="h-6 w-6 text-blue-400" />
-
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-2">
-
-                  Schedule Expert Call
-
-                </h3>
-
-                <p className="text-gray-400 text-sm mb-4">
-
-                  Have questions? Book a free consultation with our experts.
-
-                </p>
-
-                <button
-
-                  onClick={() => setShowExpertModal(true)}
-
-                  className="w-full border border-[#2D2755] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2D2755]/50 transition-colors flex items-center justify-center"
-
-                >
-
-                  Schedule Call
-
-                  <CalendarIcon className="h-4 w-4 ml-2" />
-
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
 
       {/* Expert Modal */}
 

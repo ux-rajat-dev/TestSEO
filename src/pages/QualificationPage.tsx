@@ -8,11 +8,17 @@ import {
 
   ArrowRightIcon,
 
-  ClockIcon,
-
   CheckIcon,
 
   SparklesIcon,
+
+  FileIcon,
+
+  CalculatorIcon,
+
+  ClipboardCheckIcon,
+
+  PlusIcon,
 
 } from 'lucide-react'
 
@@ -25,7 +31,10 @@ export function QualificationPage() {
 
   const location = useLocation()
 
-  const { from, to, when, selectedServices } = location.state || {}
+  const { from, to, when, selectedServices: initialSelectedServices, primaryFocus } = location.state || {}
+
+  const [selectedServices, setSelectedServices] = useState<string[]>(initialSelectedServices || []);
+  const [otherService, setOtherService] = useState<string>('');
 
   const [formData, setFormData] = useState({
 
@@ -62,6 +71,12 @@ export function QualificationPage() {
     setSaveError(null)
 
     try {
+      // Combine selected services
+      const allSelectedServices = [...selectedServices];
+      if (selectedServices.includes('Other') && otherService) {
+        allSelectedServices.push(`Other: ${otherService}`);
+      }
+      
       // Save qualification data to database
       const qualificationData = {
         companyName: formData.companyName,
@@ -76,7 +91,8 @@ export function QualificationPage() {
         phone: formData.phone,
         from,
         to,
-        selectedServices,
+        primaryFocus,
+        selectedServices: allSelectedServices,
       }
 
       const result = await saveQualificationData(qualificationData)
@@ -149,8 +165,16 @@ export function QualificationPage() {
 
     }
 
-      // Get the route for the selected country, fallback to generic product page
-      const targetRoute = countryRoutes[to] || '/product'
+      // Determine target route based on primaryFocus
+      let targetRoute = '/quote';
+      
+      // If primaryFocus is accounting or other non-branch topics, go to quote page
+      if (primaryFocus && primaryFocus !== 'branch-registration') {
+        targetRoute = '/quote';
+      } else if (to) {
+        // For branch registration, use country-specific routes
+        targetRoute = countryRoutes[to] || '/quote';
+      }
 
       navigate(targetRoute, {
         state: {
@@ -158,6 +182,7 @@ export function QualificationPage() {
           qualification: formData,
           from,
           to,
+          primaryFocus,
           selectedServices,
           formData,
           // Also pass as qualificationData for consistency
@@ -172,46 +197,6 @@ export function QualificationPage() {
       setIsSaving(false)
     }
   }
-
-  const timelineOptions = [
-
-    {
-
-      value: 'asap',
-
-      label: 'ASAP',
-
-      subtitle: 'Ready to start now',
-
-      color: 'from-red-500 to-orange-500',
-
-    },
-
-    {
-
-      value: '1-3months',
-
-      label: '1-3 Months',
-
-      subtitle: 'Planning phase',
-
-      color: 'from-yellow-500 to-orange-500',
-
-    },
-
-    {
-
-      value: '3+months',
-
-      label: '3+ Months',
-
-      subtitle: 'Researching options',
-
-      color: 'from-blue-500 to-purple-500',
-
-    },
-
-  ]
 
   return (
 
@@ -236,56 +221,26 @@ export function QualificationPage() {
               </div>
 
               <h1 className="text-4xl font-bold text-white mb-4">
-
-                Let's Understand Your Needs
-
+                {primaryFocus === 'accounting' && "Let's Understand Your Accounting Needs"}
+                {primaryFocus === 'tax-registration' && "Let's Understand Your Tax Registration Needs"}
+                {primaryFocus === 'ai-bookkeeping' && "Let's Understand Your Bookkeeping Needs"}
+                {primaryFocus === 'virtual-office' && "Let's Understand Your Virtual Office Needs"}
+                {primaryFocus === 'vat-filing' && "Let's Understand Your VAT Filing Needs"}
+                {primaryFocus === 'cit-filing' && "Let's Understand Your CIT Filing Needs"}
+                {(!primaryFocus || primaryFocus === 'branch-registration') && "Let's Understand Your Needs"}
               </h1>
 
               <p className="text-xl text-gray-300">
-
-                Help us tailor the perfect solution for your expansion from{' '}
-
-                {from || 'your location'} to {to || 'your target market'}
-
+                {primaryFocus === 'accounting' && "Help us understand your accounting requirements and tailor the perfect financial management solution"}
+                {primaryFocus === 'tax-registration' && "Help us understand your tax registration needs and ensure full compliance"}
+                {primaryFocus === 'ai-bookkeeping' && "Help us understand your bookkeeping needs and automate your financial processes"}
+                {primaryFocus === 'virtual-office' && "Help us understand your business address needs and set up your virtual office"}
+                {primaryFocus === 'vat-filing' && "Help us understand your VAT filing requirements and streamline your tax compliance"}
+                {primaryFocus === 'cit-filing' && "Help us understand your corporate tax filing needs and optimize your tax position"}
+                {(!primaryFocus || primaryFocus === 'branch-registration') && "Help us understand your needs and tailor the perfect solution for your business"}
               </p>
 
             </div>
-
-            {/* Target Market Display */}
-
-            {to && (
-
-              <div className="bg-gradient-to-r from-[#EA3A70]/10 to-purple-500/10 rounded-lg p-6 border border-[#EA3A70]/30 mb-8">
-
-                <div className="flex items-center justify-between">
-
-                  <div>
-
-                    <div className="text-sm text-gray-400 mb-1">
-
-                      Target Market
-
-                    </div>
-
-                    <div className="text-2xl font-bold text-white capitalize">
-
-                      {to}
-
-                    </div>
-
-                  </div>
-
-                  <div className="bg-[#EA3A70]/20 p-4 rounded-lg">
-
-                    <BuildingIcon className="h-8 w-8 text-[#EA3A70]" />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )}
 
             <div className="bg-[#1B1537] rounded-lg border border-[#2D2755] p-8">
 
@@ -483,168 +438,426 @@ export function QualificationPage() {
 
                 </div>
 
-                {/* Timeline - Pre-filled from BookingWidget */}
-
+                {/* Service Selection - Context-Specific */}
                 <div>
-
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
-
-                    Timeline for Expansion{' '}
-
-                    {when && (
-
-                      <span className="text-[#EA3A70]">(Confirmed)</span>
-
-                    )}
-
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    {primaryFocus === 'accounting' && "Which accounting services do you need? *"}
+                    {primaryFocus === 'tax-registration' && "Which tax registration services do you need? *"}
+                    {primaryFocus === 'ai-bookkeeping' && "Which bookkeeping services do you need? *"}
+                    {primaryFocus === 'virtual-office' && "Which virtual office services do you need? *"}
+                    {primaryFocus === 'vat-filing' && "Which VAT filing services do you need? *"}
+                    {primaryFocus === 'cit-filing' && "Which corporate tax services do you need? *"}
+                    {(!primaryFocus || primaryFocus === 'branch-registration') && "Which services do you need help with? *"}
                   </label>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                    {timelineOptions.map((option) => (
-
-                      <button
-
-                        key={option.value}
-
-                        type="button"
-
-                        onClick={() =>
-
-                          setFormData({
-
-                            ...formData,
-
-                            timeline: option.value,
-
-                          })
-
+                  <p className="text-xs text-gray-400 mb-4">Select all services you're interested in</p>
+                  
+                  <div className="space-y-3">
+                    {(() => {
+                      // Context-specific service lists
+                      if (primaryFocus === 'accounting') {
+                        return [
+                          {
+                            id: 'financial-reporting',
+                            name: 'Financial Reporting',
+                            description: 'Automated financial statements and reports',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'bookkeeping',
+                            name: 'Bookkeeping',
+                            description: 'Automated transaction recording and categorization',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'tax-preparation',
+                            name: 'Tax Preparation',
+                            description: 'Tax return preparation and filing',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'payroll',
+                            name: 'Payroll Management',
+                            description: 'Employee payroll processing',
+                            icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      if (primaryFocus === 'tax-registration') {
+                        return [
+                          {
+                            id: 'vat-id',
+                            name: 'VAT ID Registration',
+                            description: 'European VAT number registration',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'wage-tax',
+                            name: 'Wage Tax Registration',
+                            description: 'Employer tax registration and setup',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'corporate-tax',
+                            name: 'Corporate Tax Setup',
+                            description: 'Corporate income tax registration',
+                            icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      if (primaryFocus === 'ai-bookkeeping') {
+                        return [
+                          {
+                            id: 'automated-categorization',
+                            name: 'Automated Categorization',
+                            description: 'AI-powered transaction categorization',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'bank-sync',
+                            name: 'Bank Synchronization',
+                            description: 'Automatic bank account synchronization',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'receipt-scanning',
+                            name: 'Receipt Scanning',
+                            description: 'AI-powered receipt and invoice processing',
+                            icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      if (primaryFocus === 'virtual-office') {
+                        return [
+                          {
+                            id: 'business-address',
+                            name: 'Business Address',
+                            description: 'Professional registered business address',
+                            icon: <BuildingIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'mail-handling',
+                            name: 'Mail Handling',
+                            description: 'Mail forwarding and scanning services',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'phone-services',
+                            name: 'Phone Services',
+                            description: 'Virtual phone number and call handling',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      if (primaryFocus === 'vat-filing') {
+                        return [
+                          {
+                            id: 'quarterly-filing',
+                            name: 'Quarterly VAT Filing',
+                            description: 'Regular quarterly VAT return submissions',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'monthly-filing',
+                            name: 'Monthly VAT Filing',
+                            description: 'Monthly VAT return submissions',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'vat-consulting',
+                            name: 'VAT Consulting',
+                            description: 'VAT compliance and optimization advice',
+                            icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      if (primaryFocus === 'cit-filing') {
+                        return [
+                          {
+                            id: 'annual-filing',
+                            name: 'Annual CIT Filing',
+                            description: 'Annual corporate income tax return',
+                            icon: <FileIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]',
+                            popular: true
+                          },
+                          {
+                            id: 'tax-planning',
+                            name: 'Tax Planning',
+                            description: 'Strategic tax planning and optimization',
+                            icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'audit-support',
+                            name: 'Audit Support',
+                            description: 'Support during tax authority audits',
+                            icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-[#EA3A70]'
+                          },
+                          {
+                            id: 'other',
+                            name: 'Other',
+                            description: 'Tell us what else you need',
+                            icon: <PlusIcon className="h-5 w-5 text-white" />,
+                            bgColor: 'bg-gray-600'
+                          }
+                        ];
+                      }
+                      
+                      // Default services for branch-registration or no primaryFocus
+                      return [
+                        {
+                          id: 'virtual-office',
+                          name: 'Virtual Office',
+                          description: 'Professional business address and mail handling',
+                          icon: <BuildingIcon className="h-5 w-5 text-white" />,
+                          bgColor: 'bg-[#EA3A70]',
+                          popular: true
+                        },
+                        {
+                          id: 'branch-registration',
+                          name: 'Branch Registration',
+                          description: 'Company registration and legal structure',
+                          icon: <ClipboardCheckIcon className="h-5 w-5 text-white" />,
+                          bgColor: 'bg-[#EA3A70]',
+                          popular: true
+                        },
+                        {
+                          id: 'vat-id',
+                          name: 'VAT ID Application',
+                          description: 'European VAT registration for tax compliance',
+                          icon: <FileIcon className="h-5 w-5 text-white" />,
+                          bgColor: 'bg-[#EA3A70]'
+                        },
+                        {
+                          id: 'vat-filing',
+                          name: 'VAT Filing',
+                          description: 'Quarterly VAT return submissions',
+                          icon: <CalculatorIcon className="h-5 w-5 text-white" />,
+                          bgColor: 'bg-[#EA3A70]'
+                        },
+                        {
+                          id: 'other',
+                          name: 'Other',
+                          description: 'Tell us what else you need',
+                          icon: <PlusIcon className="h-5 w-5 text-white" />,
+                          bgColor: 'bg-gray-600'
                         }
-
-                        className={`relative p-6 rounded-lg border-2 transition-all ${formData.timeline === option.value ? 'border-[#EA3A70] bg-[#EA3A70]/5' : 'border-[#2D2755] hover:border-[#EA3A70]/50'}`}
-
+                      ];
+                    })().map((service) => (
+                      <div
+                        key={service.id}
+                        className={`border-2 rounded-lg p-4 transition-all duration-200 cursor-pointer ${
+                          selectedServices.includes(service.name)
+                            ? 'border-[#EA3A70] bg-[#EA3A70]/10 shadow-lg shadow-[#EA3A70]/20'
+                            : 'border-[#2D2755] bg-[#1B1537]/50 hover:border-[#EA3A70]/50 hover:bg-[#1B1537]/70'
+                        }`}
+                        onClick={() => {
+                          if (selectedServices.includes(service.name)) {
+                            setSelectedServices(selectedServices.filter(s => s !== service.name));
+                          } else {
+                            setSelectedServices([...selectedServices, service.name]);
+                          }
+                        }}
                       >
-
-                        <div
-
-                          className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.timeline === option.value ? 'border-[#EA3A70] bg-[#EA3A70]' : 'border-[#2D2755]'}`}
-
-                        >
-
-                          {formData.timeline === option.value && (
-
-                            <CheckIcon className="h-3 w-3 text-white" />
-
-                          )}
-
+                        <label className="flex items-start cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service.name)}
+                            onChange={() => {
+                              if (selectedServices.includes(service.name)) {
+                                setSelectedServices(selectedServices.filter(s => s !== service.name));
+                              } else {
+                                setSelectedServices([...selectedServices, service.name]);
+                              }
+                            }}
+                            className="h-5 w-5 mt-1 text-[#EA3A70] border-[#2D2755] rounded bg-[#0F0B1F] focus:ring-2 focus:ring-[#EA3A70] focus:ring-offset-2 focus:ring-offset-[#1B1537] cursor-pointer"
+                          />
+                          <div className="ml-4 flex items-start flex-1">
+                            <div className={`${service.bgColor} p-2.5 rounded-lg mr-3 flex-shrink-0`}>
+                              {service.icon}
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center flex-wrap gap-2">
+                                <h3 className="font-semibold text-white text-base">{service.name}</h3>
+                                {service.popular && (
+                                  <span className="text-xs bg-[#EA3A70]/20 text-[#EA3A70] border border-[#EA3A70]/30 px-2.5 py-0.5 rounded-full font-medium">
+                                    Popular
+                                  </span>
+                                )}
                         </div>
-
-                        <ClockIcon
-
-                          className={`h-8 w-8 mb-3 bg-gradient-to-r ${option.color} bg-clip-text text-transparent`}
-
-                        />
-
-                        <div className="text-lg font-semibold text-white mb-1">
-
-                          {option.label}
-
+                              <p className="text-sm text-gray-300 mt-1.5">{service.description}</p>
+                            </div>
+                          </div>
+                        </label>
+                        
+                        {service.name === 'Other' && selectedServices.includes('Other') && (
+                          <div className="mt-4 ml-9">
+                            <input
+                              type="text"
+                              value={otherService}
+                              onChange={(e) => setOtherService(e.target.value)}
+                              onClick={(e) => e.stopPropagation()}
+                              placeholder="Please specify other service"
+                              className="w-full p-3 border border-[#2D2755] rounded-lg text-sm bg-[#0F0B1F] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#EA3A70] focus:border-[#EA3A70]"
+                            />
                         </div>
-
-                        <div className="text-sm text-gray-400">
-
-                          {option.subtitle}
-
+                        )}
                         </div>
-
-                      </button>
-
                     ))}
-
                   </div>
 
-                  {when && (
-
-                    <p className="text-sm text-gray-400 mt-2">
-
-                      You can change your timeline selection if needed
-
+                  {selectedServices.length === 0 && (
+                    <p className="text-xs text-red-400 mt-3 flex items-center">
+                      <span className="mr-1">⚠</span>
+                      Please select at least one service
                     </p>
-
                   )}
-
                 </div>
 
-                {/* Goals and Challenges */}
-
+                {/* Main Intentions and Concerns - Context-Specific */}
                 <div>
-
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-
-                    Main Goal for Expansion *
-
+                    {primaryFocus === 'accounting' && "What are your main accounting goals? *"}
+                    {primaryFocus === 'tax-registration' && "What are your main tax registration goals? *"}
+                    {primaryFocus === 'ai-bookkeeping' && "What are your main bookkeeping goals? *"}
+                    {primaryFocus === 'virtual-office' && "What are your main virtual office needs? *"}
+                    {primaryFocus === 'vat-filing' && "What are your main VAT filing goals? *"}
+                    {primaryFocus === 'cit-filing' && "What are your main corporate tax filing goals? *"}
+                    {(!primaryFocus || primaryFocus === 'branch-registration') && "What are your main intentions to use our AI-Powered portal? *"}
                   </label>
 
                   <textarea
-
                     required
-
                     value={formData.mainGoal}
-
                     onChange={(e) =>
-
                       setFormData({
-
                         ...formData,
-
                         mainGoal: e.target.value,
-
                       })
-
                     }
-
                     rows={3}
-
                     className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#EA3A70]"
-
-                    placeholder="e.g., Access EU market, hire local talent, establish legal presence..."
-
+                    placeholder={
+                      primaryFocus === 'accounting' 
+                        ? "e.g., Automate financial reporting, improve cash flow visibility, ensure tax compliance, streamline month-end closing..."
+                        : primaryFocus === 'tax-registration'
+                        ? "e.g., Get VAT ID for EU sales, register for wage tax, ensure tax compliance, set up tax accounts..."
+                        : primaryFocus === 'ai-bookkeeping'
+                        ? "e.g., Automate transaction categorization, reduce manual data entry, improve accuracy, save time on bookkeeping..."
+                        : primaryFocus === 'virtual-office'
+                        ? "e.g., Need professional business address, mail forwarding services, phone answering, meeting room access..."
+                        : primaryFocus === 'vat-filing'
+                        ? "e.g., Automate VAT return preparation, never miss deadlines, ensure accurate calculations, reduce filing errors..."
+                        : primaryFocus === 'cit-filing'
+                        ? "e.g., Optimize tax deductions, ensure compliance, prepare accurate returns, minimize tax liability..."
+                        : "e.g., Streamline accounting processes, automate tax filings, manage compliance, improve financial reporting..."
+                    }
                   />
-
                 </div>
 
                 <div>
-
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-
-                    Main Challenges or Concerns
-
+                    {primaryFocus === 'accounting' && "What accounting challenges are you facing?"}
+                    {primaryFocus === 'tax-registration' && "What tax registration challenges are you facing?"}
+                    {primaryFocus === 'ai-bookkeeping' && "What bookkeeping challenges are you facing?"}
+                    {primaryFocus === 'virtual-office' && "What virtual office challenges are you facing?"}
+                    {primaryFocus === 'vat-filing' && "What VAT filing challenges are you facing?"}
+                    {primaryFocus === 'cit-filing' && "What corporate tax filing challenges are you facing?"}
+                    {(!primaryFocus || primaryFocus === 'branch-registration') && "What specific concerns do you hope to resolve with our help?"}
                   </label>
 
                   <textarea
-
                     value={formData.challenges}
-
                     onChange={(e) =>
-
                       setFormData({
-
                         ...formData,
-
                         challenges: e.target.value,
-
                       })
-
                     }
-
                     rows={3}
-
                     className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#EA3A70]"
-
-                    placeholder="e.g., Compliance requirements, tax implications, finding local partners..."
-
+                    placeholder={
+                      primaryFocus === 'accounting'
+                        ? "e.g., Manual data entry is time-consuming, lack of real-time financial visibility, complex reporting requirements..."
+                        : primaryFocus === 'tax-registration'
+                        ? "e.g., Unclear registration requirements, language barriers with tax authorities, complex documentation needed..."
+                        : primaryFocus === 'ai-bookkeeping'
+                        ? "e.g., Too much time spent on categorization, frequent errors in data entry, difficulty tracking expenses..."
+                        : primaryFocus === 'virtual-office'
+                        ? "e.g., Need professional address for registration, mail handling when traveling, phone coverage during business hours..."
+                        : primaryFocus === 'vat-filing'
+                        ? "e.g., Missing filing deadlines, calculation errors, complex VAT rules, time-consuming preparation..."
+                        : primaryFocus === 'cit-filing'
+                        ? "e.g., Complex tax calculations, maximizing deductions, ensuring compliance, preparing for audits..."
+                        : "e.g., Time-consuming manual bookkeeping, complex tax regulations, compliance deadlines, lack of financial visibility..."
+                    }
                   />
-
                 </div>
 
                 {/* Contact Information */}
@@ -735,7 +948,7 @@ export function QualificationPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSaving}
+                  disabled={isSaving || selectedServices.length === 0}
                   className="w-full bg-[#EA3A70] text-white py-4 px-6 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSaving ? (
