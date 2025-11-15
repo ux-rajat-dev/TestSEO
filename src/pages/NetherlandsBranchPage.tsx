@@ -566,37 +566,55 @@ export function NetherlandsBranchPage() {
 
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                <div className="bg-[#0F0B1F] rounded-lg p-4 border border-[#2D2755] mb-6">
 
-                  {[
+                  <h4 className="text-white font-semibold mb-3 flex items-center">
 
-                    'Complete KVK registration',
+                    <CheckIcon className="h-4 w-4 text-[#EA3A70] mr-2" />
 
-                    'Dutch tax & VAT setup',
+                    Included Services
 
-                    'Registered office address',
+                  </h4>
 
-                    'Employer registration',
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 
-                    'Compliance monitoring',
+                    {[
 
-                    'Software suite access',
+                      'Full company registration',
 
-                    'Priority support',
+                      'VAT & tax setup',
 
-                    '48-hour processing',
+                      'Employer registration',
 
-                  ].map((feature, index) => (
+                      'Compliance monitoring',
 
-                    <div key={index} className="flex items-start">
+                      'Software suite access',
 
-                      <CheckIcon className="h-5 w-5 text-[#EA3A70] mr-2 flex-shrink-0 mt-0.5" />
+                      'Document management',
 
-                      <span className="text-gray-300 text-sm">{feature}</span>
+                      'AI Bookkeeping (included, excluding €0.09 per uploaded/processed document)',
 
-                    </div>
+                      'Financial Reporting (included)',
 
-                  ))}
+                      'Document Generation (included)',
+
+                      'Corporate Agent (included)',
+
+                      'Priority support',
+
+                    ].map((service, index) => (
+
+                      <div key={index} className="flex items-start text-gray-300 text-sm">
+
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#EA3A70] mr-2 mt-1.5 flex-shrink-0" />
+
+                        {service}
+
+                      </div>
+
+                    ))}
+
+                  </div>
 
                 </div>
 
@@ -631,8 +649,8 @@ export function NetherlandsBranchPage() {
 
                   {/* Path B: Get Memo */}
                   <button
-                    onClick={handleGetMemo}
-                    className="border-2 border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/10 transition-colors flex items-center justify-center"
+                    disabled
+                    className="border-2 border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium opacity-50 cursor-not-allowed flex items-center justify-center"
                   >
                     <FileTextIcon className="h-5 w-5 mr-2" />
                     Get Tax Memo
@@ -640,13 +658,15 @@ export function NetherlandsBranchPage() {
                   </button>
 
                   {/* Path C: Schedule Call */}
-                  <button
-                    onClick={() => setShowExpertModal(true)}
+                  <a
+                    href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="border-2 border-[#2D2755] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2D2755]/50 transition-colors flex items-center justify-center"
                   >
                     <CalendarIcon className="h-5 w-5 mr-2" />
                     Schedule Call
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -974,17 +994,14 @@ export function NetherlandsBranchPage() {
 
                 </div>
 
-                <button
-
-                  type="submit"
-
-                  className="w-full bg-[#EA3A70] text-white py-3 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors"
-
+                <a
+                  href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-[#EA3A70] text-white py-3 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors text-center"
                 >
-
                   Schedule Consultation
-
-                </button>
+                </a>
 
               </form>
 
@@ -1020,7 +1037,7 @@ export function NetherlandsBranchPage() {
 
               <a
 
-                href="https://calendly.com/your-company/expert-consultation"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
 
                 target="_blank"
 

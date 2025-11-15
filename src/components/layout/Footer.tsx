@@ -78,13 +78,33 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/services/accounting" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                <Link to="/accounting-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
                   Accounting
                 </Link>
               </li>
               <li>
-                <Link to="/services/tax-filing" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
-                  Tax Filing
+                <Link to="/tax-registration-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                  Tax Registration
+                </Link>
+              </li>
+              <li>
+                <Link to="/ai-bookkeeping-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                  AI Bookkeeping
+                </Link>
+              </li>
+              <li>
+                <Link to="/virtual-office-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                  Virtual Office
+                </Link>
+              </li>
+              <li>
+                <Link to="/vat-filing-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                  VAT Filing
+                </Link>
+              </li>
+              <li>
+                <Link to="/cit-filing-product" className="text-indigo-300 hover:text-[#EA3A70] text-sm sm:text-base">
+                  CIT Filing
                 </Link>
               </li>
               <li>

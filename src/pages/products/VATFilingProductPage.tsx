@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   ReceiptIcon,
@@ -13,16 +13,22 @@ import {
   StarIcon,
   TrendingUpIcon,
   AlertCircleIcon,
+  GlobeIcon,
+  ChevronDownIcon,
 } from 'lucide-react'
 import { Header } from '../../components/layout/Header'
+import { countries } from '../../components/countries'
 
 export function VATFilingProductPage() {
   const navigate = useNavigate()
+  const [selectedCountry, setSelectedCountry] = useState('netherlands')
 
   const handleGetStarted = () => {
     navigate('/qualification', {
       state: {
-        primaryFocus: 'vat-filing'
+        primaryFocus: 'vat-filing',
+        to: selectedCountry,
+        from: '',
       }
     })
   }
@@ -57,6 +63,28 @@ export function VATFilingProductPage() {
               Automated VAT return preparation and submission. Never miss a
               deadline with our intelligent filing system
             </p>
+
+            {/* Target Market Selection */}
+            <div className="max-w-md mx-auto mb-8">
+              <label className="block text-sm font-medium text-gray-300 mb-3 text-left">
+                Select Your Target Market
+              </label>
+              <div className="relative">
+                <GlobeIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <select
+                  value={selectedCountry}
+                  onChange={(e) => setSelectedCountry(e.target.value)}
+                  className="w-full bg-[#1B1537] border-2 border-[#2D2755] rounded-lg pl-12 pr-4 py-4 text-white text-lg focus:outline-none focus:border-[#EA3A70] hover:border-[#EA3A70]/50 transition-colors cursor-pointer appearance-none"
+                >
+                  {Object.entries(countries).map(([key, name]) => (
+                    <option key={key} value={key}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDownIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none" />
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <button
@@ -185,6 +213,8 @@ export function VATFilingProductPage() {
     </div>
   )
 }
+
+
 
 
 

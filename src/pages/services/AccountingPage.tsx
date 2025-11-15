@@ -49,7 +49,7 @@ export function AccountingPage() {
               Get Quote
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </button>
-            <Link to="/portal/accounting" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link to="/accounting-product" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
               Get Started
             </Link>
             <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">

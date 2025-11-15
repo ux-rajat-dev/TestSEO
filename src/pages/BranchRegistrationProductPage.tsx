@@ -31,7 +31,7 @@ import {
 import { countries } from '../components/countries'
 import { Header } from '../components/layout/Header'
 
-export function PromoPage() {
+export function BranchRegistrationProductPage() {
 
   const [selectedCountry, setSelectedCountry] = useState('netherlands')
 

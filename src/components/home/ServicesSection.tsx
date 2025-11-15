@@ -34,7 +34,7 @@ export function ServicesSection() {
       title: 'Branch Registration',
       description: `Register your company branch in ${getCountryName(selectedCountry)} and expand your business operations`,
       icon: BriefcaseIcon,
-      href: `/services/${selectedCountry}/branch-registration`,
+      href: '/branch-registration-product',
     },
     {
       title: 'Corporate Secretary',
@@ -47,19 +47,37 @@ export function ServicesSection() {
       description:
         'Professional bookkeeping, financial statements, and tax compliance',
       icon: LineChartIcon,
-      href: `/services/${selectedCountry}/accounting`,
+      href: '/accounting-product',
     },
     {
-      title: 'Tax Filing',
-      description: `Expert handling of tax obligations for your ${getCountryName(selectedCountry)} business`,
+      title: 'Tax Registration',
+      description: `Expert tax registration and compliance for your ${getCountryName(selectedCountry)} business`,
       icon: PercentIcon,
-      href: `/services/${selectedCountry}/tax-filing`,
+      href: '/tax-registration-product',
     },
     {
-      title: 'Business Address',
+      title: 'AI Bookkeeping',
+      description: 'AI-powered bookkeeping and financial management',
+      icon: LineChartIcon,
+      href: '/ai-bookkeeping-product',
+    },
+    {
+      title: 'Virtual Office',
       description: `Get a prestigious business address in ${getCountryName(selectedCountry)}`,
       icon: MailIcon,
-      href: `/services/${selectedCountry}/mailbox`,
+      href: '/virtual-office-product',
+    },
+    {
+      title: 'VAT Filing',
+      description: `Quarterly and monthly VAT filing services for ${getCountryName(selectedCountry)}`,
+      icon: PercentIcon,
+      href: '/vat-filing-product',
+    },
+    {
+      title: 'CIT Filing',
+      description: `Corporate income tax filing for your ${getCountryName(selectedCountry)} business`,
+      icon: PercentIcon,
+      href: '/cit-filing-product',
     },
     {
       title: 'Marketing Services',

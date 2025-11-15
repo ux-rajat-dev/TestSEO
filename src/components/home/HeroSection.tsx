@@ -85,7 +85,7 @@ export function HeroSection() {
             </div>
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/services"
+                to="/branch-registration-product"
                 className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center font-medium shadow-md shadow-[#EA3A70]/20"
               >
                 Get Started

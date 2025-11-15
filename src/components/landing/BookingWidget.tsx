@@ -43,7 +43,13 @@ export function BookingWidget() {
   }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    navigate('/market-entry')
+    navigate('/branch-registration-product', {
+      state: {
+        from,
+        to,
+        when,
+      }
+    })
   }
   return (
     <div className="relative">

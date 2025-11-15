@@ -212,7 +212,7 @@ export function BelgianBranchBrochure() {
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <a
-                href="https://zcal.co/i/oqT-n0Aq"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg font-bold text-lg hover:bg-indigo-800/50 transition-colors flex items-center justify-center"
@@ -638,7 +638,7 @@ export function BelgianBranchBrochure() {
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <a
-                href="https://zcal.co/i/oqT-n0Aq"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg font-bold text-lg hover:bg-indigo-800/50 transition-colors flex items-center justify-center"

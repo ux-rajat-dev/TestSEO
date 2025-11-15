@@ -48,7 +48,7 @@ export function TaxFilingPage() {
               Get Quote
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </button>
-            <Link to="/portal/tax-filing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link to="/tax-registration-product" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
               Get Started
             </Link>
             <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
@@ -681,7 +681,7 @@ export function TaxFilingPage() {
             on growing your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/portal/tax-filing/signup" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link to="/tax-registration-product" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>

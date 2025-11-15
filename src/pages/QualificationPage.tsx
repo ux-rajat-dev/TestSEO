@@ -165,15 +165,17 @@ export function QualificationPage() {
 
     }
 
-      // Determine target route based on primaryFocus
+      // Determine target route based on target country
+      // Always redirect to country-specific branch route if country is selected
+      // This works regardless of which page the user entered from (product pages, promo, etc.)
       let targetRoute = '/quote';
       
-      // If primaryFocus is accounting or other non-branch topics, go to quote page
-      if (primaryFocus && primaryFocus !== 'branch-registration') {
-        targetRoute = '/quote';
-      } else if (to) {
-        // For branch registration, use country-specific routes
+      if (to) {
+        // If a target country is selected, redirect to that country's branch page
         targetRoute = countryRoutes[to] || '/quote';
+      } else if (primaryFocus && primaryFocus !== 'branch-registration') {
+        // Only go to quote page if no country is selected and it's not branch registration
+        targetRoute = '/quote';
       }
 
       navigate(targetRoute, {

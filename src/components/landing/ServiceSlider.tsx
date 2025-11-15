@@ -1,4 +1,5 @@
 import React, { useState, cloneElement } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   RocketIcon,
   BarChartIcon,
@@ -64,7 +65,21 @@ const services = [
   },
 ]
 export function ServiceSlider() {
+  const navigate = useNavigate()
   const [selectedService, setSelectedService] = useState(services[0])
+  
+  const handleServiceClick = (serviceId: string) => {
+    // Map service IDs to product page routes
+    const serviceRoutes: Record<string, string> = {
+      'formation': '/branch-registration-product',
+      'analytics': '/accounting-product',
+      'taxes': '/tax-registration-product',
+      'bookkeeping': '/ai-bookkeeping-product',
+      'bundle': '/branch-registration-product',
+    }
+    const route = serviceRoutes[serviceId] || '/branch-registration-product'
+    navigate(route)
+  }
   return (
     <div className="relative">
       <div className="text-center mb-16">
@@ -121,7 +136,10 @@ export function ServiceSlider() {
                     <h3 className="text-4xl font-bold text-white mb-4">
                       {selectedService.tagline}
                     </h3>
-                    <button className="bg-[#EA3A70] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center">
+                    <button 
+                      onClick={() => handleServiceClick(selectedService.id)}
+                      className="bg-[#EA3A70] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center"
+                    >
                       {selectedService.cta}
                       <ArrowRightIcon className="h-5 w-5 ml-2" />
                     </button>

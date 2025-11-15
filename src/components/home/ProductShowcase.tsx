@@ -123,7 +123,7 @@ export function ProductShowcase() {
                         </div>)}
                     </div>
                     {activeProduct === index && <div className="mt-6 flex justify-between items-center pt-4 border-t border-[#2D2755]">
-                        <Link to={`/services/${product.title.toLowerCase().replace(/\s+/g, '-')}`} className="text-white hover:text-[#EA3A70] transition-colors flex items-center">
+                        <Link to={index === 0 ? '/branch-registration-product' : index === 1 ? '/accounting-product' : '/services/legal'} className="text-white hover:text-[#EA3A70] transition-colors flex items-center">
                           Learn more
                           <ArrowRightIcon className="h-4 w-4 ml-2" />
                         </Link>

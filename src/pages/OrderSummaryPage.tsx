@@ -584,18 +584,41 @@ export function OrderSummaryPage() {
       }
 
       // Navigate to registration page
+      // Pass all qualification data including email matching fields
+      // Merge qualification and formData, prioritizing qualification data
+      const allQualificationData = {
+        // Start with formData as base
+        ...formData,
+        // Override with qualification data (more authoritative)
+        ...qualification,
+        // Explicitly ensure email matching fields are present (critical for linking)
+        email: qualification?.email || formData?.email || '',
+        phone: qualification?.phone || formData?.phone || '',
+        companyName: qualification?.companyName || formData?.companyName || '',
+        // Include other qualification fields that might be needed
+        industry: qualification?.industry || formData?.industry || '',
+        currentRevenue: qualification?.currentRevenue || formData?.currentRevenue || '',
+        targetRevenue: qualification?.targetRevenue || formData?.targetRevenue || '',
+        timeline: qualification?.timeline || formData?.timeline || '',
+        mainGoal: qualification?.mainGoal || formData?.mainGoal || '',
+        challenges: qualification?.challenges || formData?.challenges || '',
+        teamSize: qualification?.teamSize || formData?.teamSize || '',
+        primaryFocus: qualification?.primaryFocus || formData?.primaryFocus || 'branch-registration',
+        selectedServices: qualification?.selectedServices || formData?.selectedServices || [],
+      }
+
       navigate('/register', {
 
         state: {
 
           // Pass all qualification data
-          qualification: qualification || formData || {},
+          qualification: allQualificationData,
 
           from,
 
           to,
 
-          formData: formData || qualification || {},
+          formData: allQualificationData,
 
           selectedService: 'branch-registration',
 
@@ -605,14 +628,8 @@ export function OrderSummaryPage() {
 
           includeOrderForm,
 
-          // Ensure all qualification fields are passed
-          qualificationData: {
-
-            ...qualification,
-
-            ...formData,
-
-          },
+          // Ensure all qualification fields are passed (including email matching fields)
+          qualificationData: allQualificationData,
 
           // Pass qualification ID for mapping to user account
           qualificationId,

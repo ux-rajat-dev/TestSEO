@@ -15,9 +15,14 @@ export function LuxembourgBranchBrochure() {
             <button className="bg-gradient-to-r from-red-500 to-blue-600 hover:from-red-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
               Get Started Now →
             </button>
-            <button className="border border-gray-300 hover:border-white text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300">
+            <a
+              href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-gray-300 hover:border-white text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-block text-center"
+            >
               Schedule Consultation
-            </button>
+            </a>
           </div>
         </div>
       </section>

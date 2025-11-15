@@ -25,11 +25,27 @@ const getServiceItems = (selectedCountry: string, countries: any) => [{
 }, {
   name: 'Accounting',
   description: 'Financial management for your business',
-  href: '/services/accounting'
+  href: '/accounting-product'
 }, {
-  name: 'Tax Filing',
-  description: 'Stay compliant with Dutch tax regulations',
-  href: '/services/tax-filing'
+  name: 'Tax Registration',
+  description: 'Tax registration and compliance services',
+  href: '/tax-registration-product'
+}, {
+  name: 'AI Bookkeeping',
+  description: 'AI-powered bookkeeping solutions',
+  href: '/ai-bookkeeping-product'
+}, {
+  name: 'Virtual Office',
+  description: 'Prestigious business address services',
+  href: '/virtual-office-product'
+}, {
+  name: 'VAT Filing',
+  description: 'Quarterly and monthly VAT filing',
+  href: '/vat-filing-product'
+}, {
+  name: 'CIT Filing',
+  description: 'Corporate income tax filing',
+  href: '/cit-filing-product'
 }, {
   name: 'Corporate Secretary',
   description: 'Maintain legal compliance for your entity',

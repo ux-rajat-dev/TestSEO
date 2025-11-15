@@ -32,7 +32,7 @@ import { GermanyProductPage } from './components/expansion/GermanyProductPage'
 import { CountryPage } from './components/countryyy p/CountryPage'
 import { Contact } from './pages/Contact'
 import { QuotePage } from './pages/QuotePage'
-import { PromoPage } from './pages/PromoPage'
+import { BranchRegistrationProductPage } from './pages/BranchRegistrationProductPage'
 import { QualificationPage } from './pages/QualificationPage'
 import { OrderSummaryPage } from './pages/OrderSummaryPage'
 import { RegistrationPage } from './pages/RegistrationPage'
@@ -406,7 +406,7 @@ export function App() {
         <Route path="/market-entry" element={<EUServicesPage />} />
         <Route path="/services/:serviceId" element={<ServiceTemplate />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/get-started" element={<ExternalRedirect to="/services" />} />
+        <Route path="/get-started" element={<ExternalRedirect to="/branch-registration-product" />} />
         <Route path="/ebranch" element={<EBranch />} />
         <Route path ="/survey" element={<SurveyForm onClose={() => window.history.back()} />} />
         <Route path="/tools" element={<Tools />} />
@@ -434,7 +434,7 @@ export function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/quote" element={<QuotePage />} />
-        <Route path="/promo" element={<PromoPage />} />
+        <Route path="/branch-registration-product" element={<BranchRegistrationProductPage />} />
         <Route path="/qualification" element={<QualificationPage />} />
         <Route path="/order-summary" element={<OrderSummaryPage />} />
         <Route path="/register" element={<RegistrationPage />} />

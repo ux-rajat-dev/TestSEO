@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   ArrowRightIcon,
   CheckCircleIcon,
@@ -31,9 +31,20 @@ import {
 } from 'lucide-react'
 
 export function GermanBranchBrochure() {
+  const navigate = useNavigate()
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index)
+  }
+
+  const handleGetStarted = () => {
+    navigate('/branch-registration-product', {
+      state: {
+        to: 'germany',
+        from: '',
+        when: '',
+      }
+    })
   }
 
   // Compliance timeline
@@ -211,15 +222,15 @@ export function GermanBranchBrochure() {
               cost-effective branch structure
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link
-                to="/german-branch"
+              <button
+                onClick={handleGetStarted}
                 className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg font-bold text-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center"
               >
                 Get Started Now
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </Link>
+              </button>
               <a
-                href="https://zcal.co/i/oqT-n0Aq"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg font-bold text-lg hover:bg-indigo-800/50 transition-colors flex items-center justify-center"
@@ -424,13 +435,13 @@ export function GermanBranchBrochure() {
                 The German branch registration process typically takes 8-10 weeks
                 from start to finish
               </p>
-              <Link
-                to="/german-branch"
+              <button
+                onClick={handleGetStarted}
                 className="inline-flex items-center text-[#EA3A70] hover:text-[#EA3A70]/80 transition-colors"
               >
                 View detailed registration timeline in our proposal{' '}
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </Link>
+              </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-[#1E1B3F]/70 backdrop-blur-sm rounded-xl p-6 border border-indigo-500/30">
@@ -496,21 +507,21 @@ export function GermanBranchBrochure() {
                   compliance tools, and ongoing support.
                 </p>
                 <div className="flex justify-center">
-                  <Link
-                    to="/german-branch"
+                  <button
+                    onClick={handleGetStarted}
                     className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg font-bold text-lg hover:bg-indigo-800/50 transition-colors inline-flex items-center"
                   >
                     View Full Plan Details{' '}
                     <ArrowRightIcon className="ml-2 h-5 w-5" />
-                  </Link>
+                  </button>
                 </div>
                 <div className="text-center mt-8">
-                  <Link
-                    to="/german-branch"
+                  <button
+                    onClick={handleGetStarted}
                     className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg font-bold text-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center w-full justify-center"
                   >
                     Check Quotation <ArrowRightIcon className="ml-2 h-5 w-5" />
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -647,15 +658,15 @@ export function GermanBranchBrochure() {
               management solution
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link
-                to="/german-branch"
+              <button
+                onClick={handleGetStarted}
                 className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg font-bold text-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center"
               >
                 Check your Quotation
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </Link>
+              </button>
               <a
-                href="https://zcal.co/i/oqT-n0Aq"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg font-bold text-lg hover:bg-indigo-800/50 transition-colors flex items-center justify-center"

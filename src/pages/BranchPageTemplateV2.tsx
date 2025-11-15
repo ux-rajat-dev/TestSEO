@@ -214,22 +214,31 @@ export function BranchPageTemplateV2({
                     Plus {registrationFee}
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                  {[
-                    `Complete ${countryName} registration`,
-                    `${countryName} tax & VAT setup`,
-                    'Registered office address',
-                    'Employer registration',
-                    'Compliance monitoring',
-                    'Software suite access',
-                    'Priority support',
-                    `${processingTime} processing`,
-                  ].map((feature, index) => (
-                    <div key={index} className="flex items-start">
-                      <CheckIcon className="h-5 w-5 text-[#EA3A70] mr-2 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-300 text-sm">{feature}</span>
-                    </div>
-                  ))}
+                <div className="bg-[#0F0B1F] rounded-lg p-4 border border-[#2D2755] mb-6">
+                  <h4 className="text-white font-semibold mb-3 flex items-center">
+                    <CheckIcon className="h-4 w-4 text-[#EA3A70] mr-2" />
+                    Included Services
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {[
+                      'Full company registration',
+                      'VAT & tax setup',
+                      'Employer registration',
+                      'Compliance monitoring',
+                      'Software suite access',
+                      'Document management',
+                      'AI Bookkeeping (included, excluding €0.09 per uploaded/processed document)',
+                      'Financial Reporting (included)',
+                      'Document Generation (included)',
+                      'Corporate Agent (included)',
+                      'Priority support',
+                    ].map((service, index) => (
+                      <div key={index} className="flex items-start text-gray-300 text-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#EA3A70] mr-2 mt-1.5 flex-shrink-0" />
+                        {service}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -334,8 +343,8 @@ export function BranchPageTemplateV2({
                   recommendations.
                 </p>
                 <button
-                  onClick={handleGetMemo}
-                  className="w-full border border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/10 transition-colors flex items-center justify-center"
+                  disabled
+                  className="w-full border border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium opacity-50 cursor-not-allowed flex items-center justify-center"
                 >
                   Get Memo
                   <ArrowRightIcon className="h-4 w-4 ml-2" />
@@ -353,13 +362,15 @@ export function BranchPageTemplateV2({
                 <p className="text-gray-400 text-sm mb-4">
                   Have questions? Book a free consultation with our experts.
                 </p>
-                <button
-                  onClick={() => setShowExpertModal(true)}
+                <a
+                  href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full border border-[#2D2755] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#2D2755]/50 transition-colors flex items-center justify-center"
                 >
                   Schedule Call
                   <CalendarIcon className="h-4 w-4 ml-2" />
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -474,12 +485,14 @@ export function BranchPageTemplateV2({
                     placeholder="Tell us about your expansion plans..."
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#EA3A70] text-white py-3 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors"
+                <a
+                  href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-[#EA3A70] text-white py-3 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors text-center"
                 >
                   Schedule Consultation
-                </button>
+                </a>
               </form>
             </div>
           ) : (
@@ -498,7 +511,7 @@ export function BranchPageTemplateV2({
 
               {/* Direct Calendly Link */}
               <a
-                href="https://calendly.com/your-company/expert-consultation"
+                href="https://calendly.com/dennis-houseofcompanies/new-meeting?month=2025-06"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full bg-[#EA3A70] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center mb-6"

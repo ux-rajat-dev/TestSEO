@@ -46,24 +46,39 @@ const titleVariants = {
 export function ServicesGrid() {
   const services = [{
     icon: BuildingIcon,
-    title: 'Company Formation',
+    title: 'Branch Registration',
     description: 'Company registration across Europe',
-    link: '/services/company-formation'
-  }, {
-    icon: BoxIcon,
-    title: 'Banking Services',
-    description: 'Business account setup and banking',
-    link: '/services'
-  }, {
-    icon: ScaleIcon,
-    title: 'Legal Services',
-    description: 'Legal support and compliance',
-    link: '/services/legal'
+    link: '/branch-registration-product'
   }, {
     icon: FileTextIcon,
-    title: 'Tax & Accounting',
-    description: 'Accounting and tax management',
-    link: '/services/accounting'
+    title: 'Accounting',
+    description: 'Professional accounting services',
+    link: '/accounting-product'
+  }, {
+    icon: FileTextIcon,
+    title: 'Tax Registration',
+    description: 'Tax registration and compliance',
+    link: '/tax-registration-product'
+  }, {
+    icon: FileTextIcon,
+    title: 'AI Bookkeeping',
+    description: 'AI-powered bookkeeping solutions',
+    link: '/ai-bookkeeping-product'
+  }, {
+    icon: BoxIcon,
+    title: 'Virtual Office',
+    description: 'Business address services',
+    link: '/virtual-office-product'
+  }, {
+    icon: FileTextIcon,
+    title: 'VAT Filing',
+    description: 'VAT filing services',
+    link: '/vat-filing-product'
+  }, {
+    icon: FileTextIcon,
+    title: 'CIT Filing',
+    description: 'Corporate income tax filing',
+    link: '/cit-filing-product'
   }];
   return <motion.section className="py-20 bg-[#0F0B1F]" initial="hidden" whileInView="visible" viewport={{
     once: true,
