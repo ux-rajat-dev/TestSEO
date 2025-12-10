@@ -581,11 +581,11 @@ export function BranchPageTemplate({
               </div>
 
               {/* Path B: Get Tax Memo → Analysis → Registration */}
-              <div className={`bg-[#1B1537] rounded-lg border-2 transition-all cursor-pointer ${
+              <div className={`bg-[#1B1537] rounded-lg border-2 transition-all cursor-not-allowed opacity-50 ${
                 selectedPath === 'memo' 
-                  ? 'border-[#EA3A70] shadow-lg shadow-[#EA3A70]/20' 
-                  : 'border-[#2D2755] hover:border-[#EA3A70]/50'
-              }`} onClick={() => handlePathSelection('memo')}>
+                  ? 'border-gray-600' 
+                  : 'border-gray-600'
+              }`} onClick={() => {}}>
                 <div className="p-6">
                   <div className="bg-blue-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-blue-400">
                     <SparklesIcon className="h-6 w-6" />
@@ -611,12 +611,9 @@ export function BranchPageTemplate({
                     </div>
                   </div>
                   <button 
-                    onClick={() => handlePathSelection('memo')} 
-                    className={`w-full py-3 rounded-lg font-medium transition-colors ${
-                      selectedPath === 'memo' 
-                        ? 'bg-blue-500 text-white' 
-                        : 'border border-blue-500 text-blue-400 hover:bg-blue-500/10'
-                    }`}
+                    onClick={() => {}} 
+                    disabled
+                    className="w-full py-3 rounded-lg font-medium cursor-not-allowed opacity-50 border border-gray-600 text-gray-500"
                   >
                     Start with Memo
                   </button>

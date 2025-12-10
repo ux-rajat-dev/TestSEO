@@ -343,8 +343,9 @@ export function BranchPageTemplateV2({
                   recommendations.
                 </p>
                 <button
+                  onClick={() => {}} // Disabled for now
                   disabled
-                  className="w-full border border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium opacity-50 cursor-not-allowed flex items-center justify-center"
+                  className="w-full border border-gray-600 text-gray-500 py-3 px-4 rounded-lg font-medium cursor-not-allowed opacity-50 flex items-center justify-center"
                 >
                   Get Memo
                   <ArrowRightIcon className="h-4 w-4 ml-2" />

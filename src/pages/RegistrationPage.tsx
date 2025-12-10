@@ -53,9 +53,12 @@ export function RegistrationPage() {
   } = location.state || {}
 
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [currentStep, setCurrentStep] = useState(1) // 1: Email, 2: OTP, 3: Account Creation
+  const [otp, setOtp] = useState('')
+  const [otpLoading, setOtpLoading] = useState(false)
+  const [verifying, setVerifying] = useState(false)
 
   const [formData, setFormData] = useState({
 
@@ -87,10 +90,97 @@ export function RegistrationPage() {
     return null
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Step 1: Send OTP
+  const sendOTP = async () => {
+    setOtpLoading(true)
+    setError(null)
+    setSuccessMessage(null)
 
-    e.preventDefault()
+    if (!formData.email) {
+      setError('Please enter your email address')
+      setOtpLoading(false)
+      return
+    }
 
+    try {
+      const { error: otpError } = await supabase.auth.signInWithOtp({
+        email: formData.email,
+        options: {
+          // No redirect URL needed for OTP
+        },
+      })
+
+      if (otpError) {
+        // Check if account already exists
+        if (
+          otpError.message.includes('already registered') ||
+          otpError.message.includes('User already registered') ||
+          otpError.message.includes('already have an account') ||
+          otpError.message.includes('already exists') ||
+          otpError.message.includes('Email already registered')
+        ) {
+          setError('An account with this email already exists. Please log in instead.')
+        } else {
+          setError('Failed to send OTP. Please try again.')
+        }
+        setOtpLoading(false)
+        return
+      }
+
+      setCurrentStep(2)
+      setSuccessMessage('OTP sent to your email! Please check your inbox and enter the 6-digit code.')
+    } catch (error: any) {
+      setError('Failed to send OTP. Please try again.')
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
+  // Step 2: Verify OTP
+  const verifyOTP = async () => {
+    if (otp.length !== 6) {
+      setError('Please enter a complete 6-digit verification code.')
+      return
+    }
+
+    setVerifying(true)
+    setError(null)
+    setSuccessMessage(null)
+
+    try {
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        email: formData.email,
+        token: otp,
+        type: 'email',
+      })
+
+      if (verifyError) {
+        if (
+          verifyError.message.includes('Invalid token') ||
+          verifyError.message.includes('Token has expired') ||
+          verifyError.message.includes('Invalid OTP') ||
+          verifyError.message.includes('expired') ||
+          verifyError.message.includes('Invalid verification code')
+        ) {
+          setError('Invalid or expired OTP. Please try again or request a new code.')
+        } else {
+          setError('OTP verification failed. Please try again.')
+        }
+        setVerifying(false)
+        return
+      }
+
+      setCurrentStep(3)
+      setSuccessMessage('Email verified! Now create your account.')
+    } catch (error: any) {
+      setError('Invalid OTP. Please try again.')
+    } finally {
+      setVerifying(false)
+    }
+  }
+
+  // Step 3: Create Account - Optimized for speed
+  const createAccount = async () => {
     setError(null)
     setSuccessMessage(null)
 
@@ -119,133 +209,98 @@ export function RegistrationPage() {
       return
     }
 
-    setLoading(true)
-
+    // Don't show loading state - make it instant
     try {
       const fullName = `${formData.firstName} ${formData.lastName}`.trim()
 
-      // Check if qualification exists with this email
-      const qualificationResult = await getQualificationByEmail(formData.email)
-      let existingQualification = null
+      // Get the current user from the verified session (from OTP verification)
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
 
-      if (qualificationResult.success && qualificationResult.data) {
-        existingQualification = qualificationResult.data
-        console.log('Found qualification with matching email:', existingQualification)
+      if (userError || !user) {
+        setError('User session not found. Please start over.')
+        return
       }
 
-      // Create Supabase account
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
+      const userId = user.id
+
+      // Run all operations in parallel for speed
+      const [
+        updateResult,
+        qualificationResult,
+        existingUsersResult
+      ] = await Promise.all([
+        // Update user password and metadata
+        supabase.auth.updateUser({
+          password: formData.password,
           data: {
             full_name: fullName,
             company_name: formData.companyName,
             phone: formData.phone,
           },
-        },
+        }),
+        // Check if qualification exists (in parallel)
+        getQualificationByEmail(formData.email),
+        // Check if user already exists in user_roles (in parallel)
+        supabase
+          .from('user_roles')
+          .select('id, user_id, email')
+          .eq('user_id', userId)
+      ])
+
+      // Handle update error
+      if (updateResult.error) {
+        setError('Failed to set password. Please try again.')
+        return
+      }
+
+      // Get qualification data
+      let existingQualification = null
+      if (qualificationResult.success && qualificationResult.data) {
+        existingQualification = qualificationResult.data
+      }
+
+      // Handle user_roles creation/update
+      const existingUsers = existingUsersResult.data
+      if (existingUsersResult.error && existingUsersResult.error.code !== 'PGRST116') {
+        console.error('Error checking existing account:', existingUsersResult.error)
+      }
+
+      // Create user_roles entry if needed (non-blocking)
+      const userRolePromise = !existingUsers || existingUsers.length === 0
+        ? supabase.from('user_roles').insert([{
+            user_id: userId,
+            email: formData.email,
+            fullName: fullName,
+            phone: formData.phone || null,
+            company_name: formData.companyName || null,
+            role: 'lead',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }])
+        : existingUsers.length > 1
+        ? supabase.from('user_roles').delete().in('id', existingUsers.slice(1).map((u) => u.id))
+        : Promise.resolve({ error: null })
+
+      // Link qualification (non-blocking, run in parallel)
+      const linkPromises = []
+      if (qualificationId) {
+        linkPromises.push(linkQualificationToUser(qualificationId, userId))
+      } else if (!qualificationId && existingQualification && !existingQualification.user_id) {
+        linkPromises.push(linkQualificationToUser(existingQualification.id, userId))
+      }
+
+      // Execute all remaining operations in parallel (non-blocking for redirect)
+      Promise.all([userRolePromise, ...linkPromises]).catch(err => {
+        console.error('Non-critical error during account setup:', err)
+        // Don't block redirect for these
       })
 
-      if (signUpError) {
-        // Check if account already exists
-        if (
-          signUpError.message.includes('already registered') ||
-          signUpError.message.includes('User already registered') ||
-          signUpError.message.includes('already have an account') ||
-          signUpError.message.includes('already exists') ||
-          signUpError.message.includes('Email already registered')
-        ) {
-          setError('An account with this email already exists. Please log in instead.')
-          setLoading(false)
-          return
-        }
-        throw new Error(signUpError.message || 'Failed to create account')
-      }
-
-      if (!authData.user) {
-        throw new Error('Account creation failed. Please try again.')
-      }
-
-      const userId = authData.user.id
-      console.log('Created new user account with ID:', userId)
-
-      // Check if user already exists in user_roles table
-      const { data: existingUsers, error: checkError } = await supabase
-        .from('user_roles')
-        .select('id, user_id, email')
-        .eq('user_id', userId)
-
-      if (checkError && checkError.code !== 'PGRST116') {
-        console.error('Error checking existing account:', checkError)
-      }
-
-      // If user doesn't exist in user_roles, create entry
-      if (!existingUsers || existingUsers.length === 0) {
-        const { error: roleError } = await supabase
-          .from('user_roles')
-          .insert([
-            {
-              user_id: userId,
-              email: formData.email,
-              fullName: fullName,
-              phone: formData.phone || null,
-              company_name: formData.companyName || null,
-              role: 'lead',
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-          ])
-
-        if (roleError) {
-          console.error('Error creating user role:', roleError)
-          // Continue anyway - the account is created
-        }
-      } else {
-        // Clean up duplicates if they exist
-        if (existingUsers.length > 1) {
-          const idsToDelete = existingUsers.slice(1).map((user) => user.id)
-          await supabase.from('user_roles').delete().in('id', idsToDelete)
-        }
-      }
-
-      // Link qualification to user account
-      // Priority 1: Link by qualificationId if provided
-      if (qualificationId) {
-        const linkResult = await linkQualificationToUser(qualificationId, userId)
-        if (linkResult.success) {
-          console.log('Successfully linked qualification by ID:', qualificationId)
-        } else {
-          console.error('Error linking qualification by ID:', linkResult.error)
-        }
-      }
-      
-      // Priority 2: If no qualificationId but email matches a qualification, link that one
-      if (!qualificationId && existingQualification) {
-        // Only link if it doesn't already have a user_id
-        if (!existingQualification.user_id) {
-          const linkResult = await linkQualificationToUser(existingQualification.id, userId)
-          if (linkResult.success) {
-            console.log('Successfully linked qualification by email match:', existingQualification.id)
-          } else {
-            console.error('Error linking qualification by email:', linkResult.error)
-          }
-        } else {
-          console.log('Qualification already linked to user:', existingQualification.user_id)
-        }
-      }
-
-      // Show success message
-      setSuccessMessage('Account created successfully! Redirecting to dashboard...')
-
-      // Redirect to external dashboard after 2 seconds
-      setTimeout(() => {
-        window.location.href = 'https://clientdashboard.houseofcompanies.io/'
-      }, 2000)
+      // Immediate redirect - don't wait for everything
+      window.location.href = 'https://clientdashboard.houseofcompanies.io/'
 
     } catch (error: any) {
-      console.error('Error in handleSubmit:', error)
+      console.error('Error in createAccount:', error)
       setError(error.message || 'Failed to create account. Please try again.')
-      setLoading(false)
     }
   }
 
@@ -287,7 +342,168 @@ export function RegistrationPage() {
 
             <div className="bg-[#1B1537] rounded-lg border border-[#2D2755] p-8">
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Progress Indicator */}
+              <div className="flex items-center justify-center mb-8">
+                <div className="flex items-center space-x-4">
+                  {/* Step 1 */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    currentStep >= 1 ? 'bg-[#EA3A70] text-white' : 'bg-gray-600 text-gray-400'
+                  }`}>
+                    1
+                  </div>
+                  <div className={`w-12 h-1 ${currentStep >= 2 ? 'bg-[#EA3A70]' : 'bg-gray-600'}`}></div>
+                  
+                  {/* Step 2 */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    currentStep >= 2 ? 'bg-[#EA3A70] text-white' : 'bg-gray-600 text-gray-400'
+                  }`}>
+                    2
+                  </div>
+                  <div className={`w-12 h-1 ${currentStep >= 3 ? 'bg-[#EA3A70]' : 'bg-gray-600'}`}></div>
+                  
+                  {/* Step 3 */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    currentStep >= 3 ? 'bg-[#EA3A70] text-white' : 'bg-gray-600 text-gray-400'
+                  }`}>
+                    3
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 1: Email Input */}
+              {currentStep === 1 && (
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Email address *
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
+                      className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#EA3A70]"
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                  
+                  <button
+                    type="button"
+                    onClick={sendOTP}
+                    disabled={otpLoading || !formData.email}
+                    className="w-full bg-[#EA3A70] text-white py-4 px-6 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {otpLoading ? (
+                      <>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Continue
+                        <ArrowRightIcon className="h-5 w-5 ml-2" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 2: OTP Verification */}
+              {currentStep === 2 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <p className="text-sm text-gray-300 mb-4">
+                      We sent a 6-digit code to <strong className="text-white">{formData.email}</strong>
+                    </p>
+                    <div className="flex justify-center space-x-2">
+                      {[1, 2, 3, 4, 5, 6].map((digit) => (
+                        <div
+                          key={digit}
+                          className={`w-3 h-3 rounded-full ${
+                            otp.length >= digit
+                              ? 'bg-[#EA3A70]'
+                              : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Verification code *
+                    </label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '').slice(0, 6)
+                        setOtp(value)
+                        if (error) setError(null)
+                      }}
+                      maxLength={6}
+                      className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg px-4 py-3 text-white text-center text-2xl tracking-widest font-mono focus:outline-none focus:border-[#EA3A70]"
+                      placeholder="123456"
+                    />
+                  </div>
+
+                  <div className="flex space-x-2">
+                    <button
+                      type="button"
+                      onClick={verifyOTP}
+                      disabled={verifying || otp.length !== 6}
+                      className="flex-1 bg-[#EA3A70] text-white py-4 px-6 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {verifying ? 'Verifying...' : otp.length === 6 ? 'Verify email' : 'Enter 6-digit code'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(1)}
+                      className="px-4 py-4 text-gray-300 border border-[#2D2755] rounded-lg hover:bg-[#0F0B1F] transition"
+                    >
+                      Back
+                    </button>
+                  </div>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={sendOTP}
+                      disabled={otpLoading}
+                      className="text-sm text-[#EA3A70] hover:underline disabled:opacity-50"
+                    >
+                      {otpLoading ? 'Sending...' : "Didn't receive a code? Resend"}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Account Creation */}
+              {currentStep === 3 && (
+                <form onSubmit={(e) => { e.preventDefault(); createAccount(); }} className="space-y-6">
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -626,57 +842,39 @@ export function RegistrationPage() {
                   </div>
                 )}
 
-                {/* Success Message */}
-                {successMessage && (
-                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 text-green-400 text-sm">
-                    {successMessage}
-                  </div>
-                )}
+                  <button
+                    type="submit"
+                    className="w-full bg-[#EA3A70] text-white py-4 px-6 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center"
+                  >
+                    Create Account & Continue
+                    <ArrowRightIcon className="h-5 w-5 ml-2" />
+                  </button>
+                </form>
+              )}
 
-                <button
-
-                  type="submit"
-
-                  disabled={loading}
-
-                  className="w-full bg-[#EA3A70] text-white py-4 px-6 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-
-                >
-
-                  {loading ? (
-                    <>
-                      <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
+              {/* Error and Success Messages - Show on all steps */}
+              {error && (
+                <div className="mt-4 bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
+                  {error}
+                  {error.includes('account with this email already exists') && (
+                    <div className="mt-3">
+                      <Link
+                        to="/login"
+                        className="inline-block px-4 py-2 bg-[#EA3A70] text-white text-sm rounded-lg hover:bg-[#EA3A70]/90 transition-colors"
                       >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                      Creating Account...
-                    </>
-                  ) : (
-                    <>
-                      Create Account & Continue
-                      <ArrowRightIcon className="h-5 w-5 ml-2" />
-                    </>
+                        Go to Login
+                      </Link>
+                    </div>
                   )}
+                </div>
+              )}
 
-                </button>
-
-              </form>
+              {successMessage && currentStep !== 1 && (
+                <div className="mt-4 bg-green-500/10 border border-green-500/30 rounded-lg p-4 text-green-400 text-sm flex items-center gap-2">
+                  <CheckIcon className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <span>{successMessage}</span>
+                </div>
+              )}
 
               <div className="mt-6 pt-6 border-t border-[#2D2755]">
 

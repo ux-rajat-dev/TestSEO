@@ -649,8 +649,9 @@ export function NetherlandsBranchPage() {
 
                   {/* Path B: Get Memo */}
                   <button
+                    onClick={() => {}} // Disabled for now
                     disabled
-                    className="border-2 border-[#EA3A70] text-[#EA3A70] py-3 px-4 rounded-lg font-medium opacity-50 cursor-not-allowed flex items-center justify-center"
+                    className="border-2 border-gray-600 text-gray-500 py-3 px-4 rounded-lg font-medium cursor-not-allowed opacity-50 flex items-center justify-center"
                   >
                     <FileTextIcon className="h-5 w-5 mr-2" />
                     Get Tax Memo

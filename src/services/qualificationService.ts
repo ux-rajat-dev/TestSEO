@@ -11,6 +11,7 @@ export interface QualificationData {
   teamSize: string
   email: string
   phone: string
+  address?: string
   from?: string
   to?: string
   primaryFocus?: string // 'accounting', 'tax-registration', 'ai-bookkeeping', 'virtual-office', 'vat-filing', 'cit-filing', 'branch-registration'
@@ -45,6 +46,7 @@ export async function saveQualificationData(
         team_size: data.teamSize,
         email: data.email,
         phone: data.phone,
+        address: data.address || null,
         from_country: data.from || null,
         to_country: data.to || null,
         primary_focus: data.primaryFocus || null,

@@ -80,7 +80,10 @@ export function TaxMemoWizard({
     setCurrentStep(prev => prev - 1);
   };
   const handleFinish = () => {
-    navigate('/taxes/memo/full-view');
+    // TODO: Re-enable redirect later
+    // navigate('/taxes/memo/full-view');
+    // For now, just close the wizard or show a message
+    console.log('Tax memo generation - redirect disabled for now');
   };
   const steps = [{
     name: 'Name & Jurisdictions',
@@ -199,8 +202,16 @@ export function TaxMemoWizard({
               <ArrowLeftIcon className="h-4 w-4 mr-2" />
               {currentStep === 0 ? 'Cancel' : 'Back'}
             </button>
-            <button onClick={currentStep === steps.length - 1 ? handleFinish : handleNext} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium flex items-center">
-              {currentStep === steps.length - 1 ? 'Generate Memo' : 'Next'}
+            <button 
+              onClick={currentStep === steps.length - 1 ? handleFinish : handleNext} 
+              disabled={currentStep === steps.length - 1}
+              className={`px-4 py-2 rounded-md text-sm font-medium flex items-center ${
+                currentStep === steps.length - 1 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              {currentStep === steps.length - 1 ? 'Generate Memo (Disabled)' : 'Next'}
               {currentStep !== steps.length - 1 && <ArrowRightIcon className="ml-2 h-4 w-4" />}
             </button>
           </div>

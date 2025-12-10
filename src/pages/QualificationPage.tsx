@@ -58,6 +58,8 @@ export function QualificationPage() {
 
     phone: '',
 
+    address: '',
+
   })
 
   const [isSaving, setIsSaving] = useState(false)
@@ -89,6 +91,7 @@ export function QualificationPage() {
         timeline: formData.timeline,
         email: formData.email,
         phone: formData.phone,
+        address: formData.address,
         from,
         to,
         primaryFocus,
@@ -167,7 +170,7 @@ export function QualificationPage() {
 
       // Determine target route based on target country
       // Always redirect to country-specific branch route if country is selected
-      // This works regardless of which page the user entered from (product pages, promo, etc.)
+      // This works regardless of which page the user entered from (product pages, branch-registration-product, etc.)
       let targetRoute = '/quote';
       
       if (to) {
@@ -937,6 +940,42 @@ export function QualificationPage() {
                     />
 
                   </div>
+
+                </div>
+
+                {/* Address */}
+
+                <div>
+
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+
+                    Address
+
+                  </label>
+
+                  <input
+
+                    type="text"
+
+                    value={formData.address}
+
+                    onChange={(e) =>
+
+                      setFormData({
+
+                        ...formData,
+
+                        address: e.target.value,
+
+                      })
+
+                    }
+
+                    className="w-full bg-[#0F0B1F] border border-[#2D2755] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#EA3A70]"
+
+                    placeholder="Street address, City, Country"
+
+                  />
 
                 </div>
 

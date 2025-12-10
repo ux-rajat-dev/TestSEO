@@ -154,7 +154,7 @@ export function OrderSummaryPage() {
 
   )
 
-  const [includeOrderForm, setIncludeOrderForm] = useState<boolean | null>(null)
+  const [includeOrderForm] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [isDownloading, setIsDownloading] = useState(false)
@@ -538,8 +538,6 @@ export function OrderSummaryPage() {
   }
 
   const handleContinue = async () => {
-
-    if (includeOrderForm === null) return
 
     setIsSaving(true)
     setSaveError(null)
@@ -976,127 +974,6 @@ export function OrderSummaryPage() {
 
                 </div>
 
-                {/* Workflow Choice */}
-
-                <div className="bg-[#1B1537] rounded-lg border border-[#2D2755] p-6">
-
-                  <div className="flex items-start mb-6">
-
-                    <InfoIcon className="h-5 w-5 text-[#EA3A70] mr-3 flex-shrink-0 mt-1" />
-
-                    <div>
-
-                      <h3 className="text-xl font-bold text-white mb-2">
-
-                        Choose Your Workflow
-
-                      </h3>
-
-                      <p className="text-gray-400 text-sm">
-
-                        Decide when you want to complete your detailed order
-
-                        form
-
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  <div className="space-y-3">
-
-                    <button
-
-                      onClick={() => setIncludeOrderForm(true)}
-
-                      className={`w-full p-4 rounded-lg border-2 transition-all text-left ${includeOrderForm === true ? 'border-[#EA3A70] bg-[#EA3A70]/10' : 'border-[#2D2755] hover:border-[#EA3A70]/50 bg-[#0F0B1F]'}`}
-
-                    >
-
-                      <div className="flex items-start justify-between">
-
-                        <div className="flex-1">
-
-                          <div className="flex items-center mb-2">
-
-                            <ClockIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
-
-                            <span className="font-semibold text-white">
-
-                              Complete order form now
-
-                            </span>
-
-                          </div>
-
-                          <p className="text-gray-400 text-sm">
-
-                            Fill out detailed information immediately after
-
-                            registration. Faster processing time.
-
-                          </p>
-
-                        </div>
-
-                        {includeOrderForm === true && (
-
-                          <CheckIcon className="h-5 w-5 text-[#EA3A70] ml-3 flex-shrink-0" />
-
-                        )}
-
-                      </div>
-
-                    </button>
-
-                    <button
-
-                      onClick={() => setIncludeOrderForm(false)}
-
-                      className={`w-full p-4 rounded-lg border-2 transition-all text-left ${includeOrderForm === false ? 'border-[#EA3A70] bg-[#EA3A70]/10' : 'border-[#2D2755] hover:border-[#EA3A70]/50 bg-[#0F0B1F]'}`}
-
-                    >
-
-                      <div className="flex items-start justify-between">
-
-                        <div className="flex-1">
-
-                          <div className="flex items-center mb-2">
-
-                            <SparklesIcon className="h-5 w-5 text-purple-400 mr-2" />
-
-                            <span className="font-semibold text-white">
-
-                              Complete after registration
-
-                            </span>
-
-                          </div>
-
-                          <p className="text-gray-400 text-sm">
-
-                            Create your account first, then complete the order
-
-                            form at your convenience from your portal.
-
-                          </p>
-
-                        </div>
-
-                        {includeOrderForm === false && (
-
-                          <CheckIcon className="h-5 w-5 text-[#EA3A70] ml-3 flex-shrink-0" />
-
-                        )}
-
-                      </div>
-
-                    </button>
-
-                  </div>
-
-                </div>
 
               </div>
 
@@ -1459,7 +1336,7 @@ export function OrderSummaryPage() {
 
                     onClick={handleContinue}
 
-                    disabled={includeOrderForm === null || isSaving}
+                    disabled={isSaving}
 
                     className="w-full bg-[#EA3A70] text-white py-3 px-4 rounded-lg font-medium hover:bg-[#EA3A70]/90 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
 
@@ -1497,16 +1374,6 @@ export function OrderSummaryPage() {
                     )}
 
                   </button>
-
-                  {includeOrderForm === null && !isSaving && (
-
-                    <p className="text-center text-sm text-gray-400 mt-3">
-
-                      Please select a workflow option to continue
-
-                    </p>
-
-                  )}
 
                 </div>
 
