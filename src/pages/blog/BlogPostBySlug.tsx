@@ -1,94 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import DOMPurify from "dompurify";
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import DOMPurify from 'dompurify';
+import { motion } from 'framer-motion';
 import {
   ArrowLeftIcon,
   CalendarIcon,
   MapPinIcon,
   ShareIcon,
   TagIcon,
-} from "lucide-react";
-import { Header } from "../../components/layout/Header";
-import { Footer } from "../../components/layout/Footer";
-import { createClient } from "@supabase/supabase-js";
-import { createSlug } from "../../utils/slugUtils";
-import "./BlogPage.css";
-
-const supabaseUrl = 'https://ioztpmluibvrvkvywvnp.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvenRwbWx1aWJ2cnZrdnl3dm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxMzY0OTQsImV4cCI6MjA2MjcxMjQ5NH0.E3ktAWoXBGSpb1NIEaj070ZY6LfngvLUXhZ3iNsH-eg';
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  ClockIcon,
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { Footer } from '../../components/layout/Footer';
+import { blogs } from './BlogData';
+import './BlogPage.css';
 
 interface BlogPost {
-  id: number;
+  id: string;
+  slug: string;
   title: string;
   country: string;
-  blog_content: string;
+  category: string;
+  author: {
+    name: string;
+    avatar: string;
+    role: string;
+  };
+  created_at: string;
+  readTime: string;
   image_url: string;
-  created_at?: string;
-  author?: string;
-  category?: string;
-  read_time?: number;
+  blog_content: string;
 }
 
 export function BlogPostBySlug() {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBlogPostBySlug = async () => {
-      if (!slug) return;
+    if (!slug) return;
 
-      try {
-        setLoading(true);
-        
-        // First, get all blog posts to find the one with matching slug
-        const { data: allPosts, error: fetchError } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .order("created_at", { ascending: false });
+    setLoading(true);
+    setError(null);
 
-        if (fetchError || !allPosts) {
-          setError("Failed to load blog posts");
-          return;
-        }
+    const matchingPost = blogs.find(
+      (post) => post.slug === slug || post.id === slug,
+    );
 
-        // Find the post with matching slug
-        const matchingPost = allPosts.find(post => 
-          createSlug(post.title) === slug
-        );
+    if (!matchingPost) {
+      setError('Blog post not found');
+      setBlogPost(null);
+      setLoading(false);
+      return;
+    }
 
-        if (!matchingPost) {
-          setError("Blog post not found");
-          return;
-        }
-
-        const transformed: BlogPost = {
-          ...matchingPost,
-          author: matchingPost.author || "Business Team",
-          category: matchingPost.category || "Business",
-          read_time:
-            matchingPost.read_time || Math.ceil(matchingPost.blog_content.length / 200),
-        };
-
-        setBlogPost(transformed);
-      } catch {
-        setError("Failed to load blog post");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogPostBySlug();
+    setBlogPost(matchingPost);
+    setLoading(false);
   }, [slug]);
 
   const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
 
   const sharePost = () => {
@@ -100,7 +75,7 @@ export function BlogPostBySlug() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      alert('Link copied to clipboard!');
     }
   };
 
@@ -133,20 +108,50 @@ export function BlogPostBySlug() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0F0B1F] text-white">
-      {/* Sticky Navbar */}
+    <div className="min-h-screen bg-[#0F0B1F] text-white relative   pb-8">
+      {/* Top Gradient Overlay */}
+      <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-[#EA3A70]/10 via-[#0F0B1F]/20 to-transparent pointer-events-none" />
+
+      {/* Sticky Header */}
       <div className="sticky top-0 z-50 bg-[#0F0B1F]">
         <Header />
       </div>
 
-      {/* Main Content */}
-      <main className="px-4 py-12 max-w-4xl mx-auto">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        {/* Back & Share */}
+        <div className="flex justify-between mb-6 px-4 py-4">
+          <Link
+            to="/blog"
+            className="inline-flex items-center text-[#EA3A70] hover:text-[#EA3A70]/80 font-medium"
+          >
+            <ArrowLeftIcon className="h-4 w-4 mr-2" />
+            Back
+          </Link>
+          <button
+            onClick={sharePost}
+            className="text-gray-300 hover:text-white"
+          >
+            <ShareIcon className="h-5 w-5" />
+          </button>
+        </div>
+
         {/* Title & Metadata */}
-        <div className="text-center px-4 py-6">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-md mb-4 leading-tight max-w-3xl mx-auto">
+        <header className="text-center px-4 py-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-md mb-4 leading-tight max-w-3xl mx-auto"
+          >
             {blogPost.title}
-          </h1>
-          <div className="text-sm text-gray-200 flex flex-wrap justify-center gap-6">
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex flex-wrap justify-center gap-6 text-sm text-gray-200"
+          >
             <div className="flex items-center gap-1">
               <CalendarIcon className="h-4 w-4" />
               {blogPost.created_at && formatDate(blogPost.created_at)}
@@ -159,46 +164,55 @@ export function BlogPostBySlug() {
               <TagIcon className="h-4 w-4" />
               {blogPost.category}
             </div>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Hero Image - Simple & Vibrant */}
-        <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+          {/* Author Info */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex items-center justify-center gap-4 mt-6"
+          >
+            <img
+              src={blogPost.author.avatar}
+              alt={blogPost.author.name}
+              className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-700"
+            />
+            <div className="text-left">
+              <div className="text-white font-medium">
+                {blogPost.author.name}
+              </div>
+              <div className="text-gray-400 text-sm flex items-center gap-2">
+                <span>{blogPost.author.role}</span>
+                <span className="w-1 h-1 rounded-full bg-gray-600" />
+                <span className="flex items-center gap-1">
+                  <ClockIcon className="w-3 h-3" />
+                  {blogPost.readTime}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </header>
+
+        {/* Hero Image */}
+        <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg shadow-lg mb-8">
           <img
             src={blogPost.image_url}
             alt={blogPost.title}
-            className="absolute inset-0 w-full h-full object-cover object-center brightness-90 hover:brightness-100 transition-all duration-300 ease-in-out rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover object-center brightness-90 hover:brightness-100 transition-all duration-300 ease-in-out transform hover:scale-105"
           />
         </div>
 
-        {/* Back & Share (Moved Below Image) */}
-        <div className="flex justify-between my-6">
-          <Link
-            to="/blog"
-            className="inline-flex items-center text-[#EA3A70] hover:underline"
-          >
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
-            Back
-          </Link>
-          <button onClick={sharePost} className="text-gray-300 hover:text-white">
-            <ShareIcon className="h-5 w-5" />
-          </button>
-        </div>
-
-        <div className="flex justify-center">
-          <article
-            className="blog-content max-w-3xl"
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blogPost.blog_content),
-            }}
-          />
-        </div>
+        {/* Blog Content */}
+        <article
+          className="blog-content mx-aut p-0"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(blogPost.blog_content),
+          }}
+        />
       </main>
 
       <Footer />
     </div>
   );
 }
-
-
-

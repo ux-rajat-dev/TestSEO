@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FileTextIcon,
   ArrowRightIcon,
@@ -15,13 +15,14 @@ import {
   AlertCircleIcon,
   GlobeIcon,
   ChevronDownIcon,
-} from 'lucide-react'
-import { Header } from '../../components/layout/Header'
-import { countries } from '../../components/countries'
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { countries } from '../../components/countries';
+import { SEO } from '../../components/common/SEO';
 
 export function CITFilingProductPage() {
-  const navigate = useNavigate()
-  const [selectedCountry, setSelectedCountry] = useState('netherlands')
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
 
   const handleGetStarted = () => {
     navigate('/qualification', {
@@ -29,14 +30,17 @@ export function CITFilingProductPage() {
         primaryFocus: 'cit-filing',
         to: selectedCountry,
         from: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
-
+      <SEO
+        title="Corporate Income Tax (CIT) Filing | House of Companies"
+        description="Ensure accurate corporate income tax filing and compliance for your EU business with expert guidance from House of Companies."
+      />
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] via-[#0F0B1F] to-[#0F0B1F]" />
@@ -151,7 +155,8 @@ export function CITFilingProductPage() {
                 {
                   icon: <FileTextIcon className="h-8 w-8" />,
                   title: 'Return Preparation',
-                  description: 'Professional CIT return forms prepared by experts',
+                  description:
+                    'Professional CIT return forms prepared by experts',
                 },
                 {
                   icon: <BarChartIcon className="h-8 w-8" />,
@@ -211,12 +216,5 @@ export function CITFilingProductPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   BuildingIcon,
   ArrowRightIcon,
@@ -14,13 +14,14 @@ import {
   PhoneIcon,
   UsersIcon,
   ChevronDownIcon,
-} from 'lucide-react'
-import { Header } from '../../components/layout/Header'
-import { countries } from '../../components/countries'
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { countries } from '../../components/countries';
+import { SEO } from '../../components/common/SEO';
 
 export function VirtualOfficeProductPage() {
-  const navigate = useNavigate()
-  const [selectedCountry, setSelectedCountry] = useState('netherlands')
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
 
   const handleGetStarted = () => {
     navigate('/qualification', {
@@ -28,14 +29,17 @@ export function VirtualOfficeProductPage() {
         primaryFocus: 'virtual-office',
         to: selectedCountry,
         from: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
-
+      <SEO
+        title="Virtual Office Services | House of Companies"
+        description="Get a prestigious business address in the EU with our virtual office services, enhancing your company’s credibility and presence."
+      />
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] via-[#0F0B1F] to-[#0F0B1F]" />
@@ -145,7 +149,8 @@ export function VirtualOfficeProductPage() {
                 {
                   icon: <MapPinIcon className="h-8 w-8" />,
                   title: 'Business Address',
-                  description: 'Professional registered address in prime location',
+                  description:
+                    'Professional registered address in prime location',
                 },
                 {
                   icon: <MailIcon className="h-8 w-8" />,
@@ -210,12 +215,5 @@ export function VirtualOfficeProductPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-

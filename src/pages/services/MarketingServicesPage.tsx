@@ -1,103 +1,160 @@
 import React, { useState, Component } from 'react';
 import { Link } from 'react-router-dom';
-import { MicIcon, Share2Icon, FileTextIcon, ArrowRightIcon, CheckIcon, GlobeIcon, ShieldIcon, SparklesIcon, BookmarkIcon, CalendarIcon, BarChart2Icon, PlusCircleIcon, UsersIcon, MessageSquareIcon, PhoneIcon, PlayCircleIcon, LayoutDashboardIcon, LockIcon, BrainCircuitIcon, CheckCircleIcon, ListIcon, LanguagesIcon, PieChartIcon, LineChartIcon, SearchIcon, MapPinIcon, TargetIcon, HeadphonesIcon, SendIcon, StarIcon } from 'lucide-react';
+import {
+  MicIcon,
+  Share2Icon,
+  FileTextIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  GlobeIcon,
+  ShieldIcon,
+  SparklesIcon,
+  BookmarkIcon,
+  CalendarIcon,
+  BarChart2Icon,
+  PlusCircleIcon,
+  UsersIcon,
+  MessageSquareIcon,
+  PhoneIcon,
+  PlayCircleIcon,
+  LayoutDashboardIcon,
+  LockIcon,
+  BrainCircuitIcon,
+  CheckCircleIcon,
+  ListIcon,
+  LanguagesIcon,
+  PieChartIcon,
+  LineChartIcon,
+  SearchIcon,
+  MapPinIcon,
+  TargetIcon,
+  HeadphonesIcon,
+  SendIcon,
+  StarIcon,
+} from 'lucide-react';
 import { VoiceAgentDemo } from '../../components/marketing/demos/VoiceAgentDemo';
 import { CitationBuilderDemo } from '../../components/marketing/demos/CitationBuilderDemo';
 import { ContentGeneratorDemo } from '../../components/marketing/demos/ContentGeneratorDemo';
 import { LeadListDemo } from '../../components/marketing/demos/LeadListDemo';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { CallToAction } from '../../components/CallToAction';
+import { SEO } from '../../components/common/SEO';
 export function MarketingServicesPage() {
   const [activeDemo, setActiveDemo] = useState<string | null>(null);
   const closeDemo = () => {
     setActiveDemo(null);
   };
-  const marketingServices = [{
-    id: 'voice-agent',
-    title: 'AI Voice Agent',
-    description: 'Automate calls and conversations with leads and customers',
-    icon: <MicIcon className="h-6 w-6 text-[#EA3A70]" />,
-    progress: 75,
-    dueDate: '2024-06-05'
-  }, {
-    id: 'citation-builder',
-    title: 'Local Citation Builder',
-    description: 'Boost your local SEO with consistent business listings',
-    icon: <MapPinIcon className="h-6 w-6 text-[#4A2D80]" />,
-    progress: 50,
-    dueDate: '2024-06-12'
-  }, {
-    id: 'content-generator',
-    title: 'Content Generator',
-    description: 'Create engaging content for social media and blogs',
-    icon: <FileTextIcon className="h-6 w-6 text-[#EA3A70]" />,
-    progress: 40,
-    dueDate: '2024-06-18'
-  }, {
-    id: 'lead-list',
-    title: 'Lead List Generation',
-    description: 'Targeted lead lists ready for outreach campaigns',
-    icon: <ListIcon className="h-6 w-6 text-[#4A2D80]" />,
-    progress: 20,
-    dueDate: '2024-06-25'
-  }];
-  const additionalServices = [{
-    title: 'Social Media Management',
-    description: 'Complete management of your social media presence',
-    icon: <Share2Icon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Brand Voice Analysis',
-    description: 'AI-powered analysis and enhancement of your brand voice',
-    icon: <LanguagesIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Competitor Intelligence',
-    description: 'Insights on competitor marketing strategies',
-    icon: <TargetIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Marketing Analytics',
-    description: 'Comprehensive analytics dashboard for all marketing efforts',
-    icon: <PieChartIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Email Marketing Automation',
-    description: 'Automated email campaigns based on customer behavior',
-    icon: <SendIcon className="h-6 w-6 text-[#EA3A70]" />,
-    premiumOnly: true
-  }];
-  const portalFeatures = [{
-    title: 'AI-Powered Automation',
-    description: 'Leverage artificial intelligence to automate repetitive marketing tasks',
-    icon: <BrainCircuitIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Local & Global Reach',
-    description: 'Market effectively both locally and internationally',
-    icon: <GlobeIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'CRM Integration',
-    description: 'Seamless integration with your existing CRM systems',
-    icon: <UsersIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Performance Tracking',
-    description: 'Real-time tracking of all your marketing campaigns',
-    icon: <LineChartIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Multi-channel Marketing',
-    description: 'Consistent messaging across all marketing channels',
-    icon: <LayoutDashboardIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Compliance Assurance',
-    description: 'Ensure all marketing efforts comply with local regulations',
-    icon: <ShieldIcon className="h-6 w-6 text-[#4A2D80]" />
-  }];
+  const marketingServices = [
+    {
+      id: 'voice-agent',
+      title: 'AI Voice Agent',
+      description: 'Automate calls and conversations with leads and customers',
+      icon: <MicIcon className="h-6 w-6 text-[#EA3A70]" />,
+      progress: 75,
+      dueDate: '2024-06-05',
+    },
+    {
+      id: 'citation-builder',
+      title: 'Local Citation Builder',
+      description: 'Boost your local SEO with consistent business listings',
+      icon: <MapPinIcon className="h-6 w-6 text-[#4A2D80]" />,
+      progress: 50,
+      dueDate: '2024-06-12',
+    },
+    {
+      id: 'content-generator',
+      title: 'Content Generator',
+      description: 'Create engaging content for social media and blogs',
+      icon: <FileTextIcon className="h-6 w-6 text-[#EA3A70]" />,
+      progress: 40,
+      dueDate: '2024-06-18',
+    },
+    {
+      id: 'lead-list',
+      title: 'Lead List Generation',
+      description: 'Targeted lead lists ready for outreach campaigns',
+      icon: <ListIcon className="h-6 w-6 text-[#4A2D80]" />,
+      progress: 20,
+      dueDate: '2024-06-25',
+    },
+  ];
+  const additionalServices = [
+    {
+      title: 'Social Media Management',
+      description: 'Complete management of your social media presence',
+      icon: <Share2Icon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Brand Voice Analysis',
+      description: 'AI-powered analysis and enhancement of your brand voice',
+      icon: <LanguagesIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Competitor Intelligence',
+      description: 'Insights on competitor marketing strategies',
+      icon: <TargetIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Marketing Analytics',
+      description:
+        'Comprehensive analytics dashboard for all marketing efforts',
+      icon: <PieChartIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Email Marketing Automation',
+      description: 'Automated email campaigns based on customer behavior',
+      icon: <SendIcon className="h-6 w-6 text-[#EA3A70]" />,
+      premiumOnly: true,
+    },
+  ];
+  const portalFeatures = [
+    {
+      title: 'AI-Powered Automation',
+      description:
+        'Leverage artificial intelligence to automate repetitive marketing tasks',
+      icon: <BrainCircuitIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Local & Global Reach',
+      description: 'Market effectively both locally and internationally',
+      icon: <GlobeIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'CRM Integration',
+      description: 'Seamless integration with your existing CRM systems',
+      icon: <UsersIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Performance Tracking',
+      description: 'Real-time tracking of all your marketing campaigns',
+      icon: <LineChartIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Multi-channel Marketing',
+      description: 'Consistent messaging across all marketing channels',
+      icon: <LayoutDashboardIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Compliance Assurance',
+      description: 'Ensure all marketing efforts comply with local regulations',
+      icon: <ShieldIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+  ];
   const handleContinue = () => {
     // Scroll to pricing or contact section
     const element = document.getElementById('pricing');
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
-  return <MainLayout showBackground={true}>
+  return (
+    <MainLayout showBackground={true}>
+      <SEO
+        title="EU Digital Marketing & Growth Services | House of Companies"
+        description="Boost your EU business with targeted digital marketing, SEO, and growth strategies. Drive leads, brand awareness, and international expansion."
+      />
       <main className="w-full min-h-screen bg-[#0A0826]">
         <div className="max-w-7xl mx-auto px-4 py-12">
           {/* Hero Section */}
@@ -123,7 +180,11 @@ export function MarketingServicesPage() {
               </div>
             </div>
             <div className="absolute right-0 top-0 h-full w-1/2 opacity-10">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Marketing automation visualization" className="h-full w-full object-cover" />
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                alt="Marketing automation visualization"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
           {/* Interactive Demo Section */}
@@ -138,7 +199,12 @@ export function MarketingServicesPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {marketingServices.map(service => <div key={service.id} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors cursor-pointer" onClick={() => setActiveDemo(service.id)}>
+              {marketingServices.map((service) => (
+                <div
+                  key={service.id}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors cursor-pointer"
+                  onClick={() => setActiveDemo(service.id)}
+                >
                   <div className="flex justify-between items-start mb-4">
                     <div className="bg-[#4A2D80]/10 p-2 rounded-lg">
                       {service.icon}
@@ -165,16 +231,20 @@ export function MarketingServicesPage() {
                       </span>
                     </div>
                     <div className="w-full bg-[#0A0826]/50 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] h-2 rounded-full" style={{
-                    width: `${service.progress}%`
-                  }}></div>
+                      <div
+                        className="bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] h-2 rounded-full"
+                        style={{
+                          width: `${service.progress}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
                   <button className="w-full flex items-center justify-center px-4 py-2 bg-[#EA3A70]/10 border border-[#EA3A70]/30 rounded-lg text-white hover:bg-[#EA3A70]/20 transition-colors">
                     <PlayCircleIcon className="mr-2 h-5 w-5 text-[#EA3A70]" />
                     Preview Demo
                   </button>
-                </div>)}
+                </div>
+              ))}
             </div>
             <div className="mt-8 p-4 bg-[#EA3A70]/10 border border-[#EA3A70]/30 rounded-xl">
               <div className="flex items-start">
@@ -235,7 +305,10 @@ export function MarketingServicesPage() {
                     </span>
                   </li>
                 </ul>
-                <button onClick={() => setActiveDemo('voice-agent')} className="px-6 py-3 bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] text-white rounded-lg font-medium hover:from-[#EA3A70]/90 hover:to-[#4A2D80]/90 flex items-center">
+                <button
+                  onClick={() => setActiveDemo('voice-agent')}
+                  className="px-6 py-3 bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] text-white rounded-lg font-medium hover:from-[#EA3A70]/90 hover:to-[#4A2D80]/90 flex items-center"
+                >
                   Try Voice Agent Demo
                   <PlayCircleIcon className="ml-2 h-5 w-5" />
                 </button>
@@ -251,7 +324,10 @@ export function MarketingServicesPage() {
                       Click the demo button to experience an interactive preview
                       of our AI Voice Agent in action
                     </p>
-                    <button onClick={() => setActiveDemo('voice-agent')} className="px-6 py-3 bg-[#EA3A70]/20 border border-[#EA3A70]/30 text-white rounded-lg hover:bg-[#EA3A70]/30 transition-colors flex items-center mx-auto">
+                    <button
+                      onClick={() => setActiveDemo('voice-agent')}
+                      className="px-6 py-3 bg-[#EA3A70]/20 border border-[#EA3A70]/30 text-white rounded-lg hover:bg-[#EA3A70]/30 transition-colors flex items-center mx-auto"
+                    >
                       <PlayCircleIcon className="mr-2 h-5 w-5 text-[#EA3A70]" />
                       Play Demo
                     </button>
@@ -272,14 +348,20 @@ export function MarketingServicesPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {additionalServices.map((service, index) => <div key={index} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors">
+              {additionalServices.map((service, index) => (
+                <div
+                  key={index}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors"
+                >
                   <div className="flex items-center justify-between mb-4">
                     <div className="bg-[#4A2D80]/10 p-2 rounded-lg">
                       {service.icon}
                     </div>
-                    {service.premiumOnly && <span className="bg-[#EA3A70]/20 text-[#EA3A70] text-xs font-medium px-2.5 py-0.5 rounded-full">
+                    {service.premiumOnly && (
+                      <span className="bg-[#EA3A70]/20 text-[#EA3A70] text-xs font-medium px-2.5 py-0.5 rounded-full">
                         Premium Plan
-                      </span>}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-lg font-medium text-white mb-2">
                     {service.title}
@@ -291,7 +373,8 @@ export function MarketingServicesPage() {
                     Learn More
                     <ArrowRightIcon className="ml-2 h-4 w-4" />
                   </button>
-                </div>)}
+                </div>
+              ))}
             </div>
             <div className="mt-8 text-center">
               <button className="inline-flex items-center px-6 py-3 bg-[#1E1B3F] border border-[#4A2D80]/30 rounded-lg text-white hover:bg-[#1E1B3F]/80 transition-colors">
@@ -315,7 +398,10 @@ export function MarketingServicesPage() {
                         Click the demo button to see how our targeted lead lists
                         are generated and prepared for your campaigns
                       </p>
-                      <button onClick={() => setActiveDemo('lead-list')} className="px-6 py-3 bg-[#4A2D80]/20 border border-[#4A2D80]/30 text-white rounded-lg hover:bg-[#4A2D80]/30 transition-colors flex items-center mx-auto">
+                      <button
+                        onClick={() => setActiveDemo('lead-list')}
+                        className="px-6 py-3 bg-[#4A2D80]/20 border border-[#4A2D80]/30 text-white rounded-lg hover:bg-[#4A2D80]/30 transition-colors flex items-center mx-auto"
+                      >
                         <PlayCircleIcon className="mr-2 h-5 w-5 text-[#4A2D80]" />
                         Play Demo
                       </button>
@@ -363,7 +449,10 @@ export function MarketingServicesPage() {
                     </span>
                   </li>
                 </ul>
-                <button onClick={() => setActiveDemo('lead-list')} className="px-6 py-3 bg-gradient-to-r from-[#4A2D80] to-[#6E36C9] text-white rounded-lg font-medium hover:from-[#4A2D80]/90 hover:to-[#6E36C9]/90 flex items-center">
+                <button
+                  onClick={() => setActiveDemo('lead-list')}
+                  className="px-6 py-3 bg-gradient-to-r from-[#4A2D80] to-[#6E36C9] text-white rounded-lg font-medium hover:from-[#4A2D80]/90 hover:to-[#6E36C9]/90 flex items-center"
+                >
                   View Lead List Demo
                   <PlayCircleIcon className="ml-2 h-5 w-5" />
                 </button>
@@ -382,7 +471,11 @@ export function MarketingServicesPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {portalFeatures.map((feature, index) => <div key={index} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
+              {portalFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30"
+                >
                   <div className="bg-[#4A2D80]/10 p-2 rounded-lg inline-block mb-4">
                     {feature.icon}
                   </div>
@@ -392,7 +485,8 @@ export function MarketingServicesPage() {
                   <p className="text-sm text-purple-200/70">
                     {feature.description}
                   </p>
-                </div>)}
+                </div>
+              ))}
             </div>
           </div>
           {/* Testimonials Section */}
@@ -410,7 +504,12 @@ export function MarketingServicesPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                    {[...Array(5)].map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-current"
+                      />
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -428,7 +527,12 @@ export function MarketingServicesPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                    {[...Array(5)].map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-current"
+                      />
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -446,7 +550,12 @@ export function MarketingServicesPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                    {[...Array(5)].map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-current"
+                      />
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -485,9 +594,14 @@ export function MarketingServicesPage() {
         <CallToAction onContinue={handleContinue} />
         {/* Demo Modals */}
         {activeDemo === 'voice-agent' && <VoiceAgentDemo onClose={closeDemo} />}
-        {activeDemo === 'citation-builder' && <CitationBuilderDemo onClose={closeDemo} />}
-        {activeDemo === 'content-generator' && <ContentGeneratorDemo onClose={closeDemo} />}
+        {activeDemo === 'citation-builder' && (
+          <CitationBuilderDemo onClose={closeDemo} />
+        )}
+        {activeDemo === 'content-generator' && (
+          <ContentGeneratorDemo onClose={closeDemo} />
+        )}
         {activeDemo === 'lead-list' && <LeadListDemo onClose={closeDemo} />}
       </main>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

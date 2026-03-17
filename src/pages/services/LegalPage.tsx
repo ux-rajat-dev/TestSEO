@@ -8,34 +8,65 @@ import { LegalPricing } from '../../components/services/legal/LegalPricing';
 import { Testimonials } from '../../components/services/legal/Testimonials';
 import { LegalPortalPreview } from '../../components/legal/LegalPortalPreview';
 import { LegalCTA } from '../../components/legal/LegalCTA';
-import { ScaleIcon, ShieldIcon, ClockIcon, EuroIcon, FileTextIcon, CheckIcon, ArrowRightIcon, GlobeIcon, LightbulbIcon, BrainCircuitIcon, WandIcon, PercentIcon, BuildingIcon, LayoutDashboardIcon, StarIcon, MessageCircleIcon } from 'lucide-react';
+import {
+  ScaleIcon,
+  ShieldIcon,
+  ClockIcon,
+  EuroIcon,
+  FileTextIcon,
+  CheckIcon,
+  ArrowRightIcon,
+  GlobeIcon,
+  LightbulbIcon,
+  BrainCircuitIcon,
+  WandIcon,
+  PercentIcon,
+  BuildingIcon,
+  LayoutDashboardIcon,
+  StarIcon,
+  MessageCircleIcon,
+} from 'lucide-react';
+import { SEO } from '../../components/common/SEO';
 export function LegalPage() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('templates');
-  const benefits = [{
-    title: 'Professional Templates',
-    description: 'Attorney-drafted documents optimized for EU business needs',
-    icon: <FileTextIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Cost-Effective',
-    description: 'Save thousands compared to traditional legal services',
-    icon: <EuroIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Time-Saving',
-    description: 'Get your documents in minutes, not weeks',
-    icon: <ClockIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Legal Compliance',
-    description: 'Automatically updated for EU regulatory changes',
-    icon: <ShieldIcon className="h-6 w-6 text-[#EA3A70]" />
-  }];
-  return <MainLayout>
+  const benefits = [
+    {
+      title: 'Professional Templates',
+      description: 'Attorney-drafted documents optimized for EU business needs',
+      icon: <FileTextIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Cost-Effective',
+      description: 'Save thousands compared to traditional legal services',
+      icon: <EuroIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Time-Saving',
+      description: 'Get your documents in minutes, not weeks',
+      icon: <ClockIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Legal Compliance',
+      description: 'Automatically updated for EU regulatory changes',
+      icon: <ShieldIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+  ];
+  return (
+    <MainLayout>
+      <SEO
+        title="EU Legal Services for Businesses | House of Companies"
+        description="Comprehensive legal support for EU companies including contracts, compliance, and corporate law guidance. Protect and grow your business efficiently."
+      />
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url(https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
-        filter: 'brightness(0.2)'
-      }}></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
+            filter: 'brightness(0.2)',
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0826]/90 to-[#0A0826]/80"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -57,8 +88,14 @@ export function LegalPage() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-4 mt-8">
-            <CountrySelector onCountrySelect={setSelectedCountry} selectedCountry={selectedCountry} />
-            <Link to="/portal/legal/templates" className="px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+            <CountrySelector
+              onCountrySelect={setSelectedCountry}
+              selectedCountry={selectedCountry}
+            />
+            <Link
+              to="/portal/legal/templates"
+              className="px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center"
+            >
               Browse Templates
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
@@ -194,7 +231,10 @@ export function LegalPage() {
                         you like me to recommend a template?"
                       </p>
                       <div className="mt-4">
-                        <Link to="/portal/legal/ai-assistant" className="px-4 py-2 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center">
+                        <Link
+                          to="/portal/legal/ai-assistant"
+                          className="px-4 py-2 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center"
+                        >
                           Chat with AI Assistant
                           <ArrowRightIcon className="h-4 w-4 ml-2" />
                         </Link>
@@ -340,19 +380,34 @@ export function LegalPage() {
             <div className="bg-[#0A0826] rounded-xl border border-indigo-500/30 overflow-hidden">
               <div className="border-b border-indigo-500/30 p-4">
                 <div className="flex space-x-4 overflow-x-auto">
-                  <button onClick={() => setActiveTab('templates')} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'templates' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}>
+                  <button
+                    onClick={() => setActiveTab('templates')}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'templates' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}
+                  >
                     All Templates
                   </button>
-                  <button onClick={() => setActiveTab('employment')} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'employment' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}>
+                  <button
+                    onClick={() => setActiveTab('employment')}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'employment' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}
+                  >
                     Employment
                   </button>
-                  <button onClick={() => setActiveTab('business')} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'business' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}>
+                  <button
+                    onClick={() => setActiveTab('business')}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'business' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}
+                  >
                     Business Operations
                   </button>
-                  <button onClick={() => setActiveTab('corporate')} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'corporate' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}>
+                  <button
+                    onClick={() => setActiveTab('corporate')}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'corporate' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}
+                  >
                     Corporate
                   </button>
-                  <button onClick={() => setActiveTab('privacy')} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'privacy' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}>
+                  <button
+                    onClick={() => setActiveTab('privacy')}
+                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap ${activeTab === 'privacy' ? 'bg-[#EA3A70] text-white' : 'text-indigo-300 hover:bg-indigo-900/30'}`}
+                  >
                     Privacy & Data
                   </button>
                 </div>
@@ -363,7 +418,10 @@ export function LegalPage() {
             </div>
           </div>
           <div className="text-center mt-8">
-            <Link to="/portal/legal/templates" className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium">
+            <Link
+              to="/portal/legal/templates"
+              className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center font-medium"
+            >
               View All Templates
               <ArrowRightIcon className="ml-2 h-5 w-5" />
             </Link>
@@ -388,7 +446,11 @@ export function LegalPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map(benefit => <div key={benefit.title} className="bg-indigo-900/20 rounded-xl p-6 border border-indigo-500/30 hover:border-[#EA3A70]/30 transition-all">
+            {benefits.map((benefit) => (
+              <div
+                key={benefit.title}
+                className="bg-indigo-900/20 rounded-xl p-6 border border-indigo-500/30 hover:border-[#EA3A70]/30 transition-all"
+              >
                 <div className="inline-flex items-center justify-center p-3 rounded-lg bg-[#2D2755]/50 border border-[#2D2755] mb-4">
                   {benefit.icon}
                 </div>
@@ -396,7 +458,8 @@ export function LegalPage() {
                   {benefit.title}
                 </h3>
                 <p className="text-indigo-200">{benefit.description}</p>
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -416,12 +479,18 @@ export function LegalPage() {
             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
               <div className="md:w-1/3">
                 <div className="rounded-xl overflow-hidden border-2 border-indigo-500/30 h-64 w-64 mx-auto">
-                  <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Client Portrait" className="w-full h-full object-cover" />
+                  <img
+                    src="https://randomuser.me/api/portraits/women/42.jpg"
+                    alt="Client Portrait"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               <div className="md:w-2/3">
                 <div className="flex mb-6">
-                  {[...Array(5)].map((_, i) => <StarIcon key={i} className="h-5 w-5 text-yellow-500" />)}
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="h-5 w-5 text-yellow-500" />
+                  ))}
                 </div>
                 <blockquote className="text-xl text-white italic mb-6">
                   "The AI-powered legal templates saved us thousands in legal
@@ -440,7 +509,10 @@ export function LegalPage() {
             </div>
           </div>
           <div className="mt-8 text-center">
-            <Link to="/testimonials" className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/testimonials"
+              className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Read More Success Stories
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
@@ -459,5 +531,6 @@ export function LegalPage() {
           <LegalCTA />
         </div>
       </section>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

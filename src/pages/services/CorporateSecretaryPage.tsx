@@ -1,20 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
-import { FileTextIcon, ArrowRightIcon, CheckIcon, ClockIcon, ShieldIcon, CalendarIcon, BookOpenIcon, BuildingIcon, UserIcon, GlobeIcon, AlertTriangleIcon, ScrollIcon, HeadphonesIcon, RefreshCwIcon, LockIcon, ShareIcon, LayoutIcon } from 'lucide-react';
+import {
+  FileTextIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  ClockIcon,
+  ShieldIcon,
+  CalendarIcon,
+  BookOpenIcon,
+  BuildingIcon,
+  UserIcon,
+  GlobeIcon,
+  AlertTriangleIcon,
+  ScrollIcon,
+  HeadphonesIcon,
+  RefreshCwIcon,
+  LockIcon,
+  ShareIcon,
+  LayoutIcon,
+} from 'lucide-react';
 import { DocumentManager } from '../../components/corporate/DocumentManager';
 import { ComplianceCalendar } from '../../components/corporate/ComplianceCalendar';
 import { CorporateChangesTracker } from '../../components/corporate/CorporateChangesTracker';
 import { KYCProfileSharing } from '../../components/corporate/KYCProfileSharing';
 import { SupportFeatures } from '../../components/corporate/SupportFeatures';
+import { SEO } from '../../components/common/SEO';
 export function CorporateSecretaryPage() {
-  return <MainLayout>
+  return (
+    <MainLayout>
+      <SEO
+        title="Corporate Secretary Services EU | House of Companies"
+        description="Ensure corporate compliance across the EU with our expert corporate secretary services. Manage filings, documentation, and legal obligations easily."
+      />
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url(https://uploadthingy.s3.us-west-1.amazonaws.com/ekG5vQ4s8AbRuQ6q8ygYyk/corporate_secretary.jpg)`,
-        filter: 'brightness(0.2)'
-      }}></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://uploadthingy.s3.us-west-1.amazonaws.com/ekG5vQ4s8AbRuQ6q8ygYyk/corporate_secretary.jpg)`,
+            filter: 'brightness(0.2)',
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0826]/90 to-[#0A0826]/80"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -35,11 +62,17 @@ export function CorporateSecretaryPage() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-4 mt-8">
-            <Link to="/portal/corporate-secretary" className="px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+            <Link
+              to="/portal/corporate-secretary"
+              className="px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/pricing" className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/pricing"
+              className="px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               View Pricing
             </Link>
           </div>
@@ -491,7 +524,10 @@ export function CorporateSecretaryPage() {
                   <span className="text-white">Email support</span>
                 </li>
               </ul>
-              <Link to="/portal/corporate-secretary/signup?plan=basic" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/corporate-secretary/signup?plan=basic"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -532,7 +568,10 @@ export function CorporateSecretaryPage() {
                   <span className="text-white">Phone & email support</span>
                 </li>
               </ul>
-              <Link to="/portal/corporate-secretary/signup?plan=business" className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium">
+              <Link
+                to="/portal/corporate-secretary/signup?plan=business"
+                className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -578,7 +617,10 @@ export function CorporateSecretaryPage() {
                   <span className="text-white">Custom legal updates</span>
                 </li>
               </ul>
-              <Link to="/portal/corporate-secretary/signup?plan=enterprise" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/corporate-secretary/signup?plan=enterprise"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -670,15 +712,22 @@ export function CorporateSecretaryPage() {
             your Dutch entity remains fully compliant.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/portal/corporate-secretary/signup" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/portal/corporate-secretary/signup"
+              className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/contact" className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/contact"
+              className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Schedule Consultation
             </Link>
           </div>
         </div>
       </section>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

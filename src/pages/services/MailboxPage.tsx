@@ -1,18 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
-import { MailIcon, ArrowRightIcon, CheckIcon, GlobeIcon, ClockIcon, ShieldIcon, BuildingIcon, ScanIcon, TruckIcon, SmartphoneIcon, PackageIcon, BrainCircuitIcon, LanguagesIcon, ListIcon, FileTextIcon, AlertTriangleIcon } from 'lucide-react';
+import {
+  MailIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  GlobeIcon,
+  ClockIcon,
+  ShieldIcon,
+  BuildingIcon,
+  ScanIcon,
+  TruckIcon,
+  SmartphoneIcon,
+  PackageIcon,
+  BrainCircuitIcon,
+  LanguagesIcon,
+  ListIcon,
+  FileTextIcon,
+  AlertTriangleIcon,
+} from 'lucide-react';
 import { AIDocumentAnalyzer } from '../../components/mailbox/AIDocumentAnalyzer';
 import { MailboxDemo } from '../../components/mailbox/MailboxDemo';
 import { TaskIntegration } from '../../components/mailbox/TaskIntegration';
+import { SEO } from '../../components/common/SEO';
 export function MailboxPage() {
-  return <MainLayout>
+  return (
+    <MainLayout>
+      <SEO
+        title="EU Virtual Mailbox & Business Address | House of Companies"
+        description="Get a professional EU business address with secure mail handling and notifications. Perfect for startups, remote businesses, and international expansions."
+      />
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url(https://images.unsplash.com/photo-1565301660306-29e08751cc53?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
-        filter: 'brightness(0.2)'
-      }}></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://images.unsplash.com/photo-1565301660306-29e08751cc53?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
+            filter: 'brightness(0.2)',
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0826]/90 to-[#0A0826]/80"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8">
@@ -33,11 +59,17 @@ export function MailboxPage() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-            <Link to="/portal/mailbox" className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+            <Link
+              to="/portal/mailbox"
+              className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/pricing"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               View Pricing
             </Link>
           </div>
@@ -510,7 +542,10 @@ export function MailboxPage() {
                   <span className="text-white">Basic AI analysis</span>
                 </li>
               </ul>
-              <Link to="/portal/mailbox/signup?plan=basic" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/mailbox/signup?plan=basic"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -551,7 +586,10 @@ export function MailboxPage() {
                   <span className="text-white">Basic task integration</span>
                 </li>
               </ul>
-              <Link to="/portal/mailbox/signup?plan=business" className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium">
+              <Link
+                to="/portal/mailbox/signup?plan=business"
+                className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -597,7 +635,10 @@ export function MailboxPage() {
                   <span className="text-white">Dedicated account manager</span>
                 </li>
               </ul>
-              <Link to="/portal/mailbox/signup?plan=enterprise" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/mailbox/signup?plan=enterprise"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -615,15 +656,22 @@ export function MailboxPage() {
             an important deadline or action again.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/portal/mailbox/signup" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/portal/mailbox/signup"
+              className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/contact" className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/contact"
+              className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Schedule Demo
             </Link>
           </div>
         </div>
       </section>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

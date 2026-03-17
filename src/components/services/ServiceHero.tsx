@@ -11,9 +11,10 @@ export function ServiceHero({
   title,
   description,
   icon,
-  image
+  image,
 }: ServiceHeroProps) {
-  return <section className="relative py-20 overflow-hidden">
+  return (
+    <section className="relative py-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] to-[#0F0B1F]"></div>
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -28,10 +29,16 @@ export function ServiceHero({
             </h1>
             <p className="text-xl text-gray-300 mb-8">{description}</p>
             <div className="flex flex-wrap gap-4">
-              <Link to="/get-started" className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center font-medium shadow-md shadow-[#EA3A70]/20">
+              <Link
+                to="/get-started"
+                className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors flex items-center font-medium shadow-md shadow-[#EA3A70]/20"
+              >
                 Get Started
               </Link>
-              <Link to="/book-demo" className="px-6 py-3 bg-[#1B1537] text-white rounded-lg border border-[#2D2755] hover:bg-[#2D2755]/50 transition-colors flex items-center font-medium">
+              <Link
+                to="/book-demo"
+                className="px-6 py-3 bg-[#1B1537] text-white rounded-lg border border-[#2D2755] hover:bg-[#2D2755]/50 transition-colors flex items-center font-medium"
+              >
                 Book a Consultation
                 <ArrowRightIcon className="h-4 w-4 ml-2" />
               </Link>
@@ -40,7 +47,11 @@ export function ServiceHero({
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-[#2D2755] bg-[#1B1537]/20 backdrop-blur-sm">
               <div className="aspect-video w-full">
-                <img src={image} alt={title} className="w-full h-full object-cover" />
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-[#0F0B1F] via-transparent to-transparent"></div>
             </div>
@@ -59,5 +70,6 @@ export function ServiceHero({
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 }

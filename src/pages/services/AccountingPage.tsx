@@ -1,30 +1,61 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
-import { LineChartIcon, ArrowRightIcon, CheckIcon, PercentIcon, ClockIcon, ShieldIcon, BarChart2Icon, FileTextIcon, UsersIcon, GlobeIcon, CalendarIcon, CoinsIcon, BrainCircuitIcon, ZapIcon, UploadIcon, AlertTriangleIcon, EyeIcon, DownloadIcon, SearchIcon } from 'lucide-react';
+import {
+  LineChartIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  PercentIcon,
+  ClockIcon,
+  ShieldIcon,
+  BarChart2Icon,
+  FileTextIcon,
+  UsersIcon,
+  GlobeIcon,
+  CalendarIcon,
+  CoinsIcon,
+  BrainCircuitIcon,
+  ZapIcon,
+  UploadIcon,
+  AlertTriangleIcon,
+  EyeIcon,
+  DownloadIcon,
+  SearchIcon,
+} from 'lucide-react';
 import { SimpleImage } from '../../components/common/SimpleImage';
 import { AccountingAIFeatures } from '../../components/accounting/AccountingAIFeatures';
 import { DocumentProcessingDemo } from '../../components/accounting/DocumentProcessingDemo';
 import { TaxCalendarPreview } from '../../components/accounting/TaxCalendarPreview';
 import { FinancialStatementGenerator } from '../../components/accounting/FinancialStatementGenerator';
+import { SEO } from '../../components/common/SEO';
+
 export function AccountingPage() {
+  <SEO
+    title="EU Accounting & Tax Services | House of Companies"
+    description="Professional accounting, bookkeeping, and tax filing services for EU businesses. Stay compliant and manage finances efficiently with House of Companies."
+  />;
+
   const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState('documents');
-  
+
   const handleGetQuote = () => {
     navigate('/qualification', {
       state: {
-        primaryFocus: 'accounting'
-      }
+        primaryFocus: 'accounting',
+      },
     });
   };
-  return <MainLayout>
+  return (
+    <MainLayout>
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
-        filter: 'brightness(0.2)'
-      }}></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80)`,
+            filter: 'brightness(0.2)',
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0826]/90 to-[#0A0826]/80"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8">
@@ -45,14 +76,23 @@ export function AccountingPage() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-            <button onClick={handleGetQuote} className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+            <button
+              onClick={handleGetQuote}
+              className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center"
+            >
               Get Quote
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </button>
-            <Link to="/accounting-product" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/accounting-product"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               Get Started
             </Link>
-            <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/pricing"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               View Pricing
             </Link>
           </div>
@@ -134,28 +174,47 @@ export function AccountingPage() {
           </div>
           <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl border border-[#2D2755] p-6 mb-10">
             <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <button onClick={() => setActiveDemo('documents')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'documents' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('documents')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'documents' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <UploadIcon className="h-5 w-5 mr-2" />
                 Document Management
               </button>
-              <button onClick={() => setActiveDemo('tax-calendar')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'tax-calendar' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('tax-calendar')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'tax-calendar' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <CalendarIcon className="h-5 w-5 mr-2" />
                 Tax Calendar
               </button>
-              <button onClick={() => setActiveDemo('financial-statements')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'financial-statements' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('financial-statements')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'financial-statements' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <FileTextIcon className="h-5 w-5 mr-2" />
                 Financial Statements
               </button>
-              <button onClick={() => setActiveDemo('tax-analysis')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'tax-analysis' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('tax-analysis')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'tax-analysis' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/30 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <PercentIcon className="h-5 w-5 mr-2" />
                 Tax Analysis
               </button>
             </div>
             {activeDemo === 'documents' && <DocumentProcessingDemo />}
             {activeDemo === 'tax-calendar' && <TaxCalendarPreview />}
-            {activeDemo === 'financial-statements' && <FinancialStatementGenerator />}
-            {activeDemo === 'tax-analysis' && <div className="relative">
-                <SimpleImage imageName="Corporate_Tax_Analaysis.jpg" alt="Tax Analysis Interface" className="w-full rounded-xl border border-indigo-500/30" />
+            {activeDemo === 'financial-statements' && (
+              <FinancialStatementGenerator />
+            )}
+            {activeDemo === 'tax-analysis' && (
+              <div className="relative">
+                <SimpleImage
+                  imageName="Corporate_Tax_Analaysis.jpg"
+                  alt="Tax Analysis Interface"
+                  className="w-full rounded-xl border border-indigo-500/30"
+                />
                 <div className="absolute top-4 right-4 flex space-x-2">
                   <button className="p-2 bg-indigo-900/70 backdrop-blur-sm text-white rounded-lg hover:bg-indigo-800 transition-colors">
                     <EyeIcon className="h-5 w-5" />
@@ -173,14 +232,18 @@ export function AccountingPage() {
                     optimization opportunities and compliance risks
                   </p>
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
           <div className="text-center">
             <p className="text-indigo-200 mb-6">
               Our AI-powered accounting platform streamlines your financial
               management, providing real-time insights and ensuring compliance.
             </p>
-            <Link to="/portal/accounting/signup" className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center">
+            <Link
+              to="/portal/accounting/signup"
+              className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center"
+            >
               Try It Free
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
@@ -366,13 +429,20 @@ export function AccountingPage() {
                   </div>
                 </div>
               </div>
-              <Link to="/portal/accounting/documents" className="px-5 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors inline-flex items-center">
+              <Link
+                to="/portal/accounting/documents"
+                className="px-5 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors inline-flex items-center"
+              >
                 Learn More
                 <ArrowRightIcon className="h-5 w-5 ml-2" />
               </Link>
             </div>
             <div className="relative">
-              <SimpleImage imageName="accounting_documents.jpg" alt="Document Management Interface" className="rounded-xl border border-indigo-500/30 shadow-xl" />
+              <SimpleImage
+                imageName="accounting_documents.jpg"
+                alt="Document Management Interface"
+                className="rounded-xl border border-indigo-500/30 shadow-xl"
+              />
               <div className="absolute -bottom-6 -right-6 bg-[#EA3A70]/10 backdrop-blur-sm rounded-xl border border-[#EA3A70]/30 p-4 max-w-xs">
                 <div className="flex items-center mb-2">
                   <BrainCircuitIcon className="h-5 w-5 text-[#EA3A70] mr-2" />
@@ -613,15 +683,22 @@ export function AccountingPage() {
             in your financial management.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/portal/accounting/signup" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/portal/accounting/signup"
+              className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/contact" className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/contact"
+              className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Schedule Demo
             </Link>
           </div>
         </div>
       </section>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

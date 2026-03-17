@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   CalculatorIcon,
   ArrowRightIcon,
@@ -16,13 +16,14 @@ import {
   UsersIcon,
   GlobeIcon,
   ChevronDownIcon,
-} from 'lucide-react'
-import { Header } from '../../components/layout/Header'
-import { countries } from '../../components/countries'
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { countries } from '../../components/countries';
+import { SEO } from '../../components/common/SEO';
 
 export function AccountingProductPage() {
-  const navigate = useNavigate()
-  const [selectedCountry, setSelectedCountry] = useState('netherlands')
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
 
   const handleGetStarted = () => {
     navigate('/qualification', {
@@ -30,14 +31,17 @@ export function AccountingProductPage() {
         primaryFocus: 'accounting',
         to: selectedCountry,
         from: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
-
+      <SEO
+        title="Accounting Services for EU Businesses | House of Companies"
+        description="Manage your business finances efficiently with our comprehensive accounting services tailored for EU companies."
+      />
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] via-[#0F0B1F] to-[#0F0B1F]" />
@@ -114,7 +118,9 @@ export function AccountingProductPage() {
                     />
                   ))}
                 </div>
-                <span className="text-sm">500+ businesses using our platform</span>
+                <span className="text-sm">
+                  500+ businesses using our platform
+                </span>
               </div>
               <div className="flex items-center">
                 <div className="flex text-yellow-400 mr-2">
@@ -147,7 +153,8 @@ export function AccountingProductPage() {
                 {
                   icon: <BrainCircuitIcon className="h-8 w-8" />,
                   title: 'AI-Powered Automation',
-                  description: 'Intelligent document processing and categorization',
+                  description:
+                    'Intelligent document processing and categorization',
                 },
                 {
                   icon: <FileTextIcon className="h-8 w-8" />,
@@ -212,12 +219,5 @@ export function AccountingProductPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-

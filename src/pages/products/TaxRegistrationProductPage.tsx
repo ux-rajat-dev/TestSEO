@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FileTextIcon,
   ArrowRightIcon,
@@ -14,13 +14,14 @@ import {
   GlobeIcon,
   BuildingIcon,
   ChevronDownIcon,
-} from 'lucide-react'
-import { Header } from '../../components/layout/Header'
-import { countries } from '../../components/countries'
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { countries } from '../../components/countries';
+import { SEO } from '../../components/common/SEO';
 
 export function TaxRegistrationProductPage() {
-  const navigate = useNavigate()
-  const [selectedCountry, setSelectedCountry] = useState('netherlands')
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
 
   const handleGetStarted = () => {
     navigate('/qualification', {
@@ -28,13 +29,17 @@ export function TaxRegistrationProductPage() {
         primaryFocus: 'tax-registration',
         to: selectedCountry,
         from: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
+      <SEO
+        title="Tax Registration Services | House of Companies"
+        description="Simplify tax registration and compliance for your EU business with our expert guidance and streamlined processes."
+      />
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
@@ -112,7 +117,9 @@ export function TaxRegistrationProductPage() {
                     />
                   ))}
                 </div>
-                <span className="text-sm">300+ tax registrations completed</span>
+                <span className="text-sm">
+                  300+ tax registrations completed
+                </span>
               </div>
               <div className="flex items-center">
                 <div className="flex text-yellow-400 mr-2">
@@ -210,12 +217,5 @@ export function TaxRegistrationProductPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-

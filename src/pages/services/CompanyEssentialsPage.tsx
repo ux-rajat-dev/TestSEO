@@ -1,6 +1,27 @@
 import React, { useState, Component } from 'react';
 import { Link } from 'react-router-dom';
-import { BuildingIcon, CreditCardIcon, UsersIcon, EuroIcon, ArrowRightIcon, CheckIcon, GlobeIcon, ShieldIcon, SparklesIcon, BookmarkIcon, CalendarIcon, BarChart2Icon, PlusCircleIcon, AnchorIcon, BadgePercentIcon, ShieldCheckIcon, CheckCircleIcon, PlayCircleIcon, LayoutDashboardIcon, LockIcon } from 'lucide-react';
+import {
+  BuildingIcon,
+  CreditCardIcon,
+  UsersIcon,
+  EuroIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  GlobeIcon,
+  ShieldIcon,
+  SparklesIcon,
+  BookmarkIcon,
+  CalendarIcon,
+  BarChart2Icon,
+  PlusCircleIcon,
+  AnchorIcon,
+  BadgePercentIcon,
+  ShieldCheckIcon,
+  CheckCircleIcon,
+  PlayCircleIcon,
+  LayoutDashboardIcon,
+  LockIcon,
+} from 'lucide-react';
 import { SimpleImage } from '../../components/common/SimpleImage';
 import { BranchRegistrationFlow } from '../../components/workflows/branch/BranchRegistrationFlow';
 import { BankAccountSetupFlow } from '../../components/workflows/bank/BankAccountSetupFlow';
@@ -8,97 +29,125 @@ import { VATRegistrationFlow } from '../../components/workflows/vat/VATRegistrat
 import { EmployerRegistrationFlow } from '../../components/workflows/employer/EmployerRegistrationFlow';
 import { MainLayout } from '../../components/layout/MainLayout';
 import { CallToAction } from '../../components/CallToAction';
+import { SEO } from '../../components/common/SEO';
+
 export function CompanyEssentialsPage() {
   const [activeFlow, setActiveFlow] = useState<string | null>(null);
   const closeFlow = () => {
     setActiveFlow(null);
   };
-  const essentialServices = [{
-    id: 'branch',
-    title: 'Branch Registration',
-    description: 'Complete your branch registration process across EU countries',
-    icon: <BuildingIcon className="h-6 w-6 text-[#4A2D80]" />,
-    progress: 60,
-    dueDate: '2024-06-15'
-  }, {
-    id: 'bank',
-    title: 'Bank Account Setup',
-    description: 'Complete your business bank account application',
-    icon: <CreditCardIcon className="h-6 w-6 text-[#EA3A70]" />,
-    progress: 30,
-    dueDate: '2024-06-10'
-  }, {
-    id: 'vat',
-    title: 'VAT Registration',
-    description: 'Register for VAT to comply with tax regulations',
-    icon: <EuroIcon className="h-6 w-6 text-[#EA3A70]" />,
-    progress: 15,
-    dueDate: '2024-06-20'
-  }, {
-    id: 'employer',
-    title: 'Employer Registration',
-    description: 'Set up payroll for your employees in any EU country',
-    icon: <UsersIcon className="h-6 w-6 text-[#4A2D80]" />,
-    progress: 10,
-    dueDate: '2024-06-25'
-  }];
-  const additionalServices = [{
-    title: 'Trademark Registration',
-    description: 'Protect your brand across the EU market',
-    icon: <BookmarkIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Startup Visa Application',
-    description: 'Streamlined visa process for innovative startups',
-    icon: <SparklesIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Vessel Registration',
-    description: 'Register commercial or private vessels in the EU',
-    icon: <AnchorIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'REMIT Representation',
-    description: 'Compliance with EU energy market regulations',
-    icon: <ShieldIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: '30% Ruling Application',
-    description: 'Tax advantage for highly skilled migrants in the Netherlands',
-    icon: <BadgePercentIcon className="h-6 w-6 text-[#EA3A70]" />,
-    nlOnly: true
-  }];
-  const portalFeatures = [{
-    title: 'All-in-One Solution',
-    description: 'Manage all your EU business essentials in one secure platform',
-    icon: <LayoutDashboardIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'EU-Wide Coverage',
-    description: 'Consistent service across all 27 EU member states',
-    icon: <GlobeIcon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Expert Guidance',
-    description: 'Access to specialized advisors for each business process',
-    icon: <UsersIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Progress Tracking',
-    description: 'Real-time updates on all your business applications',
-    icon: <BarChart2Icon className="h-6 w-6 text-[#4A2D80]" />
-  }, {
-    title: 'Document Management',
-    description: 'Secure storage and management of all business documents',
-    icon: <ShieldCheckIcon className="h-6 w-6 text-[#EA3A70]" />
-  }, {
-    title: 'Compliance Assurance',
-    description: 'Stay compliant with all EU and local regulations',
-    icon: <CheckCircleIcon className="h-6 w-6 text-[#4A2D80]" />
-  }];
+  const essentialServices = [
+    {
+      id: 'branch',
+      title: 'Branch Registration',
+      description:
+        'Complete your branch registration process across EU countries',
+      icon: <BuildingIcon className="h-6 w-6 text-[#4A2D80]" />,
+      progress: 60,
+      dueDate: '2024-06-15',
+    },
+    {
+      id: 'bank',
+      title: 'Bank Account Setup',
+      description: 'Complete your business bank account application',
+      icon: <CreditCardIcon className="h-6 w-6 text-[#EA3A70]" />,
+      progress: 30,
+      dueDate: '2024-06-10',
+    },
+    {
+      id: 'vat',
+      title: 'VAT Registration',
+      description: 'Register for VAT to comply with tax regulations',
+      icon: <EuroIcon className="h-6 w-6 text-[#EA3A70]" />,
+      progress: 15,
+      dueDate: '2024-06-20',
+    },
+    {
+      id: 'employer',
+      title: 'Employer Registration',
+      description: 'Set up payroll for your employees in any EU country',
+      icon: <UsersIcon className="h-6 w-6 text-[#4A2D80]" />,
+      progress: 10,
+      dueDate: '2024-06-25',
+    },
+  ];
+  const additionalServices = [
+    {
+      title: 'Trademark Registration',
+      description: 'Protect your brand across the EU market',
+      icon: <BookmarkIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Startup Visa Application',
+      description: 'Streamlined visa process for innovative startups',
+      icon: <SparklesIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Vessel Registration',
+      description: 'Register commercial or private vessels in the EU',
+      icon: <AnchorIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'REMIT Representation',
+      description: 'Compliance with EU energy market regulations',
+      icon: <ShieldIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: '30% Ruling Application',
+      description:
+        'Tax advantage for highly skilled migrants in the Netherlands',
+      icon: <BadgePercentIcon className="h-6 w-6 text-[#EA3A70]" />,
+      nlOnly: true,
+    },
+  ];
+  const portalFeatures = [
+    {
+      title: 'All-in-One Solution',
+      description:
+        'Manage all your EU business essentials in one secure platform',
+      icon: <LayoutDashboardIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'EU-Wide Coverage',
+      description: 'Consistent service across all 27 EU member states',
+      icon: <GlobeIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Expert Guidance',
+      description: 'Access to specialized advisors for each business process',
+      icon: <UsersIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Progress Tracking',
+      description: 'Real-time updates on all your business applications',
+      icon: <BarChart2Icon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+    {
+      title: 'Document Management',
+      description: 'Secure storage and management of all business documents',
+      icon: <ShieldCheckIcon className="h-6 w-6 text-[#EA3A70]" />,
+    },
+    {
+      title: 'Compliance Assurance',
+      description: 'Stay compliant with all EU and local regulations',
+      icon: <CheckCircleIcon className="h-6 w-6 text-[#4A2D80]" />,
+    },
+  ];
   const handleContinue = () => {
     // Scroll to pricing or contact section
     const element = document.getElementById('pricing');
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
-  return <MainLayout showBackground={true}>
+  return (
+    <MainLayout showBackground={true}>
+      <SEO
+        title="Company Essentials EU Portal | House of Companies"
+        description="Access all essential services for your EU business setup including branch registration, VAT, banking, and employer registration through House of Companies."
+      />
       <main className="w-full min-h-screen bg-[#0A0826]">
         <div className="max-w-7xl mx-auto px-4 py-12">
           {/* Hero Section */}
@@ -123,7 +172,11 @@ export function CompanyEssentialsPage() {
               </div>
             </div>
             <div className="absolute right-0 top-0 h-full w-1/2 opacity-10">
-              <SimpleImage imageName="corporate_secretary_demo_abstract_portal.jpg" alt="Abstract visualization of business portal" className="h-full w-full object-cover" />
+              <SimpleImage
+                imageName="corporate_secretary_demo_abstract_portal.jpg"
+                alt="Abstract visualization of business portal"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
           {/* Interactive Demo Section */}
@@ -138,7 +191,12 @@ export function CompanyEssentialsPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {essentialServices.map(service => <div key={service.id} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors cursor-pointer" onClick={() => setActiveFlow(service.id)}>
+              {essentialServices.map((service) => (
+                <div
+                  key={service.id}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors cursor-pointer"
+                  onClick={() => setActiveFlow(service.id)}
+                >
                   <div className="flex justify-between items-start mb-4">
                     <div className="bg-[#4A2D80]/10 p-2 rounded-lg">
                       {service.icon}
@@ -165,16 +223,20 @@ export function CompanyEssentialsPage() {
                       </span>
                     </div>
                     <div className="w-full bg-[#0A0826]/50 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] h-2 rounded-full" style={{
-                    width: `${service.progress}%`
-                  }}></div>
+                      <div
+                        className="bg-gradient-to-r from-[#EA3A70] to-[#4A2D80] h-2 rounded-full"
+                        style={{
+                          width: `${service.progress}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
                   <button className="w-full flex items-center justify-center px-4 py-2 bg-[#EA3A70]/10 border border-[#EA3A70]/30 rounded-lg text-white hover:bg-[#EA3A70]/20 transition-colors">
                     <PlayCircleIcon className="mr-2 h-5 w-5 text-[#EA3A70]" />
                     Preview Flow
                   </button>
-                </div>)}
+                </div>
+              ))}
             </div>
             <div className="mt-8 p-4 bg-[#EA3A70]/10 border border-[#EA3A70]/30 rounded-xl">
               <div className="flex items-start">
@@ -204,14 +266,20 @@ export function CompanyEssentialsPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {additionalServices.map((service, index) => <div key={index} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors">
+              {additionalServices.map((service, index) => (
+                <div
+                  key={index}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30 hover:border-[#EA3A70]/30 transition-colors"
+                >
                   <div className="flex items-center justify-between mb-4">
                     <div className="bg-[#4A2D80]/10 p-2 rounded-lg">
                       {service.icon}
                     </div>
-                    {service.nlOnly && <span className="bg-[#EA3A70]/20 text-[#EA3A70] text-xs font-medium px-2.5 py-0.5 rounded-full">
+                    {service.nlOnly && (
+                      <span className="bg-[#EA3A70]/20 text-[#EA3A70] text-xs font-medium px-2.5 py-0.5 rounded-full">
                         Netherlands Only
-                      </span>}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-lg font-medium text-white mb-2">
                     {service.title}
@@ -223,7 +291,8 @@ export function CompanyEssentialsPage() {
                     Learn More
                     <ArrowRightIcon className="ml-2 h-4 w-4" />
                   </button>
-                </div>)}
+                </div>
+              ))}
             </div>
             <div className="mt-8 text-center">
               <button className="inline-flex items-center px-6 py-3 bg-[#1E1B3F] border border-[#4A2D80]/30 rounded-lg text-white hover:bg-[#1E1B3F]/80 transition-colors">
@@ -244,7 +313,11 @@ export function CompanyEssentialsPage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {portalFeatures.map((feature, index) => <div key={index} className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
+              {portalFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30"
+                >
                   <div className="bg-[#4A2D80]/10 p-2 rounded-lg inline-block mb-4">
                     {feature.icon}
                   </div>
@@ -254,7 +327,8 @@ export function CompanyEssentialsPage() {
                   <p className="text-sm text-purple-200/70">
                     {feature.description}
                   </p>
-                </div>)}
+                </div>
+              ))}
             </div>
           </div>
           {/* Testimonials Section */}
@@ -271,9 +345,16 @@ export function CompanyEssentialsPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>)}
+                      </svg>
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -291,9 +372,16 @@ export function CompanyEssentialsPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>)}
+                      </svg>
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -311,9 +399,16 @@ export function CompanyEssentialsPage() {
               <div className="bg-[#1E1B3F] rounded-xl p-6 border border-[#4A2D80]/30">
                 <div className="flex items-center mb-4">
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>)}
+                      </svg>
+                    ))}
                   </div>
                 </div>
                 <p className="text-purple-200/90 mb-4">
@@ -351,10 +446,15 @@ export function CompanyEssentialsPage() {
         {/* Call to Action Component */}
         <CallToAction onContinue={handleContinue} />
         {/* Flow Modals */}
-        {activeFlow === 'branch' && <BranchRegistrationFlow onClose={closeFlow} />}
+        {activeFlow === 'branch' && (
+          <BranchRegistrationFlow onClose={closeFlow} />
+        )}
         {activeFlow === 'bank' && <BankAccountSetupFlow onClose={closeFlow} />}
         {activeFlow === 'vat' && <VATRegistrationFlow onClose={closeFlow} />}
-        {activeFlow === 'employer' && <EmployerRegistrationFlow onClose={closeFlow} />}
+        {activeFlow === 'employer' && (
+          <EmployerRegistrationFlow onClose={closeFlow} />
+        )}
       </main>
-    </MainLayout>;
+    </MainLayout>
+  );
 }

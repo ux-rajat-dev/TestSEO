@@ -1,77 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import DOMPurify from "dompurify";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   SearchIcon,
-  FilterIcon,
   MapPinIcon,
   ArrowRightIcon,
   BookOpenIcon,
-} from "lucide-react";
-import { Header } from "../../components/layout/Header";
-import { Footer } from "../../components/layout/Footer";
-import { AddBlogPost } from "../../components/blog/AddBlogPost";
-import { createClient } from "@supabase/supabase-js";
-import { createSlug } from "../../utils/slugUtils";
-
-const supabaseUrl = 'https://ioztpmluibvrvkvywvnp.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvenRwbWx1aWJ2cnZrdnl3dm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxMzY0OTQsImV4cCI6MjA2MjcxMjQ5NH0.E3ktAWoXBGSpb1NIEaj070ZY6LfngvLUXhZ3iNsH-eg';
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-interface BlogPost {
-  id: string;
-  title: string;
-  country: string;
-  blog_content: string;
-  image_url: string;
-  created_at?: string;
-  author?: string;
-  category?: string;
-  read_time?: number;
-}
+  ChevronDown,
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { Footer } from '../../components/layout/Footer';
+import { blogs } from './BlogData';
 
 export function BlogPage() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("all");
+  const [blogPosts] = useState(blogs);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('all');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error || !data) {
-          setError("Failed to load blog posts");
-          return;
-        }
-
-        const transformed = data.map((post: any) => ({
-          id: post.id,
-          title: post.title,
-          country: post.country,
-          blog_content: post.blog_content,
-          image_url: post.image_url,
-          created_at: post.created_at,
-          author: post.author || "Business Team",
-          category: post.category || "Business",
-          read_time:
-            post.read_time || Math.ceil(post.blog_content.length / 200),
-        }));
-
-        setBlogPosts(transformed);
-      } catch {
-        setError("Failed to load blog posts");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogPosts();
+    setLoading(false);
   }, []);
 
   const filteredPosts = blogPosts
@@ -84,27 +32,18 @@ export function BlogPage() {
       );
     })
     .filter((post) => {
-      return selectedCountry === "all" || post.country === selectedCountry;
+      return selectedCountry === 'all' || post.country === selectedCountry;
     });
 
   const countries = [
-    "all",
+    'all',
     ...Array.from(new Set(blogPosts.map((p) => p.country).filter(Boolean))),
   ];
 
-  const truncateHTML = (html: string, maxLength: number) => {
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    const text = div.textContent || div.innerText || "";
-    const truncated =
-      text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-    return truncated;
-  };
-
   const extractTextFromHTML = (html: string) => {
-    const div = document.createElement("div");
+    const div = document.createElement('div');
     div.innerHTML = html;
-    return div.textContent || div.innerText || "";
+    return div.textContent || div.innerText || '';
   };
 
   if (loading) {
@@ -134,47 +73,65 @@ export function BlogPage() {
         <Header />
       </div>
 
-      <section className="py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <BookOpenIcon className="h-16 w-16 text-[#EA3A70] mb-6 mx-auto" />
-          <h1 className="text-5xl font-bold text-white mb-4">
+      <section className="relative py-24 px-6 text-center overflow-hidden">
+        {/* subtle background glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(234,58,112,0.15),transparent_60%)]"></div>
+
+        <div className="relative max-w-4xl mx-auto">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 shadow-lg">
+              <BookOpenIcon className="h-16 w-16 text-[#EA3A70]" />
+            </div>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 leading-tight text-center">
             Business Insights & Guides
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed text-center">
             Discover expert insights, practical guides, and the latest updates
             on business formation and strategy across Europe.
           </p>
         </div>
-        
-        {/* Add Blog Post Component - Only show if no posts exist */}
-        {blogPosts.length === 0 && (
-          <div className="mt-8 max-w-md mx-auto">
-            <AddBlogPost />
-          </div>
-        )}
 
-        <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
-          <div className="relative w-full max-w-md">
-            <SearchIcon className="absolute left-4 top-3.5 text-gray-400 h-5 w-5" />
+        {/* Search + Filter */}
+        <div className="relative mt-6 flex flex-col md:flex-row items-center justify-center gap-5 max-w-3xl mx-auto">
+          {/* Search */}
+          <div className="relative w-full">
+            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
             <input
               type="text"
               placeholder="Search articles, countries, or topics..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-[#1B1537] border border-gray-600 rounded-lg text-white"
+              className="w-full pl-12 pr-4 py-3.5 bg-[#1B1537] border border-gray-600 rounded-xl text-white
+        placeholder-gray-400
+        focus:outline-none
+        focus:ring-2 focus:ring-[#EA3A70]
+        focus:border-transparent
+        transition-all duration-200"
             />
           </div>
 
-          <div className="relative w-full max-w-xs">
-            <FilterIcon className="absolute left-3 top-3.5 text-gray-400 h-5 w-5" />
+          {/* Filter */}
+          <div className="relative w-full md:max-w-xs">
+            {/* Dropdown icon */}
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none" />
+
+            {/* Select */}
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-[#1B1537] border border-gray-600 rounded-lg text-white"
+              className="w-full pl-4 pr-10 py-3.5 bg-[#1B1537] border border-gray-600 rounded-xl text-gray-400
+      focus:outline-none
+      focus:ring-2 focus:ring-[#EA3A70]
+      focus:border-transparent
+      transition-all duration-200 cursor-pointer
+      appearance-none"
             >
               {countries.map((country) => (
                 <option key={country} value={country}>
-                  {country === "all" ? "All Countries" : country}
+                  {country === 'all' ? 'All Countries' : country}
                 </option>
               ))}
             </select>
@@ -182,7 +139,7 @@ export function BlogPage() {
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      <section className="pb-14 px-4">
         <div className="max-w-7xl mx-auto">
           {filteredPosts.length === 0 ? (
             <div className="text-center text-gray-400">
@@ -216,10 +173,11 @@ export function BlogPage() {
                     </h3>
                     <div className="text-gray-300 text-sm mb-4 line-clamp-3">
                       {extractTextFromHTML(post.blog_content).substring(0, 200)}
-                      {extractTextFromHTML(post.blog_content).length > 200 && "..."}
+                      {extractTextFromHTML(post.blog_content).length > 200 &&
+                        '...'}
                     </div>
                     <Link
-                      to={`/post/${createSlug(post.title)}`}
+                      to={`/post/${post.slug}`}
                       className="inline-flex items-center text-[#EA3A70] hover:text-[#EA3A70]/80 font-medium"
                     >
                       Read More

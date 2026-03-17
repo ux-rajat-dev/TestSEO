@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BuildingIcon, SparklesIcon, ArrowLeftIcon, HomeIcon } from 'lucide-react';
+import {
+  BuildingIcon,
+  SparklesIcon,
+  ArrowLeftIcon,
+  HomeIcon,
+} from 'lucide-react';
 import { BookingWidget } from '../components/landing/BookingWidget';
 import { InfoSection } from '../components/landing/InfoSection';
 import { TestimonialSection } from '../components/landing/TestimonialSection';
@@ -12,20 +17,43 @@ import { DestinationSlider } from '../components/landing/DestinationSlider';
 import { PortalPromotion } from '../components/landing/PortalPromotion';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
+import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom';
 
 export function Services() {
+  const location = useLocation(); // gets current path
+
   return (
     <div className="min-h-screen bg-[#0F0B1F] relative flex flex-col">
+      {/* Dynamic SEO tags */}
+      <Helmet>
+        <title>
+          EU Company Formation & Business Setup | House of Companies
+        </title>
+        <meta
+          name="description"
+          content="Discover our business services to help your company expand globally, including EU company formation, VAT registration, accounting, and compliance."
+        />
+        <link
+          rel="canonical"
+          href={`https://houseofcompanies.io${location.pathname}`}
+        />
+      </Helmet>
+
       <Header />
       <main className="flex-1">
         <section className="relative pt-20 sm:pt-24 lg:pt-32 pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
+          {/* Hero Section */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] to-[#0F0B1F]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F0B1F] to-transparent" />
           <div className="container mx-auto px-4 relative">
             {/* Breadcrumb Navigation */}
             <div className="mb-8">
               <nav className="flex items-center space-x-2 text-sm text-gray-400">
-                <Link to="/" className="flex items-center hover:text-white transition-colors">
+                <Link
+                  to="/"
+                  className="flex items-center hover:text-white transition-colors"
+                >
                   <HomeIcon className="h-4 w-4 mr-1" />
                   Home
                 </Link>
@@ -33,6 +61,7 @@ export function Services() {
                 <span className="text-white">Services</span>
               </nav>
             </div>
+
             <div className="max-w-3xl mx-auto text-center mb-8 sm:mb-12 relative">
               <div className="relative z-10">
                 <div className="flex justify-center mb-4">
@@ -46,7 +75,8 @@ export function Services() {
                   <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 sm:w-24 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500"></div>
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
-                  Discover a range of services designed to help your business thrive and expand globally with AI-powered guidance.
+                  Discover a range of services designed to help your business
+                  thrive and expand globally with AI-powered guidance.
                 </p>
               </div>
             </div>
@@ -65,11 +95,11 @@ export function Services() {
             <DestinationSlider />
           </div>
         </section>
-        <section className="py-16 sm:py-20 lg:py-24 relative">
+        {/* <section className="py-16 sm:py-20 lg:py-24 relative">
           <div className="container mx-auto px-4 relative">
             <PortalPromotion />
           </div>
-        </section>
+        </section> */}
         <AIFeatureShowcase />
         <InfoSection />
         <TestimonialSection />
@@ -85,4 +115,3 @@ export function Services() {
     </div>
   );
 }
- 

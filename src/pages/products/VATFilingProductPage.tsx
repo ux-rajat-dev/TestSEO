@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ReceiptIcon,
   ArrowRightIcon,
@@ -15,13 +15,14 @@ import {
   AlertCircleIcon,
   GlobeIcon,
   ChevronDownIcon,
-} from 'lucide-react'
-import { Header } from '../../components/layout/Header'
-import { countries } from '../../components/countries'
+} from 'lucide-react';
+import { Header } from '../../components/layout/Header';
+import { countries } from '../../components/countries';
+import { SEO } from '../../components/common/SEO';
 
 export function VATFilingProductPage() {
-  const navigate = useNavigate()
-  const [selectedCountry, setSelectedCountry] = useState('netherlands')
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState('netherlands');
 
   const handleGetStarted = () => {
     navigate('/qualification', {
@@ -29,14 +30,17 @@ export function VATFilingProductPage() {
         primaryFocus: 'vat-filing',
         to: selectedCountry,
         from: '',
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#0F0B1F]">
       <Header />
-
+      <SEO
+        title="VAT Filing Services | House of Companies"
+        description="Simplify your EU VAT filing with our quarterly and monthly VAT compliance services, ensuring accuracy and peace of mind."
+      />
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1B1537] via-[#0F0B1F] to-[#0F0B1F]" />
@@ -146,7 +150,8 @@ export function VATFilingProductPage() {
                 {
                   icon: <CalculatorIcon className="h-8 w-8" />,
                   title: 'Automated Calculations',
-                  description: 'AI calculates VAT automatically from your transactions',
+                  description:
+                    'AI calculates VAT automatically from your transactions',
                 },
                 {
                   icon: <FileTextIcon className="h-8 w-8" />,
@@ -156,7 +161,8 @@ export function VATFilingProductPage() {
                 {
                   icon: <CalendarIcon className="h-8 w-8" />,
                   title: 'Deadline Reminders',
-                  description: 'Never miss a filing deadline with automated alerts',
+                  description:
+                    'Never miss a filing deadline with automated alerts',
                 },
                 {
                   icon: <ShieldCheckIcon className="h-8 w-8" />,
@@ -211,12 +217,5 @@ export function VATFilingProductPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-

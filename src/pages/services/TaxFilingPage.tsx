@@ -1,29 +1,61 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MainLayout } from '../../components/layout/MainLayout';
-import { PercentIcon, ArrowRightIcon, CheckIcon, FileTextIcon, BarChart2Icon, GlobeIcon, CalendarIcon, BrainIcon, BookOpenIcon, MessageSquareIcon, HeadphonesIcon, SparklesIcon, LineChartIcon, UserIcon, LayoutIcon, PiggyBankIcon, LightbulbIcon, MousePointerIcon, EyeIcon, ShieldIcon } from 'lucide-react';
+import {
+  PercentIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  FileTextIcon,
+  BarChart2Icon,
+  GlobeIcon,
+  CalendarIcon,
+  BrainIcon,
+  BookOpenIcon,
+  MessageSquareIcon,
+  HeadphonesIcon,
+  SparklesIcon,
+  LineChartIcon,
+  UserIcon,
+  LayoutIcon,
+  PiggyBankIcon,
+  LightbulbIcon,
+  MousePointerIcon,
+  EyeIcon,
+  ShieldIcon,
+} from 'lucide-react';
 import { TaxAnalysisTool } from '../../components/tax/TaxAnalysisTool';
 import { AITaxAgent } from '../../components/tax/AITaxAgent';
 import { VATFilingTutorial } from '../../components/tax/VATFilingTutorial';
 import { TaxPortalPreview } from '../../components/tax/TaxPortalPreview';
+import { SEO } from '../../components/common/SEO';
 export function TaxFilingPage() {
   const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState('analysis');
-  
-  const handleGetQuote = (focus: 'vat-filing' | 'cit-filing' | 'tax-registration') => {
+
+  const handleGetQuote = (
+    focus: 'vat-filing' | 'cit-filing' | 'tax-registration',
+  ) => {
     navigate('/qualification', {
       state: {
-        primaryFocus: focus
-      }
+        primaryFocus: focus,
+      },
     });
   };
-  return <MainLayout>
+  return (
+    <MainLayout>
+      <SEO
+        title="EU Tax Filing & Compliance Services | House of Companies"
+        description="Simplify EU tax filing and compliance with our expert services. Accurate, timely, and fully compliant solutions for businesses across Europe."
+      />
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url(https://uploadthingy.s3.us-west-1.amazonaws.com/hgqX5ayhTi8pTSW9kNoTcz/tax_module.jpg)`,
-        filter: 'brightness(0.2)'
-      }}></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://uploadthingy.s3.us-west-1.amazonaws.com/hgqX5ayhTi8pTSW9kNoTcz/tax_module.jpg)`,
+            filter: 'brightness(0.2)',
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0826]/90 to-[#0A0826]/80"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8">
@@ -44,14 +76,23 @@ export function TaxFilingPage() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-            <button onClick={() => handleGetQuote('vat-filing')} className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center">
+            <button
+              onClick={() => handleGetQuote('vat-filing')}
+              className="w-full sm:w-auto px-6 py-3 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg shadow-lg shadow-[#EA3A70]/20 font-medium flex items-center justify-center"
+            >
               Get Quote
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </button>
-            <Link to="/tax-registration-product" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/tax-registration-product"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               Get Started
             </Link>
-            <Link to="/pricing" className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center">
+            <Link
+              to="/pricing"
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors font-medium flex items-center justify-center"
+            >
               View Pricing
             </Link>
           </div>
@@ -113,15 +154,24 @@ export function TaxFilingPage() {
           </div>
           <div className="bg-[#1B1537]/80 backdrop-blur-sm rounded-xl border border-[#2D2755] p-6 mb-10">
             <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <button onClick={() => setActiveDemo('analysis')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'analysis' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('analysis')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'analysis' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <BarChart2Icon className="h-5 w-5 mr-2" />
                 Tax Analysis Dashboard
               </button>
-              <button onClick={() => setActiveDemo('filing')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'filing' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('filing')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'filing' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <LayoutIcon className="h-5 w-5 mr-2" />
                 Tax Filing Interface
               </button>
-              <button onClick={() => setActiveDemo('assistant')} className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'assistant' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}>
+              <button
+                onClick={() => setActiveDemo('assistant')}
+                className={`px-5 py-3 rounded-lg flex items-center ${activeDemo === 'assistant' ? 'bg-[#EA3A70] text-white' : 'bg-indigo-900/50 text-indigo-200 border border-indigo-500/30 hover:bg-indigo-800/50'}`}
+              >
                 <MessageSquareIcon className="h-5 w-5 mr-2" />
                 AI Tax Assistant
               </button>
@@ -133,7 +183,10 @@ export function TaxFilingPage() {
               Our tax portal makes tax filing and optimization simple, secure,
               and efficient. Try it out with a free account today.
             </p>
-            <Link to="/portal/tax-filing/signup" className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center">
+            <Link
+              to="/portal/tax-filing/signup"
+              className="px-6 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors inline-flex items-center"
+            >
               Try It Free
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
@@ -458,7 +511,10 @@ export function TaxFilingPage() {
                   <span className="text-xl font-bold text-white">
                     €99/month
                   </span>
-                  <Link to="/portal/tax-filing/premium" className="px-5 py-2.5 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg font-medium flex items-center">
+                  <Link
+                    to="/portal/tax-filing/premium"
+                    className="px-5 py-2.5 bg-[#EA3A70] hover:bg-[#EA3A70]/90 text-white rounded-lg font-medium flex items-center"
+                  >
                     Upgrade to Premium
                     <ArrowRightIcon className="h-4 w-4 ml-2" />
                   </Link>
@@ -516,7 +572,10 @@ export function TaxFilingPage() {
                   <span className="text-white">AI Tax Assistant (basic)</span>
                 </li>
               </ul>
-              <Link to="/portal/tax-filing/signup?plan=basic" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/tax-filing/signup?plan=basic"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -555,7 +614,10 @@ export function TaxFilingPage() {
                   <span className="text-white">Self-filing tutorials</span>
                 </li>
               </ul>
-              <Link to="/portal/tax-filing/signup?plan=business" className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium">
+              <Link
+                to="/portal/tax-filing/signup?plan=business"
+                className="block w-full px-4 py-3 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -591,7 +653,10 @@ export function TaxFilingPage() {
                   <span className="text-white">Dedicated tax advisor</span>
                 </li>
               </ul>
-              <Link to="/portal/tax-filing/signup?plan=enterprise" className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium">
+              <Link
+                to="/portal/tax-filing/signup?plan=enterprise"
+                className="block w-full px-4 py-3 bg-indigo-900/50 border border-indigo-500/30 text-white rounded-lg hover:bg-indigo-800/50 transition-colors text-center font-medium"
+              >
                 Get Started
               </Link>
             </div>
@@ -681,15 +746,22 @@ export function TaxFilingPage() {
             on growing your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/tax-registration-product" className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/tax-registration-product"
+              className="px-8 py-4 bg-[#EA3A70] text-white rounded-lg hover:bg-[#EA3A70]/90 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Get Started
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Link>
-            <Link to="/contact" className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center">
+            <Link
+              to="/contact"
+              className="px-8 py-4 bg-indigo-900/50 text-white border border-indigo-500/30 rounded-lg hover:bg-indigo-800/50 transition-colors text-lg font-medium inline-flex items-center"
+            >
               Schedule Consultation
             </Link>
           </div>
         </div>
       </section>
-    </MainLayout>;
+    </MainLayout>
+  );
 }
